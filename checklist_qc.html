@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist QC | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações UI */
+        .animate-fade-in { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Efeitos Especiais QC */
+        .tipo-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tipo-btn.active {
+            border-color: var(--neon-purple);
+            background: rgba(157, 78, 221, 0.1);
+            color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.2);
+        }
+        .tipo-btn.active i {
+            transform: scale(1.1);
+        }
+
+        .check-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .check-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(157, 78, 221, 0.3);
+        }
+
+        .progress-circle {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20 shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center text-[#9D4EDD]"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10 shrink-0">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.location.href='ferramentas1.html'" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-6xl mx-auto pt-4">
+                
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center gap-2 bg-[#9D4EDD]/10 border border-[#9D4EDD]/20 px-4 py-2 rounded-full mb-4">
+                        <i class="fas fa-search-plus text-[#9D4EDD]"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#9D4EDD] mono-text">Módulo de Inspeção</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-white">
+                        Quality Check <span class="text-[#9D4EDD]">(QC)</span>
+                    </h2>
+                    <p class="text-gray-400 font-medium max-w-2xl mx-auto">
+                        Analise as fotos de armazém com o rigor de um auditor. Decida entre GL (Aprovar) ou RL (Devolver) baseado em dados concretos.
+                    </p>
+                </div>
+
+                <div class="bg-[#080808] border border-white/10 rounded-3xl p-6 lg:p-8 mb-8 shadow-xl relative overflow-hidden">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#9D4EDD]/10 rounded-full blur-[80px] pointer-events-none"></div>
+                    
+                    <label class="text-[10px] font-black uppercase tracking-widest mb-6 block text-gray-500 relative z-10 flex items-center gap-2">
+                        <i class="fas fa-box-open text-[#9D4EDD]"></i> Selecione a Categoria do Item
+                    </label>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 relative z-10">
+                        <button onclick="selecionarTipoQC('tenis')" id="tipo-tenis" class="tipo-btn flex flex-col items-center justify-center px-4 py-6 bg-[#111] border border-white/10 rounded-2xl font-black text-gray-400 hover:border-[#9D4EDD]/50 hover:text-[#9D4EDD] hover:bg-[#9D4EDD]/5 transition duration-300 group">
+                            <i class="fas fa-shoe-prints text-3xl mb-3"></i>
+                            <span class="uppercase tracking-wider text-xs">Tênis</span>
+                        </button>
+                        
+                        <button onclick="selecionarTipoQC('roupa')" id="tipo-roupa" class="tipo-btn flex flex-col items-center justify-center px-4 py-6 bg-[#111] border border-white/10 rounded-2xl font-black text-gray-400 hover:border-[#9D4EDD]/50 hover:text-[#9D4EDD] hover:bg-[#9D4EDD]/5 transition duration-300 group">
+                            <i class="fas fa-tshirt text-3xl mb-3"></i>
+                            <span class="uppercase tracking-wider text-xs">Roupa</span>
+                        </button>
+                        
+                        <button onclick="selecionarTipoQC('bolsa')" id="tipo-bolsa" class="tipo-btn flex flex-col items-center justify-center px-4 py-6 bg-[#111] border border-white/10 rounded-2xl font-black text-gray-400 hover:border-[#9D4EDD]/50 hover:text-[#9D4EDD] hover:bg-[#9D4EDD]/5 transition duration-300 group">
+                            <i class="fas fa-shopping-bag text-3xl mb-3"></i>
+                            <span class="uppercase tracking-wider text-xs">Bolsa / Mochila</span>
+                        </button>
+                        
+                        <button onclick="selecionarTipoQC('relogio')" id="tipo-relogio" class="tipo-btn flex flex-col items-center justify-center px-4 py-6 bg-[#111] border border-white/10 rounded-2xl font-black text-gray-400 hover:border-[#9D4EDD]/50 hover:text-[#9D4EDD] hover:bg-[#9D4EDD]/5 transition duration-300 group">
+                            <i class="fas fa-clock text-3xl mb-3"></i>
+                            <span class="uppercase tracking-wider text-xs">Relógio</span>
+                        </button>
+                        
+                        <button onclick="selecionarTipoQC('eletronico')" id="tipo-eletronico" class="tipo-btn flex flex-col items-center justify-center px-4 py-6 bg-[#111] border border-white/10 rounded-2xl font-black text-gray-400 hover:border-[#9D4EDD]/50 hover:text-[#9D4EDD] hover:bg-[#9D4EDD]/5 transition duration-300 group">
+                            <i class="fas fa-mobile-alt text-3xl mb-3"></i>
+                            <span class="uppercase tracking-wider text-xs">Eletrônico</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-6 lg:gap-8">
+                    
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-[#050505] rounded-3xl border border-white/10 p-6 lg:p-8">
+                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+                                <h3 class="text-lg font-black flex items-center gap-3 uppercase tracking-wider text-white">
+                                    <div class="w-8 h-8 bg-[#9D4EDD]/10 rounded-lg flex items-center justify-center border border-[#9D4EDD]/20">
+                                        <i class="fas fa-clipboard-list text-[#9D4EDD]"></i>
+                                    </div>
+                                    Itens para Verificar
+                                </h3>
+                                <div class="bg-black border border-white/10 px-4 py-2 rounded-xl text-sm font-black text-white">
+                                    <span id="itensCheckedQC" class="text-[#9D4EDD]">0</span>
+                                    <span class="text-gray-600 mx-1">/</span>
+                                    <span id="itensTotalQC" class="text-gray-400">0</span>
+                                </div>
+                            </div>
+
+                            <div id="checklistContainerQC" class="space-y-3">
+                                <div class="p-10 text-center border border-dashed border-white/10 rounded-2xl bg-black/50">
+                                    <i class="fas fa-tasks text-4xl text-gray-700 mb-3"></i>
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Aguardando seleção de produto acima</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-[#080808] border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)] rounded-3xl p-6 lg:p-8 sticky top-28">
+                            <h3 class="text-sm font-black mb-6 flex items-center justify-center gap-2 uppercase tracking-widest text-gray-400">
+                                <i class="fas fa-chart-pie text-[#9D4EDD]"></i>
+                                Resultado da Auditoria
+                            </h3>
+
+                            <div class="relative w-48 h-48 mx-auto mb-8">
+                                <svg class="w-full h-full drop-shadow-[0_0_15px_rgba(157,78,221,0.2)]" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="6"/>
+                                    <circle 
+                                        id="progressCircleQC" 
+                                        cx="50" cy="50" r="45" 
+                                        fill="none" stroke="#9D4EDD" stroke-width="8" 
+                                        stroke-dasharray="283" stroke-dashoffset="283" 
+                                        class="progress-circle" stroke-linecap="round"
+                                    />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span id="scorePercentualQC" class="text-5xl font-black text-white tracking-tighter">0%</span>
+                                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest mt-1">Conformidade</span>
+                                </div>
+                            </div>
+
+                            <div id="veredictoQC" class="text-center mb-8 border-b border-white/5 pb-6">
+                                <p class="text-2xl font-black mb-1 text-white uppercase italic">⏳ Analisando</p>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">Aguardando Avaliação</p>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3 mb-6">
+                                <div class="bg-black border border-white/5 rounded-xl p-3 text-center">
+                                    <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Pass</p>
+                                    <p class="text-2xl font-black text-green-500" id="countOkQC">0</p>
+                                </div>
+                                <div class="bg-black border border-white/5 rounded-xl p-3 text-center">
+                                    <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Fail</p>
+                                    <p class="text-2xl font-black text-red-500" id="countProblemaQC">0</p>
+                                </div>
+                                <div class="bg-black border border-white/5 rounded-xl p-3 text-center">
+                                    <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">N/A</p>
+                                    <p class="text-2xl font-black text-gray-600" id="countNAQC">0</p>
+                                </div>
+                            </div>
+
+                            <div id="recomendacaoQC" class="p-5 rounded-xl bg-black border border-white/5 text-center">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Complete os itens à esquerda</p>
+                            </div>
+
+                            <button onclick="resetarChecklist()" class="w-full bg-transparent hover:bg-white/5 text-gray-400 hover:text-white font-bold py-4 rounded-xl transition border border-white/10 mt-6 flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
+                                <i class="fas fa-redo"></i> Resetar Auditoria
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-10 bg-[#111] border border-white/5 rounded-3xl p-6 lg:p-8 relative overflow-hidden">
+                    <h3 class="text-lg font-black mb-6 text-white flex items-center gap-3 uppercase tracking-wider relative z-10">
+                        <div class="w-8 h-8 bg-[#9D4EDD]/10 rounded-md flex items-center justify-center border border-[#9D4EDD]/30">
+                            <i class="fas fa-book text-[#9D4EDD] text-sm"></i>
+                        </div>
+                        Manual Rápido do Inspetor
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-300 relative z-10">
+                        <div class="bg-black border border-white/5 p-5 rounded-2xl">
+                            <p class="font-black text-[#9D4EDD] uppercase tracking-wider text-xs mb-2"><i class="fas fa-search mr-2"></i> Costuras (Stitching)</p>
+                            <p class="text-xs font-medium text-gray-400 leading-relaxed">Verifique se estão retas, consistentes e sem fios soltos severos ou nós duplos aparentes.</p>
+                        </div>
+                        
+                        <div class="bg-black border border-white/5 p-5 rounded-2xl">
+                            <p class="font-black text-[#9D4EDD] uppercase tracking-wider text-xs mb-2"><i class="fas fa-balance-scale mr-2"></i> Simetria</p>
+                            <p class="text-xs font-medium text-gray-400 leading-relaxed">Compare rigorosamente os lados Esquerdo/Direito. Logos e furos devem alinhar.</p>
+                        </div>
+                        
+                        <div class="bg-black border border-white/5 p-5 rounded-2xl">
+                            <p class="font-black text-[#9D4EDD] uppercase tracking-wider text-xs mb-2"><i class="fas fa-palette mr-2"></i> Cores</p>
+                            <p class="text-xs font-medium text-gray-400 leading-relaxed">Compare com fotos Retail (Originais). Cuidado: a luz do galpão costuma clarear os tons.</p>
+                        </div>
+                        
+                        <div class="bg-black border border-white/5 p-5 rounded-2xl">
+                            <p class="font-black text-[#9D4EDD] uppercase tracking-wider text-xs mb-2"><i class="fas fa-camera mr-2"></i> Fotos Extras</p>
+                            <p class="text-xs font-medium text-gray-400 leading-relaxed">Se tiver dúvidas sobre um detalhe borrado, não hesite em pagar $0.30 cents por uma foto macro.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 1. RELÓGIO DO SISTEMA
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // 2. MOTOR DO CHECKLIST QC
+        let tipoSelecionadoQC = null;
+        let checksQC = {}; // Armazena o estado de cada botão (ok, problema, na, nulo)
+
+        // Banco de Dados de Critérios de Inspeção
+        const checklistsQC = {
+            tenis: [
+                { id: 'costura_lateral', texto: 'Costuras laterais retas e limpas (Stitching)', categoria: 'Estrutura' },
+                { id: 'logo_centralizado', texto: 'Swoosh/Logo com formato e espessura corretos', categoria: 'Logo' },
+                { id: 'simetria_sapatos', texto: 'Simetria traseira (Heel) entre os dois pés', categoria: 'Simetria' },
+                { id: 'cola_excessiva', texto: 'Sola bem fixada sem excesso grosseiro de cola visível', categoria: 'Acabamento' },
+                { id: 'toebox', texto: 'Bico (Toe Box) tem o formato curvo/adequado', categoria: 'Estrutura' },
+                { id: 'cadarco', texto: 'Cadarços, pontas e furos em perfeito estado', categoria: 'Acessórios' },
+                { id: 'caixa', texto: 'Caixa original sem danos severos (se importado com caixa)', categoria: 'Embalagem' }
+            ],
+            roupa: [
+                { id: 'costura_geral', texto: 'Costuras e barras alinhadas, sem fios soltos mortos', categoria: 'Estrutura' },
+                { id: 'tag_correta', texto: 'Tag interna do pescoço e lavagem idênticas à original', categoria: 'Autenticidade' },
+                { id: 'cor_uniforme', texto: 'Cor uniforme, sem manchas de estoque', categoria: 'Material' },
+                { id: 'estampa', texto: 'Estampa (Print) bem centralizada, sem falhas ou craquelados', categoria: 'Visual' },
+                { id: 'ziper', texto: 'Zíperes ou fechos metálicos intactos', categoria: 'Hardware' },
+                { id: 'tecido', texto: 'Gramatura visual do tecido aparenta densidade correta', categoria: 'Material' }
+            ],
+            bolsa: [
+                { id: 'monograma', texto: 'Padrão do monograma/estampa alinhado nas emendas', categoria: 'Visual' },
+                { id: 'couro', texto: 'Textura do couro (grain) condiz com o Retail', categoria: 'Material' },
+                { id: 'costura_bolsa', texto: 'Costuras densas e perfeitas ao longo das bordas', categoria: 'Estrutura' },
+                { id: 'hardware', texto: 'Ferragens (zíper, fivelas) brilhantes e sem oxidação', categoria: 'Hardware' },
+                { id: 'alca', texto: 'Alças simétricas, bem fixadas e sem dobras secas', categoria: 'Estrutura' },
+                { id: 'interior', texto: 'Forro interno e logo interno (Stamp) corretos', categoria: 'Autenticidade' }
+            ],
+            relogio: [
+                { id: 'mostrador', texto: 'Mostrador e Vidro impecáveis (sem riscos, pó ou cola interna)', categoria: 'Display' },
+                { id: 'alinhamento', texto: 'Bezel, marcadores de hora e ponteiros perfeitamente alinhados', categoria: 'Precisão' },
+                { id: 'fonte', texto: 'Fonte e espessura do texto no mostrador (Dial Font)', categoria: 'Autenticidade' },
+                { id: 'pulseira', texto: 'Pulseira em aço/couro com acabamento liso nas bordas', categoria: 'Acessório' },
+                { id: 'coroa', texto: 'Coroa, botões e fecho intactos fisicamente', categoria: 'Hardware' }
+            ],
+            eletronico: [
+                { id: 'liga', texto: 'Tela exibe imagem/Boot (Exigir foto ligado do Agente)', categoria: 'Funcionalidade' },
+                { id: 'tela', texto: 'Sem trincados, tela preta ou vazamento de luz grave nas bordas', categoria: 'Display' },
+                { id: 'chassi', texto: 'Carcaça sem amassados nas quinas', categoria: 'Estrutura' },
+                { id: 'acessorios', texto: 'Cabos e carregadores inclusos na caixa conforme anúncio', categoria: 'Embalagem' }
+            ]
+        };
+
+        // Função chamada ao clicar no botão superior
+        function selecionarTipoQC(tipo) {
+            tipoSelecionadoQC = tipo;
+
+            // Efeito visual nos botões
+            document.querySelectorAll('.tipo-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tipo-${tipo}`).classList.add('active');
+
+            // Renderiza o painel inferior
+            carregarChecklistQC(tipo);
+        }
+
+        function carregarChecklistQC(tipo) {
+            const container = document.getElementById('checklistContainerQC');
+            const items = checklistsQC[tipo] || [];
+
+            // Reseta estado lógico
+            checksQC = {};
+            items.forEach(item => checksQC[item.id] = null);
+
+            // Constrói HTML
+            container.innerHTML = items.map(item => `
+                <div class="check-item bg-[#111] border border-white/5 rounded-2xl p-5 mb-4 shadow-sm" id="item-${item.id}">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex-1">
+                            <p class="font-bold text-white text-sm lg:text-base">${item.texto}</p>
+                            <p class="text-[10px] text-[#9D4EDD] uppercase tracking-widest font-bold mt-1.5 mono-text">${item.categoria}</p>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto shrink-0">
+                            <button onclick="marcarItemQC('${item.id}', 'ok')" id="btn-ok-${item.id}" class="flex-1 sm:flex-none w-12 h-12 bg-white/5 hover:bg-green-500/20 text-gray-500 hover:text-green-500 border border-white/10 hover:border-green-500/50 rounded-xl transition flex items-center justify-center">
+                                <i class="fas fa-check text-lg"></i>
+                            </button>
+                            <button onclick="marcarItemQC('${item.id}', 'problema')" id="btn-fail-${item.id}" class="flex-1 sm:flex-none w-12 h-12 bg-white/5 hover:bg-red-500/20 text-gray-500 hover:text-red-500 border border-white/10 hover:border-red-500/50 rounded-xl transition flex items-center justify-center">
+                                <i class="fas fa-times text-lg"></i>
+                            </button>
+                            <button onclick="marcarItemQC('${item.id}', 'na')" id="btn-na-${item.id}" class="flex-1 sm:flex-none w-12 h-12 bg-white/5 hover:bg-white/10 text-gray-500 hover:text-white border border-white/10 rounded-xl transition flex items-center justify-center font-bold text-xs">
+                                N/A
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('itensTotalQC').textContent = items.length;
+            atualizarResultadoQC();
+        }
+
+        // Função disparada ao clicar no Check/Fail/NA
+        function marcarItemQC(id, status) {
+            checksQC[id] = status;
+            
+            const itemBox = document.getElementById(`item-${id}`);
+            const btnOk = document.getElementById(`btn-ok-${id}`);
+            const btnFail = document.getElementById(`btn-fail-${id}`);
+            const btnNa = document.getElementById(`btn-na-${id}`);
+
+            // Reset Visuais dos Botões
+            [btnOk, btnFail, btnNa].forEach(b => {
+                b.className = b.className.replace(/bg-\w+-500\/20|text-\w+-500|border-\w+-500\/50|text-white/g, '');
+                b.classList.add('bg-white/5', 'text-gray-500', 'border-white/10');
+            });
+
+            // Reset Box Wrapper
+            itemBox.className = 'check-item bg-[#111] border border-white/5 rounded-2xl p-5 mb-4 shadow-sm';
+
+            // Aplica estado ativo
+            if (status === 'ok') {
+                btnOk.classList.replace('bg-white/5', 'bg-green-500/20');
+                btnOk.classList.replace('text-gray-500', 'text-green-500');
+                btnOk.classList.replace('border-white/10', 'border-green-500/50');
+                itemBox.classList.add('checked');
+            } else if (status === 'problema') {
+                btnFail.classList.replace('bg-white/5', 'bg-red-500/20');
+                btnFail.classList.replace('text-gray-500', 'text-red-500');
+                btnFail.classList.replace('border-white/10', 'border-red-500/50');
+                itemBox.classList.add('flagged');
+            } else if (status === 'na') {
+                btnNa.classList.replace('bg-white/5', 'bg-white/10');
+                btnNa.classList.replace('text-gray-500', 'text-white');
+            }
+
+            atualizarResultadoQC();
+        }
+
+        function atualizarResultadoQC() {
+            const valores = Object.values(checksQC);
+            const total = valores.length;
+            const checked = valores.filter(v => v !== null).length;
+            
+            const ok = valores.filter(v => v === 'ok').length;
+            const problema = valores.filter(v => v === 'problema').length;
+            const na = valores.filter(v => v === 'na').length;
+
+            // Atualiza Contadores do HTML
+            document.getElementById('itensCheckedQC').textContent = checked;
+            document.getElementById('countOkQC').textContent = ok;
+            document.getElementById('countProblemaQC').textContent = problema;
+            document.getElementById('countNAQC').textContent = na;
+
+            // Calcula Score (Regra da Engenharia: Ignorar 'N/A' na média para ser justo)
+            const itensRelevantes = ok + problema;
+            const score = itensRelevantes > 0 ? (ok / itensRelevantes * 100) : 0;
+            
+            document.getElementById('scorePercentualQC').textContent = `${Math.round(score)}%`;
+
+            // RENDER DO ANEL DE PROGRESSO (SVG)
+            const circle = document.getElementById('progressCircleQC');
+            if (circle && checked > 0) {
+                const circumference = 283; // 2 * pi * r (r=45)
+                const offset = circumference - (score / 100 * circumference);
+                circle.style.strokeDashoffset = offset;
+
+                // Cores do anel
+                if (score >= 85) circle.style.stroke = '#22c55e'; // Verde
+                else if (score >= 60) circle.style.stroke = '#eab308'; // Amarelo
+                else circle.style.stroke = '#ef4444'; // Vermelho
+            } else if (circle) {
+                // Estado Zero
+                circle.style.strokeDashoffset = 283;
+                circle.style.stroke = '#9D4EDD';
+            }
+
+            // GERAÇÃO DO VEREDICTO FINAL
+            const veredicto = document.getElementById('veredictoQC');
+            const recomendacao = document.getElementById('recomendacaoQC');
+
+            if (total === 0 || checked < total) {
+                // Incompleto
+                veredicto.innerHTML = `
+                    <p class="text-2xl font-black mb-1 text-white uppercase italic">⏳ Analisando</p>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">Aguardando Avaliação</p>
+                `;
+                recomendacao.className = 'p-5 rounded-xl bg-black border border-white/5 text-center';
+                recomendacao.innerHTML = '<p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Complete todos os itens à esquerda</p>';
+                
+            } else if (score >= 85) {
+                // GL (Green Light)
+                veredicto.innerHTML = `
+                    <p class="text-4xl font-black tracking-tighter mb-1 text-green-500 uppercase italic">GL <span class="text-2xl">(Aprovado)</span></p>
+                    <p class="text-xs text-green-500/70 font-bold uppercase tracking-widest">Green Light Concedida</p>
+                `;
+                recomendacao.className = 'p-5 rounded-xl bg-green-500/10 border border-green-500/30 text-center';
+                recomendacao.innerHTML = '<p class="text-sm text-green-400 font-medium"><strong>Veredito Sistema:</strong> Produto em excelente estado logístico. Autorize o envio (Submit Parcel) no agente.</p>';
+                
+            } else if (score >= 60) {
+                // Atenção
+                veredicto.innerHTML = `
+                    <p class="text-4xl font-black tracking-tighter mb-1 text-yellow-500 uppercase italic">⚠️ Risco</p>
+                    <p class="text-xs text-yellow-500/70 font-bold uppercase tracking-widest">Falhas detectadas</p>
+                `;
+                recomendacao.className = 'p-5 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-center';
+                recomendacao.innerHTML = '<p class="text-sm text-yellow-500 font-medium"><strong>Veredito Sistema:</strong> Defeitos menores. Decida se é tolerável no uso diário ou se prefere arcar com o frete de devolução.</p>';
+                
+            } else {
+                // RL (Red Light)
+                veredicto.innerHTML = `
+                    <p class="text-4xl font-black tracking-tighter mb-1 text-red-500 uppercase italic">RL <span class="text-2xl">(Reprovado)</span></p>
+                    <p class="text-xs text-red-500/70 font-bold uppercase tracking-widest">Red Light Extrema</p>
+                `;
+                recomendacao.className = 'p-5 rounded-xl bg-red-500/10 border border-red-500/30 text-center';
+                recomendacao.innerHTML = '<p class="text-sm text-red-400 font-medium"><strong>Veredito Sistema:</strong> Qualidade reprovada pelo protocolo. Pressione "Return/Refund" no seu agente imediatamente.</p>';
+            }
+        }
+
+        function resetarChecklist() {
+            if (tipoSelecionadoQC) {
+                carregarChecklistQC(tipoSelecionadoQC);
+            }
+            document.getElementById('main-scroll').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

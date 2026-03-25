@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Anti-Scan | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Efeitos Glass e Hover */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .module-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .module-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 15px 35px rgba(157, 78, 221, 0.15);
+            background: rgba(157, 78, 221, 0.05);
+        }
+        .module-card:hover .module-icon {
+            transform: scale(1.1);
+            color: #fff;
+            text-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Modais Animados */
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center text-[#9D4EDD]"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold mono-text hidden sm:block"> <span class="text-[#9D4EDD] animate-pulse"></span></h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10">
+            
+            <div class="max-w-6xl mx-auto">
+                
+                <div class="mb-12 text-center pt-8">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 mb-6 shadow-[0_0_30px_rgba(157,78,221,0.2)]">
+                        <i class="fas fa-crosshairs text-3xl text-[#9D4EDD]"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tight">Radar <span class="text-[#9D4EDD]">Anti-Scan</span></h1>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                        Acesse a suíte de protocolos de segurança e inteligência de mercado. Monitore câmbios, escaneie lojas suspeitas e audite rotas antes de comprometer seu capital.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8">
+                    
+                    <div class="glass-panel p-8 module-card group relative overflow-hidden" 
+                         onclick="openModuleModal(
+                            'scanner',
+                            'Scanner de Fornecedores',
+                            'Auditoria neural de lojas asiáticas. Extrai métricas de vendas, histórico de entregas e avaliações ocultas para gerar um veredito de risco antes da compra.',
+                            'fas fa-shield-virus',
+                            'scanner.html'
+                         )">
+                        <div class="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition duration-500">
+                            <i class="fas fa-shield-virus text-9xl text-[#9D4EDD]"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                            <i class="fas fa-shield-virus text-2xl text-[#9D4EDD] module-icon transition duration-300"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Auditoria de Vendedores</h3>
+                        <p class="text-gray-400 text-sm mb-6 relative z-10 leading-relaxed">Avaliação de risco profundo para links do Taobao, Weidian, 1688 e Goofish.</p>
+                        <div class="flex items-center gap-2 text-xs font-bold text-[#9D4EDD] uppercase tracking-widest relative z-10">
+                            Acessar Módulo <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition duration-300"></i>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 module-card group relative overflow-hidden"
+                         onclick="openModuleModal(
+                            'decodificador',
+                            'Decodificador Neural de Links',
+                            'Limpa links sujos, rastreáveis ou gigantes dos marketplaces e converte instantaneamente para o formato otimizado e seguro do seu Agente de preferência.',
+                            'fas fa-link',
+                            'decodificador.html'
+                         )">
+                        <div class="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition duration-500">
+                            <i class="fas fa-link text-9xl text-[#9D4EDD]"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                            <i class="fas fa-link text-2xl text-[#9D4EDD] module-icon transition duration-300"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Decodificador de Rotas</h3>
+                        <p class="text-gray-400 text-sm mb-6 relative z-10 leading-relaxed">Converte e higieniza links nativos para importação direta no painel logístico.</p>
+                        <div class="flex items-center gap-2 text-xs font-bold text-[#9D4EDD] uppercase tracking-widest relative z-10">
+                            Acessar Módulo <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition duration-300"></i>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 module-card group relative overflow-hidden"
+                         onclick="openModuleModal(
+                            'comparador',
+                            'Monitor Global de Agentes',
+                            'Algoritmo que varre as tabelas de frete ao vivo. Insira o peso da sua carga e veja na hora qual Agente (Hoobuy, CNFans, etc) está cobrando menos para o Brasil.',
+                            'fas fa-balance-scale',
+                            'comparador.html'
+                         )">
+                        <div class="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition duration-500">
+                            <i class="fas fa-balance-scale text-9xl text-[#9D4EDD]"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                            <i class="fas fa-balance-scale text-2xl text-[#9D4EDD] module-icon transition duration-300"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Monitor de Custo Logístico</h3>
+                        <p class="text-gray-400 text-sm mb-6 relative z-10 leading-relaxed">Guerra de preços ao vivo: Saiba qual agente é mais barato para o seu envio hoje.</p>
+                        <div class="flex items-center gap-2 text-xs font-bold text-[#9D4EDD] uppercase tracking-widest relative z-10">
+                            Acessar Módulo <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition duration-300"></i>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 module-card group relative overflow-hidden"
+                         onclick="openModuleModal(
+                            'raiox',
+                            'Raio-X Cambial (Spread)',
+                            'Mede a temperatura do Câmbio Oficial (Yuan vs Real) contra a taxa arbitrária cobrada pelo Agente, revelando a taxa oculta de conversão e prejuízo invisível.',
+                            'fas fa-chart-pie',
+                            'raiox.html'
+                         )">
+                        <div class="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition duration-500">
+                            <i class="fas fa-chart-pie text-9xl text-[#9D4EDD]"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                            <i class="fas fa-chart-pie text-2xl text-[#9D4EDD] module-icon transition duration-300"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Raio-X Cambial</h3>
+                        <p class="text-gray-400 text-sm mb-6 relative z-10 leading-relaxed">Mapeamento de spreads abusivos e taxas ocultas na conversão de moedas (BRL/CNY).</p>
+                        <div class="flex items-center gap-2 text-xs font-bold text-[#9D4EDD] uppercase tracking-widest relative z-10">
+                            Acessar Módulo <i class="fas fa-arrow-right transform group-hover:translate-x-2 transition duration-300"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-12 text-center">
+                    <p class="text-xs text-gray-500 mono-text uppercase tracking-widest">
+                        <i class="fas fa-lock mr-2 text-gray-600"></i> Conexão Criptografada Ponto-a-Ponto.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="moduleModal" class="modal-overlay fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+        <div class="modal-content bg-[#080808] border border-white/10 rounded-2xl w-full max-w-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+            
+            <div class="absolute top-0 right-0 w-48 h-48 bg-[#9D4EDD]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition z-20">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="p-8">
+                <div class="w-16 h-16 bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(157,78,221,0.2)]">
+                    <i id="modalIcon" class="fas fa-microchip text-3xl text-[#9D4EDD]"></i>
+                </div>
+                
+                <h2 id="modalTitle" class="text-2xl font-bold text-white mb-2 relative z-10">Nome do Módulo</h2>
+                <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-8 relative z-10 h-20">
+                    Descrição completa do que este sistema faz e como ele blinda o operador.
+                </p>
+
+                <div class="bg-black/50 border border-white/5 rounded-lg p-3 mb-8 flex items-center justify-between relative z-10">
+                    <span class="text-xs text-gray-500 font-mono uppercase tracking-wider">Status do Nó</span>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-green-500 status-pulse-purple" style="animation-name: pulse; box-shadow: 0 0 0 0 rgba(34,197,94,0.4);"></div>
+                        <span class="text-xs text-green-500 font-bold uppercase tracking-widest mono-text">Online / Estável</span>
+                    </div>
+                </div>
+
+                <a id="modalLink" href="#" class="block w-full text-center bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white py-3.5 rounded-lg font-bold text-sm tracking-widest uppercase transition shadow-[0_0_20px_rgba(157,78,221,0.25)] relative z-10">
+                    Inicializar Protocolo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Sistema de Modal
+        const modalOverlay = document.getElementById('moduleModal');
+        
+        function openModuleModal(id, title, desc, iconClass, linkUrl) {
+            // Injeta as informações no Modal
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalIcon').className = `${iconClass} text-3xl text-[#9D4EDD]`;
+            document.getElementById('modalLink').href = linkUrl;
+
+            // Abre o Modal com animação
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Fechar clicando fora da caixa
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

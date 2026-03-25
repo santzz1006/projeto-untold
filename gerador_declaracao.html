@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Declaração | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações UI */
+        .animate-fade-in { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .item-list-enter { animation: slideInRight 0.3s ease forwards; }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Accordion Animations */
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .accordion-content.open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .accordion-inner { overflow: hidden; }
+        .accordion-btn i.fa-chevron-down { transition: transform 0.3s ease; }
+        .accordion-btn.open i.fa-chevron-down { transform: rotate(180deg); color: var(--neon-purple); }
+
+        /* Remove arrows from number input */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] { 
+            appearance: textfield;
+            -moz-appearance: textfield; 
+        }
+
+        .strategy-btn { transition: all 0.3s ease; }
+        .strategy-btn.active {
+            border-color: var(--neon-purple);
+            background: rgba(157, 78, 221, 0.1);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.2);
+        }
+        .strategy-btn.active i { color: var(--neon-purple); }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20 shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center text-[#9D4EDD]"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10 shrink-0">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.location.href='ferramentas1.html'" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-5xl mx-auto pt-4">
+                
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center gap-2 bg-[#9D4EDD]/10 border border-[#9D4EDD]/20 px-4 py-2 rounded-full mb-4 shadow-[0_0_15px_rgba(157,78,221,0.15)]">
+                        <i class="fas fa-clipboard-list text-[#9D4EDD]"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#9D4EDD] mono-text">Blindagem Aduaneira</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-white">
+                        Gerador de <span class="text-[#9D4EDD]">Declaração</span>
+                    </h2>
+                    <p class="text-gray-400 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                        Fim do risco de multa por Declaração Inexata. O sistema constrói o formato comercial, calcula limites seguros e gera os textos prontos para você colar no Agente.
+                    </p>
+                </div>
+
+                <div class="bg-yellow-500/5 border border-yellow-500/20 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-center gap-4 text-sm text-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.05)]">
+                    <i class="fas fa-exclamation-triangle text-2xl shrink-0"></i>
+                    <div>
+                        <p class="font-bold text-white uppercase tracking-widest mb-1">Regra de Ouro (Receita Federal 2026)</p>
+                        <p class="text-gray-300 text-xs leading-relaxed">Sempre declare em <strong class="text-white">Inglês Genérico</strong>. Nunca use nomes de marca (Nike, Apple, Louis Vuitton). Use termos como "Men Shoes" ou "PU Bag". O sistema fará isso automaticamente para você.</p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+                    
+                    <div class="space-y-6">
+                        
+                        <div class="bg-[#080808] border border-white/10 rounded-3xl p-6 relative overflow-hidden shadow-xl">
+                            <div class="absolute -top-16 -left-16 w-32 h-32 bg-[#9D4EDD]/10 rounded-full blur-[50px] pointer-events-none"></div>
+                            
+                            <h3 class="text-sm font-black flex items-center gap-2 uppercase tracking-wider text-white mb-6 relative z-10">
+                                <i class="fas fa-plus-circle text-[#9D4EDD]"></i> Adicionar Item à Caixa
+                            </h3>
+
+                            <form id="itemForm" onsubmit="event.preventDefault(); adicionarItem();" class="space-y-4 relative z-10">
+                                <div>
+                                    <label class="text-[10px] font-black uppercase tracking-widest mb-2 block text-gray-500">Categoria / Tipo de Produto</label>
+                                    <div class="relative">
+                                        <select id="itemCategoria" class="w-full pl-4 pr-10 py-3 bg-[#111] border border-white/10 rounded-xl text-white appearance-none cursor-pointer font-bold focus:border-[#9D4EDD] outline-none transition font-mono text-sm" required>
+                                            <option value="" disabled selected hidden>Selecione o tipo de item...</option>
+                                            <option value="sneaker">👟 Tênis / Calçado (Sneaker)</option>
+                                            <option value="tshirt">👕 Camiseta / Blusa (T-Shirt)</option>
+                                            <option value="jacket">🧥 Jaqueta / Casaco (Jacket)</option>
+                                            <option value="pants">👖 Calça / Shorts (Pants)</option>
+                                            <option value="bag">👜 Bolsa / Mochila (Bag)</option>
+                                            <option value="watch">⌚ Relógio (Watch)</option>
+                                            <option value="electronics">📱 Eletrônicos / Acessórios (Electronics)</option>
+                                            <option value="jewelry">💍 Joia / Anel (Jewelry)</option>
+                                        </select>
+                                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-[10px] font-black uppercase tracking-widest mb-2 block text-gray-500">Qtd.</label>
+                                        <input type="number" id="itemQtd" min="1" max="20" value="1" class="w-full px-4 py-3 bg-[#111] border border-white/10 rounded-xl text-white font-bold placeholder-gray-600 focus:border-[#9D4EDD] outline-none transition font-mono text-center" required>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black uppercase tracking-widest mb-2 block text-gray-500">Preço Real (¥ Total)</label>
+                                        <div class="relative">
+                                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">¥</span>
+                                            <input type="number" id="itemPrecoReal" step="0.01" placeholder="Ex: 200" class="w-full pl-8 pr-4 py-3 bg-[#111] border border-white/10 rounded-xl text-white font-bold placeholder-gray-600 focus:border-[#9D4EDD] outline-none transition font-mono" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full bg-white/5 hover:bg-[#9D4EDD]/20 text-white font-bold py-3 rounded-xl transition border border-white/10 hover:border-[#9D4EDD] flex items-center justify-center gap-2 text-xs uppercase tracking-widest mt-2">
+                                    Adicionar ao Haul <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-[#050505] border border-white/10 rounded-3xl p-6 relative">
+                            <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
+                                <h3 class="text-sm font-black flex items-center gap-2 uppercase tracking-wider text-white">
+                                    <i class="fas fa-box-open text-gray-400"></i> Seu Pacote (Haul)
+                                </h3>
+                                <span class="text-xs font-mono text-[#9D4EDD] bg-[#9D4EDD]/10 px-2 py-1 rounded" id="haulCount">0 itens</span>
+                            </div>
+                            
+                            <div id="itemsContainer" class="space-y-2 min-h-[100px] max-h-[250px] overflow-y-auto pr-2 scrollbar-hide">
+                                <div id="emptyState" class="text-center py-6 text-gray-600 font-mono text-xs border border-dashed border-white/5 rounded-xl">
+                                    A caixa está vazia. Adicione os itens acima.
+                                </div>
+                                </div>
+                        </div>
+
+                    </div>
+
+                    <div class="space-y-6">
+                        
+                        <div class="bg-[#080808] border border-white/10 rounded-3xl p-6 shadow-xl">
+                            <h3 class="text-sm font-black flex items-center gap-2 uppercase tracking-wider text-white mb-4">
+                                <i class="fas fa-chess-knight text-[#9D4EDD]"></i> Estratégia Aduaneira
+                            </h3>
+
+                            <div class="grid grid-cols-1 gap-3">
+                                <button onclick="selecionarEstrategia('sub50')" id="btn-est-sub50" class="strategy-btn active flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 text-left">
+                                    <div class="w-5 flex items-center justify-center pt-0.5">
+                                        <i class="fas fa-shield-alt text-gray-500 text-lg transition-colors"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white text-sm">Safe Zone (Sub $50)</p>
+                                        <p class="text-xs text-gray-400 mt-1 leading-relaxed">Força a soma total para ficar abaixo de US$ 50. Distribui os valores de forma crível. <strong class="text-green-400">Melhor para pagar apenas 20% de II.</strong></p>
+                                    </div>
+                                </button>
+
+                                <button onclick="selecionarEstrategia('realista')" id="btn-est-realista" class="strategy-btn flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/5 text-left">
+                                    <div class="w-5 flex items-center justify-center pt-0.5">
+                                        <i class="fas fa-balance-scale text-gray-500 text-lg transition-colors"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white text-sm">Valor Realista (Acima $50)</p>
+                                        <p class="text-xs text-gray-400 mt-1 leading-relaxed">Para pacotes pesados (>5kg). Declara ~65% do valor real chinês. <strong class="text-yellow-500">Paga 60% de taxa, mas evita multa absurda.</strong></p>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <button onclick="gerarDossie()" class="w-full bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white font-black uppercase tracking-wider py-4 rounded-xl transition shadow-[0_0_20px_rgba(157,78,221,0.3)] mt-6 flex items-center justify-center gap-2 text-sm hover:-translate-y-1">
+                                <i class="fas fa-cogs"></i> Gerar Dossiê de Declaração
+                            </button>
+                        </div>
+
+                        <div id="systemAlert" class="hidden"></div>
+
+                    </div>
+                </div>
+
+                <div id="dossierContainer" class="hidden animate-fade-in mb-16">
+                    <div class="bg-[#050505] border-2 border-[#9D4EDD]/30 rounded-[2rem] p-6 lg:p-8 relative overflow-hidden shadow-[0_0_40px_rgba(157,78,221,0.1)]">
+                        
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-5 mb-6 gap-4">
+                            <div>
+                                <h3 class="text-xl font-black text-white uppercase tracking-widest flex items-center gap-2">
+                                    <i class="fas fa-file-export text-[#9D4EDD]"></i> Invoice Final
+                                </h3>
+                                <p class="text-xs text-gray-400 font-mono mt-1">Copie exatamente estes dados e cole na tela "Declare" do seu Agente.</p>
+                            </div>
+                            <div class="bg-black border border-white/10 px-5 py-3 rounded-xl text-center shadow-inner">
+                                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-1">Total Declarado</p>
+                                <p class="text-2xl font-black text-[#9D4EDD] mono-text" id="dossierTotal">$0.00</p>
+                            </div>
+                        </div>
+
+                        <div class="hidden sm:grid grid-cols-12 gap-4 px-4 py-2 bg-black/50 border border-white/5 rounded-t-lg text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                            <div class="col-span-6">Inglês Comercial (Item Name)</div>
+                            <div class="col-span-2 text-center">Quantidade</div>
+                            <div class="col-span-3 text-right">Unit Price (USD)</div>
+                            <div class="col-span-1"></div>
+                        </div>
+
+                        <div id="dossierRows" class="space-y-3 sm:space-y-0 sm:border-x sm:border-b sm:border-white/5 sm:rounded-b-lg sm:bg-black/20">
+                            </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-10 mb-10 pt-10 border-t border-white/10">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-full mb-4">
+                            <i class="fas fa-skull-crossbones text-red-500"></i>
+                            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-red-500">Base de Risco Aduaneiro</span>
+                        </div>
+                        <h2 class="text-3xl font-black mb-3 text-white uppercase tracking-tight">O Perigo da Declaração Inexata</h2>
+                        <p class="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed">
+                            Entenda exatamente por que você não deve "chutar" valores irreais no seu agente, e como a inteligência da Receita Federal (RFB) intercepta pacotes suspeitos.
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        
+                        <div class="space-y-4">
+                            <div class="bg-[#111] rounded-2xl border border-white/5 overflow-hidden">
+                                <button onclick="toggleAccordion(this)" class="accordion-btn w-full px-6 py-5 text-left flex justify-between items-center hover:bg-white/5 transition">
+                                    <h3 class="font-bold text-white text-sm"><i class="fas fa-search-dollar text-yellow-500 mr-2"></i> O que é "Declaração Inexata"?</h3>
+                                    <i class="fas fa-chevron-down text-gray-500"></i>
+                                </button>
+                                <div class="accordion-content px-6 bg-black/50">
+                                    <div class="accordion-inner text-sm text-gray-400 leading-relaxed pb-4">
+                                        <p class="mb-3">Declaração Inexata é quando você (através do seu agente) informa um valor na etiqueta do pacote (Invoice) que é <strong>obviamente mentiroso</strong> ou omite itens.</p>
+                                        <p><strong>Exemplo letal:</strong> Você envia uma caixa de 5KG contendo 3 pares de tênis pesados. Na hora de declarar, tenta ser esperto e coloca "1x Tênis - $12".</p>
+                                        <p class="mt-2 text-red-400">O fiscal no Brasil pesa a caixa (5KG) e passa no Raio-X. Ele vê 3 sapatos, mas a nota diz 1 sapato valendo 12 dólares. A sua caixa é separada para a "Malha Fina".</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-[#111] rounded-2xl border border-white/5 overflow-hidden">
+                                <button onclick="toggleAccordion(this)" class="accordion-btn w-full px-6 py-5 text-left flex justify-between items-center hover:bg-white/5 transition">
+                                    <h3 class="font-bold text-white text-sm"><i class="fas fa-file-invoice-dollar text-red-500 mr-2"></i> Qual o valor da Multa?</h3>
+                                    <i class="fas fa-chevron-down text-gray-500"></i>
+                                </button>
+                                <div class="accordion-content px-6 bg-black/50">
+                                    <div class="accordion-inner text-sm text-gray-400 leading-relaxed pb-4">
+                                        <p class="mb-3">Quando pego em subfaturamento, o fiscal federal usa uma tabela de referência própria dele. Ele vai arbitrar que seus 3 tênis valem, na verdade, $150 dólares.</p>
+                                        <ul class="space-y-2 list-disc list-inside">
+                                            <li>Você pagará <strong>60% de imposto sobre os $150 dólares</strong> (que ele inventou).</li>
+                                            <li>Você tomará uma <strong>MULTA de 100%</strong> sobre a diferença do valor do imposto.</li>
+                                        </ul>
+                                        <p class="mt-3 font-mono text-xs text-yellow-500 bg-yellow-500/10 p-2 rounded">Resultado: Um pacote que você queria pagar R$ 50 de taxa, acaba gerando um boleto de R$ 800 a R$ 1.500 no Minhas Importações dos Correios.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-[#111] rounded-2xl border border-white/5 overflow-hidden">
+                                <button onclick="toggleAccordion(this)" class="accordion-btn w-full px-6 py-5 text-left flex justify-between items-center hover:bg-white/5 transition">
+                                    <h3 class="font-bold text-white text-sm"><i class="fas fa-gavel text-[#9D4EDD] mr-2"></i> Posso recorrer da Multa (Pedir Revisão)?</h3>
+                                    <i class="fas fa-chevron-down text-gray-500"></i>
+                                </button>
+                                <div class="accordion-content px-6 bg-black/50">
+                                    <div class="accordion-inner text-sm text-gray-400 leading-relaxed pb-4">
+                                        <p class="mb-3">Sim, você pode clicar em "Pedir Revisão de Tributos" no site dos Correios. O sistema pedirá que você anexe a Fatura do Cartão de Crédito e prints comprovando o valor real pago na China.</p>
+                                        <p class="text-red-500 font-bold mb-1">CUIDADO EXTREMO:</p>
+                                        <p>Se você comprou réplicas (1:1), <strong>NÃO PEÇA REVISÃO.</strong> Ao mandar o print provando que comprou falsificações, o fiscal pode mudar a pena de "Multa Tributária" para "Crime de Pirataria". Nesse cenário, o pacote sofre <strong>Pena de Perdimento (é destruído)</strong> e você perde tudo.</p>
+                                        <p class="mt-2">A ação correta para multas milionárias em produtos não originais é clicar em <strong>"Recusar Objeto"</strong>. O pacote será devolvido à China em ~40 dias, você não paga a multa e tenta enviar novamente pelo seu agente.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-[#050505] p-6 rounded-2xl border border-[#9D4EDD]/30 relative overflow-hidden">
+                                <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-[#9D4EDD]/10 rounded-full blur-[30px] pointer-events-none"></div>
+                                <h3 class="font-black text-white uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
+                                    <i class="fas fa-shield-halved text-[#9D4EDD]"></i> Como o Algoritmo Untold te protege
+                                </h3>
+                                
+                                <div class="space-y-5 relative z-10">
+                                    <div>
+                                        <h4 class="font-bold text-gray-200 text-xs uppercase tracking-widest mb-1">1. O Bloqueio de Impossibilidade</h4>
+                                        <p class="text-xs text-gray-400 leading-relaxed">Se você adicionar 5 pares de tênis e escolher a estratégia "Sub $50", nosso algoritmo não vai gerar a lista. Ele entende que declarar 5 tênis por $45 ($9 cada) é suicídio aduaneiro. Ele exibirá um Erro Crítico mandando você dividir o pacote.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-200 text-xs uppercase tracking-widest mb-1">2. O Teto Flutuante ($47.50)</h4>
+                                        <p class="text-xs text-gray-400 leading-relaxed">O algoritmo nunca encosta em $49.99 na estratégia segura. Ele trava em ~$47.50. Isso ocorre porque o câmbio flutua durante as semanas de voo. Se declarássemos $49.50 e a moeda variasse, poderia passar do limite do Remessa e acionar a taxa brutal de 60%.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-200 text-xs uppercase tracking-widest mb-1">3. Distribuição Heurística (Pisos Críveis)</h4>
+                                        <p class="text-xs text-gray-400 leading-relaxed">Cada tipo de produto possui um "Valor Mínimo Aceitável" embutido no código (Ex: Casacos nunca abaixo de $14). O algoritmo distribui seus $47.50 respeitando esses pisos, garantindo que o fiscal veja valores realistas na tela do Raio-X.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 1. RELÓGIO DO SISTEMA
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Acordeão (FAQ Aduaneiro)
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isOpen = btn.classList.contains('open');
+
+            if (isOpen) {
+                btn.classList.remove('open');
+                content.classList.remove('open');
+            } else {
+                btn.classList.add('open');
+                content.classList.add('open');
+            }
+        }
+
+        // 2. MOTOR DO GERADOR DE DECLARAÇÃO
+        let haulItems = [];
+        let estrategiaAtual = 'sub50';
+
+        // Dicionário de Tradução e Limites Heurísticos (Para manter credibilidade)
+        const dict = {
+            'sneaker': { en: "Men's Casual Shoes", minUsd: 12.00, maxUsd: 22.00, icon: 'fa-shoe-prints' },
+            'tshirt': { en: "Cotton T-shirt", minUsd: 4.00, maxUsd: 9.00, icon: 'fa-tshirt' },
+            'jacket': { en: "Winter Coat", minUsd: 14.00, maxUsd: 24.00, icon: 'fa-tshirt' },
+            'pants': { en: "Men's Trousers", minUsd: 8.00, maxUsd: 14.00, icon: 'fa-tshirt' },
+            'bag': { en: "PU Leather Bag", minUsd: 12.00, maxUsd: 20.00, icon: 'fa-shopping-bag' },
+            'watch': { en: "Quartz Watch", minUsd: 10.00, maxUsd: 18.00, icon: 'fa-clock' },
+            'electronics': { en: "Phone Accessory", minUsd: 5.00, maxUsd: 15.00, icon: 'fa-mobile-alt' },
+            'jewelry': { en: "Fashion Ring", minUsd: 3.00, maxUsd: 8.00, icon: 'fa-ring' }
+        };
+
+        const CNY_TO_USD = 7.15; // Taxa média de conversão da China para base
+
+        function selecionarEstrategia(tipo) {
+            estrategiaAtual = tipo;
+            document.querySelectorAll('.strategy-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-est-${tipo}`).classList.add('active');
+        }
+
+        function adicionarItem() {
+            const cat = document.getElementById('itemCategoria').value;
+            const qtd = parseInt(document.getElementById('itemQtd').value);
+            const precoCNY = parseFloat(document.getElementById('itemPrecoReal').value);
+
+            if (!cat || qtd < 1 || isNaN(precoCNY) || precoCNY <= 0) return;
+
+            const id = Date.now();
+            haulItems.push({ id, cat, qtd, precoCNY });
+
+            document.getElementById('itemCategoria').value = "";
+            document.getElementById('itemQtd').value = "1";
+            document.getElementById('itemPrecoReal').value = "";
+
+            renderizarItens();
+            esconderDossier();
+        }
+
+        function removerItem(id) {
+            haulItems = haulItems.filter(item => item.id !== id);
+            renderizarItens();
+            esconderDossier();
+        }
+
+        function esconderDossier() {
+            document.getElementById('dossierContainer').classList.add('hidden');
+            document.getElementById('systemAlert').classList.add('hidden');
+        }
+
+        function renderizarItens() {
+            const container = document.getElementById('itemsContainer');
+            const count = document.getElementById('haulCount');
+            const emptyState = document.getElementById('emptyState');
+
+            const totalQtd = haulItems.reduce((acc, curr) => acc + curr.qtd, 0);
+            count.innerText = `${totalQtd} Itens`;
+
+            if (haulItems.length === 0) {
+                emptyState.style.display = 'block';
+                container.innerHTML = '';
+                container.appendChild(emptyState);
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = haulItems.map(item => `
+                <div class="item-list-enter bg-black border border-white/5 rounded-xl p-3 flex items-center justify-between group hover:border-[#9D4EDD]/30 transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center text-gray-400 border border-white/10">
+                            <i class="fas ${dict[item.cat].icon}"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white">${dict[item.cat].en}</p>
+                            <p class="text-[10px] text-gray-500 mono-text">Qtd: ${item.qtd} | Real: ¥${item.precoCNY.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="removerItem(${item.id})" class="w-8 h-8 rounded-lg text-red-500/50 hover:text-red-500 hover:bg-red-500/10 transition flex items-center justify-center">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // 3. O CÉREBRO: Gerar Declaração Matemática Segura
+        function gerarDossie() {
+            if (haulItems.length === 0) {
+                alert("Adicione pelo menos um item ao Haul.");
+                return;
+            }
+
+            const alertBox = document.getElementById('systemAlert');
+            alertBox.classList.add('hidden');
+            alertBox.innerHTML = '';
+
+            let processedItems = [];
+            let totalCalculatedUSD = 0;
+
+            const totalQtdItems = haulItems.reduce((sum, item) => sum + item.qtd, 0);
+            
+            if (estrategiaAtual === 'sub50') {
+                
+                // Validação de Risco Crítico
+                let minimumRequiredSum = 0;
+                haulItems.forEach(item => { minimumRequiredSum += (dict[item.cat].minUsd * item.qtd); });
+
+                if (minimumRequiredSum >= 50) {
+                    alertBox.innerHTML = `
+                        <div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 shadow-sm">
+                            <h4 class="text-red-400 font-black flex items-center gap-2 mb-2 uppercase tracking-widest text-sm"><i class="fas fa-radiation"></i> Risco Crítico Detetado (Anti-Malha Fina)</h4>
+                            <p class="text-xs text-gray-300 leading-relaxed">Você possui <strong>${totalQtdItems} itens</strong> pesados na caixa. Para declarar tudo isso abaixo de $50 USD, o algoritmo teria que jogar os preços para valores impossíveis (Ex: Um casaco a $2). Se você fizer isso, <strong>a Receita Federal irá arbitrar um valor alto e te aplicar multa de 100%.</strong><br><br><strong class="text-white">Ação Corretiva Exigida:</strong> Divida seus itens em DOIS envios diferentes (Submit Parcel) no seu agente, ou altere a estratégia para "Valor Realista" (e aceite pagar os 60%).</p>
+                        </div>
+                    `;
+                    alertBox.classList.remove('hidden');
+                    document.getElementById('dossierContainer').classList.add('hidden');
+                    return; 
+                }
+
+                // Distribuição Proporcional (Teto de Segurança: $47.50)
+                const targetTotalUSD = 47.50; 
+                const totalCnyBox = haulItems.reduce((sum, item) => sum + item.precoCNY, 0);
+
+                haulItems.forEach(item => {
+                    const proportion = item.precoCNY / totalCnyBox;
+                    let allocatedTotalUsd = targetTotalUSD * proportion;
+                    let unitUsd = allocatedTotalUsd / item.qtd;
+
+                    // Aplica Pisos Heurísticos
+                    if (unitUsd < dict[item.cat].minUsd) unitUsd = dict[item.cat].minUsd;
+                    if (unitUsd > dict[item.cat].maxUsd) unitUsd = dict[item.cat].maxUsd;
+
+                    unitUsd = unitUsd + (Math.random() * 0.5 - 0.25); 
+
+                    processedItems.push({
+                        ...item,
+                        nameEn: dict[item.cat].en,
+                        declaredUnitUsd: parseFloat(unitUsd.toFixed(2))
+                    });
+                    totalCalculatedUSD += (parseFloat(unitUsd.toFixed(2)) * item.qtd);
+                });
+
+                // Correção de Excedente final
+                if(totalCalculatedUSD >= 50) {
+                     const excess = totalCalculatedUSD - 48.00;
+                     processedItems.sort((a,b) => b.declaredUnitUsd - a.declaredUnitUsd);
+                     processedItems[0].declaredUnitUsd -= (excess / processedItems[0].qtd);
+                     totalCalculatedUSD = 48.00;
+                }
+
+            } else {
+                // Estratégia Realista (> $50)
+                haulItems.forEach(item => {
+                    let realUnitUsd = (item.precoCNY / item.qtd) / CNY_TO_USD;
+                    let declaredUnitUsd = realUnitUsd * 0.65; // Declara 65% do valor real para aliviar a facada
+                    
+                    if (declaredUnitUsd < dict[item.cat].minUsd) declaredUnitUsd = dict[item.cat].minUsd;
+
+                    processedItems.push({
+                        ...item,
+                        nameEn: dict[item.cat].en,
+                        declaredUnitUsd: parseFloat(declaredUnitUsd.toFixed(2))
+                    });
+
+                    totalCalculatedUSD += (parseFloat(declaredUnitUsd.toFixed(2)) * item.qtd);
+                });
+
+                if (totalCalculatedUSD > 50) {
+                     alertBox.innerHTML = `
+                        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5 shadow-sm">
+                            <h4 class="text-yellow-500 font-black flex items-center gap-2 mb-2 uppercase tracking-widest text-sm"><i class="fas fa-info-circle"></i> Status da Estratégia</h4>
+                            <p class="text-xs text-gray-300 leading-relaxed">A declaração somou <strong class="text-white">$${totalCalculatedUSD.toFixed(2)}</strong>. Ao chegar no Brasil, você pagará a alíquota de 60% + ICMS, porém os valores de cada item estão coerentes e <strong>seguros contra multas aduaneiras</strong>.</p>
+                        </div>
+                    `;
+                    alertBox.classList.remove('hidden');
+                }
+            }
+
+            // Renderizar na Tela
+            document.getElementById('dossierTotal').innerText = `$${totalCalculatedUSD.toFixed(2)}`;
+            
+            const rowsContainer = document.getElementById('dossierRows');
+            rowsContainer.innerHTML = processedItems.map(item => `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#111] sm:bg-transparent rounded-xl sm:rounded-none border border-white/5 sm:border-none gap-3 hover:bg-white/5 transition">
+                    
+                    <div class="sm:w-1/2">
+                        <p class="text-[10px] sm:hidden text-gray-500 uppercase font-bold mb-1">Item Name (EN)</p>
+                        <div class="flex items-center gap-3">
+                            <p class="font-bold text-white text-sm mono-text" id="copy-name-${item.id}">${item.nameEn}</p>
+                            <button onclick="copiarTexto('${item.nameEn}', this)" class="text-gray-500 hover:text-[#9D4EDD] transition bg-black sm:bg-transparent border border-white/10 sm:border-none p-2 sm:p-0 rounded" title="Copiar Nome">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sm:w-1/6 sm:text-center flex justify-between sm:block">
+                        <p class="text-[10px] sm:hidden text-gray-500 uppercase font-bold">Qty</p>
+                        <p class="font-bold text-gray-300 text-sm mono-text">${item.qtd}</p>
+                    </div>
+
+                    <div class="sm:w-1/4 sm:text-right flex justify-between sm:block">
+                        <p class="text-[10px] sm:hidden text-gray-500 uppercase font-bold">Unit Price</p>
+                        <div class="flex items-center justify-end gap-3">
+                            <p class="font-bold text-green-400 text-sm mono-text">$${item.declaredUnitUsd.toFixed(2)}</p>
+                            <button onclick="copiarTexto('${item.declaredUnitUsd.toFixed(2)}', this)" class="text-gray-500 hover:text-green-400 transition bg-black sm:bg-transparent border border-white/10 sm:border-none p-2 sm:p-0 rounded" title="Copiar Preço">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            `).join('');
+
+            const dossier = document.getElementById('dossierContainer');
+            dossier.classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('main-scroll').scrollTo({
+                    top: dossier.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+
+        // Função utilitária de cópia
+        function copiarTexto(texto, btn) {
+            navigator.clipboard.writeText(texto).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check text-green-500"></i>';
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>

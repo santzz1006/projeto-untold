@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decodificador Neural | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Efeitos Glass e Hover */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações UI */
+        .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scanning-ring {
+            border: 2px solid rgba(157, 78, 221, 0.1);
+            border-top: 2px solid var(--neon-purple);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center text-[#9D4EDD]"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-4xl mx-auto">
+                
+                <div class="mb-10 text-center pt-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 mb-4 shadow-[0_0_20px_rgba(157,78,221,0.2)]">
+                        <i class="fas fa-link text-2xl text-[#9D4EDD]"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tight">Decodificador <span class="text-[#9D4EDD]">Neural</span></h1>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                        Sistema de higienização de links. Remova rastreadores de afiliados, obtenha a URL limpa de fábrica e converta para o seu Agente em um clique.
+                    </p>
+                </div>
+
+                <div class="bg-[#080808] border border-white/10 rounded-2xl p-3 shadow-2xl relative z-10 mb-8">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                <i class="fas fa-code text-[#9D4EDD]"></i>
+                            </div>
+                            <input type="url" id="linkInput" placeholder="> Injetar URL suja (Ex: https://k.youshop10.com/xyz123?share_relation=...)" 
+                                   class="w-full bg-[#111] border border-white/5 rounded-xl py-5 pl-14 pr-4 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-[#9D4EDD]/50 focus:border-[#9D4EDD]/50 font-mono text-sm transition-all h-full">
+                        </div>
+                        <button onclick="iniciarDecodificacao()" class="bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white font-black py-5 px-10 rounded-xl transition-all shadow-[0_0_20px_rgba(157,78,221,0.3)] flex-shrink-0 flex items-center justify-center gap-3 uppercase tracking-widest text-sm hover:-translate-y-1">
+                            <i class="fas fa-magic"></i> Decodificar
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loadingState" class="hidden mt-12 text-center fade-in-up pb-10">
+                    <div class="relative flex justify-center mb-6">
+                        <div class="scanning-ring"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#9D4EDD] text-2xl">
+                            <i class="fas fa-unlock-alt"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-white uppercase tracking-widest mono-text" id="loadingText">Descriptografando Payload...</h3>
+                    
+                    <div class="inline-flex flex-col items-start bg-[#050505] p-5 rounded-xl border border-white/5 min-w-[320px] text-left">
+                        <p class="text-gray-500 text-xs font-mono mb-2 flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white">Isolando parâmetros de rastreio...</span></p>
+                        <p class="text-gray-500 text-xs font-mono mb-2 flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white">Extraindo ID Único de Produto...</span></p>
+                        <p class="text-gray-500 text-xs font-mono flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white">Gerando rotas limpas para Agentes...</span></p>
+                    </div>
+                </div>
+
+                <div id="resultState" class="hidden mt-12 fade-in-up pb-10">
+                    
+                    <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6 flex items-center justify-center gap-3 text-green-400 font-mono text-sm uppercase tracking-widest shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                        <i class="fas fa-check-circle text-lg"></i> Roteamento Estabelecido com Sucesso
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        
+                        <div class="lg:col-span-1 flex flex-col gap-6">
+                            
+                            <div class="glass-panel p-6 border-white/10">
+                                <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mono-text mb-4">Informações Base</h3>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Plataforma Origem</p>
+                                        <div class="flex items-center gap-2">
+                                            <div id="platIcon" class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-sm"></div>
+                                            <span id="platName" class="text-white font-bold text-sm">--</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">ID Único (Product ID)</p>
+                                        <p id="productId" class="text-[#9D4EDD] font-mono text-lg font-bold">--</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-panel p-6 border-red-500/20 bg-red-500/5">
+                                <h3 class="text-xs font-bold text-red-400 uppercase tracking-widest mono-text mb-4 flex items-center gap-2">
+                                    <i class="fas fa-shield-virus"></i> Trackers Excluídos
+                                </h3>
+                                <ul id="threatList" class="space-y-2">
+                                    </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="lg:col-span-2 flex flex-col gap-6">
+                            
+                            <div class="glass-panel p-6 border-[#9D4EDD]/30 shadow-[0_0_20px_rgba(157,78,221,0.05)]">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mono-text mb-3">URL Pura de Fábrica</h3>
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <div class="bg-[#030303] border border-white/10 rounded-lg p-3 flex-1 overflow-x-auto scrollbar-hide">
+                                        <p id="cleanUrlText" class="text-white font-mono text-sm whitespace-nowrap">--</p>
+                                    </div>
+                                    <button onclick="copyCleanUrl(this)" class="bg-white/5 hover:bg-[#9D4EDD] text-white border border-white/10 hover:border-[#9D4EDD] rounded-lg px-6 py-3 font-bold text-xs uppercase tracking-widest transition shrink-0 flex items-center justify-center gap-2">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-gray-500 mt-3 font-mono">Use este link para planilhas ou para enviar a amigos sem repassar comissões embutidas.</p>
+                            </div>
+
+                            <div class="glass-panel p-6 border-white/10">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mono-text mb-4">Roteamento Direto (Comprar no Agente)</h3>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    
+                                    <div class="bg-[#050505] border border-white/5 rounded-xl p-4 flex flex-col items-center justify-center text-center group hover:border-[#9D4EDD]/50 transition">
+                                        <img src="https://hoobuy.com/favicon.ico" class="w-8 h-8 rounded mb-2 grayscale group-hover:grayscale-0 transition" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwb2x5Z29uIHBvaW50cz0iMTIgMiAyIDIyIDIyIDIyIDEyIDIiPjwvcG9seWdvbj48L3N2Zz4='">
+                                        <h4 class="font-bold text-white text-sm mb-3">Hoobuy</h4>
+                                        <button onclick="openAgent('hoobuy')" class="w-full bg-white/5 group-hover:bg-[#9D4EDD]/10 text-gray-400 group-hover:text-[#9D4EDD] border border-white/10 group-hover:border-[#9D4EDD]/30 py-2 rounded text-xs font-bold uppercase tracking-widest transition">
+                                            Abrir Produto <i class="fas fa-external-link-alt ml-1"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="bg-[#050505] border border-white/5 rounded-xl p-4 flex flex-col items-center justify-center text-center group hover:border-[#9D4EDD]/50 transition">
+                                        <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center mb-2"><i class="fas fa-globe-asia text-gray-400 group-hover:text-blue-400 transition"></i></div>
+                                        <h4 class="font-bold text-white text-sm mb-3">CNFans</h4>
+                                        <button onclick="openAgent('cnfans')" class="w-full bg-white/5 group-hover:bg-[#9D4EDD]/10 text-gray-400 group-hover:text-[#9D4EDD] border border-white/10 group-hover:border-[#9D4EDD]/30 py-2 rounded text-xs font-bold uppercase tracking-widest transition">
+                                            Abrir Produto <i class="fas fa-external-link-alt ml-1"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="bg-[#050505] border border-white/5 rounded-xl p-4 flex flex-col items-center justify-center text-center group hover:border-[#9D4EDD]/50 transition">
+                                        <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center mb-2"><i class="fas fa-horse-head text-gray-400 group-hover:text-orange-400 transition"></i></div>
+                                        <h4 class="font-bold text-white text-sm mb-3">Mulebuy</h4>
+                                        <button onclick="openAgent('mulebuy')" class="w-full bg-white/5 group-hover:bg-[#9D4EDD]/10 text-gray-400 group-hover:text-[#9D4EDD] border border-white/10 group-hover:border-[#9D4EDD]/30 py-2 rounded text-xs font-bold uppercase tracking-widest transition">
+                                            Abrir Produto <i class="fas fa-external-link-alt ml-1"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="bg-[#050505] border border-white/5 rounded-xl p-4 flex flex-col items-center justify-center text-center group hover:border-[#9D4EDD]/50 transition">
+                                        <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center mb-2"><i class="fas fa-shopping-cart text-gray-400 group-hover:text-red-500 transition"></i></div>
+                                        <h4 class="font-bold text-white text-sm mb-3">AllChinaBuy</h4>
+                                        <button onclick="openAgent('allchinabuy')" class="w-full bg-white/5 group-hover:bg-[#9D4EDD]/10 text-gray-400 group-hover:text-[#9D4EDD] border border-white/10 group-hover:border-[#9D4EDD]/30 py-2 rounded text-xs font-bold uppercase tracking-widest transition">
+                                            Abrir Produto <i class="fas fa-external-link-alt ml-1"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Variáveis Globais de Estado do Produto
+        let currentCleanUrl = "";
+        let currentId = "";
+        let currentPlatform = "";
+
+        /**
+         * LÓGICA CORE: Processamento de Link
+         */
+        function parseMarketplaceLink(rawUrl) {
+            let urlObj;
+            let fixUrl = rawUrl.trim(); 
+            
+            try { 
+                if (!fixUrl.startsWith('http')) fixUrl = 'https://' + fixUrl;
+                urlObj = new URL(fixUrl); 
+            } catch(e) { 
+                return { error: "URL Inválida. Verifique a sintaxe da entrada." }; 
+            }
+
+            let domain = urlObj.hostname;
+            let params = urlObj.searchParams;
+            let path = urlObj.pathname;
+
+            let platform = 'Desconhecida';
+            let platIcon = '<i class="fas fa-globe"></i>';
+            let id = 'Não Localizado';
+            let cleanUrl = fixUrl; 
+            let threats = [];
+
+            // 1. Identificação de Ameaças (Trackers Comuns de Afiliados)
+            const knownTrackers = ['spm', 'scm', 'utm_source', 'utm_medium', 'share_relation', 'tk', 'a', 'share_document_id'];
+            knownTrackers.forEach(tracker => {
+                if(params.has(tracker)) {
+                    threats.push(tracker);
+                    params.delete(tracker);
+                }
+            });
+
+            // Bloqueio de Links Minificados
+            if (domain.includes('k.youshop10') || domain.includes('m.tb.cn') || domain.includes('qr.1688')) {
+                return { error: "Link Minificado detectado. Abra o link no navegador original, copie a URL completa da barra superior e tente novamente." };
+            }
+
+            // 2. Extração e Padronização por Plataforma
+            if (domain.includes('taobao.com') || domain.includes('tmall.com')) {
+                platform = domain.includes('tmall') ? 'Tmall' : 'Taobao';
+                platIcon = '<i class="fas fa-shopping-bag text-orange-500"></i>';
+                
+                if (params.has('id')) {
+                    id = params.get('id');
+                } else {
+                    let match = rawUrl.match(/[?&]id=(\d+)/i);
+                    if (match) id = match[1];
+                }
+                if(id !== 'Não Localizado') cleanUrl = `https://item.taobao.com/item.htm?id=${id}`;
+                
+            } else if (domain.includes('weidian.com')) {
+                platform = 'Weidian';
+                platIcon = '<i class="fas fa-store text-[#9D4EDD]"></i>';
+                
+                if (params.has('itemID')) id = params.get('itemID');
+                else if (params.has('itemId')) id = params.get('itemId');
+                
+                if(id !== 'Não Localizado') cleanUrl = `https://weidian.com/item.html?itemID=${id}`;
+                
+            } else if (domain.includes('1688.com')) {
+                platform = '1688 (Atacado)';
+                platIcon = '<i class="fas fa-industry text-blue-500"></i>';
+                
+                let match = path.match(/\/offer\/(\d+)\.html/i) || path.match(/\/(\d+)\.html/i);
+                if (match) {
+                    id = match[1];
+                    cleanUrl = `https://detail.1688.com/offer/${id}.html`;
+                }
+
+            } else if (domain.includes('goofish.com') || domain.includes('xianyu') || domain.includes('2.taobao.com')) {
+                platform = 'Goofish (Xianyu)';
+                platIcon = '<i class="fas fa-fish text-purple-400"></i>';
+                
+                if (params.has('id')) id = params.get('id');
+                if(id !== 'Não Localizado') cleanUrl = `https://goofish.com/item?id=${id}`;
+            } else {
+                let remainingParams = params.toString();
+                cleanUrl = `https://${domain}${path}${remainingParams ? '?'+remainingParams : ''}`;
+            }
+
+            return {
+                error: null,
+                platform: platform,
+                platIcon: platIcon,
+                id: id,
+                cleanUrl: cleanUrl,
+                threats: threats
+            };
+        }
+
+        function iniciarDecodificacao() {
+            const rawUrl = document.getElementById('linkInput').value;
+            
+            if(!rawUrl) {
+                alert("INSERÇÃO REJEITADA: O terminal exige uma URL para decodificar.");
+                return;
+            }
+
+            document.getElementById('resultState').classList.add('hidden');
+            const loadingState = document.getElementById('loadingState');
+            loadingState.classList.remove('hidden');
+
+            const loadingText = document.getElementById('loadingText');
+            let glitchInterval = setInterval(() => {
+                let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+                let text = loadingText.innerText.split("");
+                let randIndex = Math.floor(Math.random() * text.length);
+                if(text[randIndex] !== " ") {
+                    text[randIndex] = chars[Math.floor(Math.random() * chars.length)];
+                }
+                loadingText.innerText = text.join("");
+            }, 50);
+
+            setTimeout(() => {
+                clearInterval(glitchInterval);
+                loadingText.innerText = "Descriptografando Payload..."; 
+                
+                const result = parseMarketplaceLink(rawUrl);
+
+                loadingState.classList.add('hidden');
+
+                if (result.error) {
+                    alert(`FALHA DE PROTOCOLO: ${result.error}`);
+                    return;
+                }
+
+                // Armazena no estado global para o Roteamento
+                currentCleanUrl = result.cleanUrl;
+                currentId = result.id;
+                currentPlatform = result.platform;
+                
+                document.getElementById('platName').innerText = result.platform;
+                document.getElementById('platIcon').innerHTML = result.platIcon;
+                document.getElementById('productId').innerText = result.id;
+                document.getElementById('cleanUrlText').innerText = result.cleanUrl;
+
+                const threatList = document.getElementById('threatList');
+                threatList.innerHTML = '';
+                if (result.threats.length > 0) {
+                    result.threats.forEach(t => {
+                        threatList.innerHTML += `
+                            <li class="flex items-center justify-between text-xs text-gray-300 font-mono bg-black/50 px-3 py-1.5 rounded border border-red-500/10">
+                                <span><span class="text-red-500 mr-2">[-]</span> Tracker: <strong>${t}</strong></span>
+                                <span class="text-green-500">Expurgo OK</span>
+                            </li>
+                        `;
+                    });
+                } else {
+                    threatList.innerHTML = `
+                        <li class="text-xs text-gray-500 font-mono italic p-2">Nenhum rastreador hostil ou código de afiliado detectado na estrutura base.</li>
+                    `;
+                }
+
+                const resultState = document.getElementById('resultState');
+                resultState.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('main-scroll').scrollTo({
+                        top: resultState.offsetTop - 50,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+
+            }, 1500); 
+        }
+
+        function copyCleanUrl(btn) {
+            if (!currentCleanUrl) return;
+            navigator.clipboard.writeText(currentCleanUrl).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check text-green-400"></i> Copiado';
+                btn.classList.add('border-green-500', 'text-green-400');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.classList.remove('border-green-500', 'text-green-400');
+                }, 2000);
+            });
+        }
+
+        /**
+         * NOVO SISTEMA DE ROTEAMENTO LOGÍSTICO DIRECT-LINK (Bypass Search Errors)
+         */
+        function openAgent(agentName) {
+            // Se falhou em extrair um ID exato, joga o link limpo na pesquisa como fallback (segurança)
+            if (!currentCleanUrl || !currentId || currentId === 'Não Localizado') {
+                const encodedUrl = encodeURIComponent(currentCleanUrl);
+                let fallbackDest = "";
+                switch(agentName) {
+                    case 'hoobuy': fallbackDest = `https://hoobuy.com/search?keyword=${encodedUrl}`; break;
+                    case 'cnfans': fallbackDest = `https://cnfans.com/shop/search.html?keyword=${encodedUrl}`; break;
+                    case 'mulebuy': fallbackDest = `https://mulebuy.com/item.html?url=${encodedUrl}`; break;
+                    case 'allchinabuy': fallbackDest = `https://www.allchinabuy.com/en/page/search/?q=${encodedUrl}`; break;
+                }
+                if(fallbackDest) window.open(fallbackDest, '_blank');
+                return;
+            }
+
+            // Tradutor de Códigos de Fábrica para Agentes
+            let hooCode = "1"; // Default (Taobao)
+            let generalCode = "taobao";
+
+            if (currentPlatform.includes("1688")) {
+                hooCode = "0";
+                generalCode = "ali_1688";
+            } else if (currentPlatform.includes("Weidian")) {
+                hooCode = "2";
+                generalCode = "weidian";
+            } else if (currentPlatform.includes("Taobao") || currentPlatform.includes("Tmall")) {
+                hooCode = "1";
+                generalCode = "taobao";
+            } else {
+                // Produtos de segunda mão (Goofish/Xianyu) ou links soltos usam a rota de busca/redirecionamento universal
+                const encodedUrl = encodeURIComponent(currentCleanUrl);
+                let urlXianyu = "";
+                if(agentName === 'hoobuy') urlXianyu = `https://hoobuy.com/search?keyword=${encodedUrl}`;
+                else if(agentName === 'cnfans') urlXianyu = `https://cnfans.com/shop/search.html?keyword=${encodedUrl}`;
+                else if(agentName === 'mulebuy') urlXianyu = `https://mulebuy.com/item.html?url=${encodedUrl}`;
+                else urlXianyu = `https://www.allchinabuy.com/en/page/search/?q=${encodedUrl}`;
+                
+                window.open(urlXianyu, '_blank');
+                return;
+            }
+
+            let finalDest = "";
+
+            switch(agentName) {
+                case 'hoobuy':
+                    // Injeção de Rota Direta (Product Page)
+                    finalDest = `https://hoobuy.com/product/${hooCode}/${currentId}`;
+                    break;
+                case 'cnfans':
+                    // Injeção de Rota Direta CNFans / Mulebuy
+                    finalDest = `https://cnfans.com/product/?shop_type=${generalCode}&id=${currentId}`;
+                    break;
+                case 'mulebuy':
+                    finalDest = `https://mulebuy.com/product/?shop_type=${generalCode}&id=${currentId}`;
+                    break;
+                case 'allchinabuy':
+                    // ACB responde melhor com a querystring injetada direto na rota "buy"
+                    const encodedUrl = encodeURIComponent(currentCleanUrl);
+                    finalDest = `https://www.allchinabuy.com/en/page/buy/?nTag=Home-search&from=search-input&_search=url&position=&url=${encodedUrl}`;
+                    break;
+            }
+
+            if (finalDest) {
+                window.open(finalDest, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>

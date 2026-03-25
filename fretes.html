@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Trilha | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar Cyberpunk */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Efeitos Glassmorphism e Hover */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .glass-panel:hover {
+            border-color: var(--purple-glass-border);
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.05);
+        }
+
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px var(--neon-purple-glow);
+            background: rgba(157, 78, 221, 0.05);
+        }
+
+        /* Menu Sidebar */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações de Status */
+        .status-pulse-purple { animation: pulse-purple 2s infinite; }
+        @keyframes pulse-purple {
+            0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(157, 78, 221, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); }
+        }
+
+        /* Linha do Tempo (Timeline) UI */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--neon-purple), rgba(157, 78, 221, 0.1));
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -11px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #000;
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px var(--neon-purple-glow);
+            z-index: 10;
+        }
+        .timeline-dot-inner {
+            width: 10px;
+            height: 10px;
+            background: var(--neon-purple);
+            border-radius: 50%;
+        }
+
+        /* Checklist Customizado */
+        .check-item { cursor: pointer; transition: all 0.2s ease; }
+        .check-item.completed { opacity: 0.5; text-decoration: line-through; }
+        .check-item.completed .check-box {
+            background-color: var(--neon-purple);
+            border-color: var(--neon-purple);
+        }
+        .check-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .check-item:hover .check-box { border-color: var(--neon-purple); }
+
+        /* Tabelas Cyber */
+        .cyber-table th {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--neon-purple);
+        }
+        .cyber-table tr {
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.2s ease;
+        }
+        .cyber-table tr:hover { background: rgba(255, 255, 255, 0.03); }
+        .shipping-table { overflow-x: auto; }
+        .shipping-table table { min-width: 800px; }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20">
+        
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center text-[#9D4EDD]"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold mono-text hidden sm:block"> <span class="text-[#9D4EDD] animate-pulse"></span></h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-5xl mx-auto">
+                
+                <div class="mb-12 text-center pt-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 mb-4 shadow-[0_0_20px_rgba(157,78,221,0.2)]">
+                        <i class="fas fa-route text-2xl text-[#9D4EDD]"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-white mb-4">A Trilha do Importador</h1>
+                    <p class="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+                        O manual definitivo e sequencial para dominar a importação chinesa através do agente <strong class="text-white">Hoobuy</strong>. Siga os passos sem pular etapas para garantir 100% de eficiência operacional.
+                    </p>
+                </div>
+
+                <div class="bg-yellow-900/10 border border-yellow-700/30 rounded-2xl p-5 mb-12 text-center flex flex-col sm:flex-row items-center justify-center gap-3 w-fit mx-auto">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-xl"></i>
+                    <p class="text-gray-300 text-sm">
+                        <strong class="text-white">Protocolo de Risco:</strong> Preços de frete e prazos alfandegários variam por volume e câmbio do dia. Confirme as cotações na plataforma oficial.
+                    </p>
+                </div>
+
+                <div class="timeline-container space-y-16">
+
+                    <div class="relative" id="fase1">
+                        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                        <div class="glass-panel p-6 sm:p-8 ml-4">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <div>
+                                    <span class="text-[#9D4EDD] font-mono text-xs font-bold tracking-widest uppercase">Fase 01</span>
+                                    <h2 class="text-2xl font-bold text-white mt-1">Preparação & Setup</h2>
+                                </div>
+                                <i class="fas fa-user-plus text-3xl text-gray-700"></i>
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                O agente é o seu braço logístico na Ásia. Ele compra o produto na China, recebe no armazém, inspeciona e envia para o Brasil. Hoje, o <strong class="text-white">Hoobuy</strong> é a plataforma com melhor custo-benefício e taxas zeradas.
+                            </p>
+
+                            <div class="bg-[#050505] border border-white/10 rounded-xl p-6 mb-6 text-center shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                                <h3 class="font-bold text-white mb-2 text-lg">1. Crie sua conta Master</h3>
+                                <p class="text-sm text-gray-400 mb-5">Utilize o passe do sistema UNTOLD para injetar cupons de frete de até 1000¥ (CNY) direto na sua nova carteira.</p>
+                                <a href="https://hoobuy.com?utm_source=website&utm_medium=ambassador&utm_campaign=linksharing&inviteCode=AXn3n7JE" target="_blank" class="inline-block bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white px-8 py-3.5 rounded-lg font-bold tracking-widest uppercase transition shadow-[0_0_15px_rgba(157,78,221,0.3)]">
+                                    <i class="fas fa-external-link-alt mr-2"></i> Inicializar Conta Hoobuy
+                                </a>
+                            </div>
+
+                            <div class="space-y-4 bg-white/5 p-5 rounded-xl border border-white/5">
+                                <h4 class="font-bold text-white text-sm mono-text uppercase tracking-widest">Setup de Sistema:</h4>
+                                <ul class="space-y-3 text-sm text-gray-400">
+                                    <li class="flex gap-3 items-start"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> <span>No canto superior direito do Hoobuy, altere a moeda de USD para <strong>CNY (Yuan)</strong> ou <strong>BRL (Real)</strong> para otimizar seus cálculos de conversão.</span></li>
+                                    <li class="flex gap-3 items-start"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> <span>Acesse "Account" > "Address" e cadastre sua base no Brasil. O <strong>CPF é obrigatório</strong> e deve estar exato para o desembaraço da Receita Federal.</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-white/5 flex justify-end">
+                                <button onclick="document.getElementById('fase2').scrollIntoView()" class="text-sm font-bold text-[#9D4EDD] hover:text-white transition flex items-center gap-2">
+                                    AVANÇAR PARA FASE 02 <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative" id="fase2">
+                        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                        <div class="glass-panel p-6 sm:p-8 ml-4">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <div>
+                                    <span class="text-[#9D4EDD] font-mono text-xs font-bold tracking-widest uppercase">Fase 02</span>
+                                    <h2 class="text-2xl font-bold text-white mt-1">A Caça (Sourcing de Produtos)</h2>
+                                </div>
+                                <i class="fas fa-search text-3xl text-gray-700"></i>
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                Você não pesquisa produtos diretamente no agente. A busca ocorre na fonte chinesa (Weidian, Taobao, 1688). Após encontrar, você cola o link no sistema do Hoobuy.
+                            </p>
+
+                            <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                                <div class="bg-[#050505] border border-white/10 rounded-lg p-5 hover:border-[#9D4EDD]/50 transition cursor-default">
+                                    <div class="text-[#9D4EDD] text-xl mb-3"><i class="fas fa-link"></i></div>
+                                    <h4 class="font-bold text-white mb-2">Método 1: Links Diretos</h4>
+                                    <p class="text-xs text-gray-400">Extraia links validados do nosso <a href="fornecedores.html" class="text-[#9D4EDD] font-bold hover:underline">Catálogo Tier-S</a>. Copie e cole na barra central do Hoobuy.</p>
+                                </div>
+                                <div class="bg-[#050505] border border-white/10 rounded-lg p-5 hover:border-[#9D4EDD]/50 transition cursor-default">
+                                    <div class="text-[#9D4EDD] text-xl mb-3"><i class="fas fa-camera"></i></div>
+                                    <h4 class="font-bold text-white mb-2">Método 2: Busca Reversa</h4>
+                                    <p class="text-xs text-gray-400">Faça upload da foto de um produto na barra de pesquisa do Taobao/1688 e a IA chinesa varrerá as fábricas correspondentes.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                                <h4 class="font-bold text-white mb-2 text-sm mono-text uppercase tracking-widest">Dicionário de Query (Taobao):</h4>
+                                <p class="text-xs text-gray-400 mb-4">Mecanismos chineses não processam bem o inglês. Copie os ideogramas exatos abaixo para buscar categorias gerais.</p>
+                                
+                                <div class="overflow-x-auto rounded-lg border border-white/5 bg-[#030303]">
+                                    <table class="w-full text-left border-collapse cyber-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="p-3">Categoria Alvo</th>
+                                                <th class="p-3">Input Chinês</th>
+                                                <th class="p-3 text-right">Comando</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-sm text-gray-300">
+                                            <tr>
+                                                <td class="p-3 border-r border-white/5">Tênis / Sneakers</td>
+                                                <td class="p-3 font-mono text-[#9D4EDD] font-bold">运动鞋</td>
+                                                <td class="p-3 text-right"><button onclick="copyText('运动鞋')" class="text-xs border border-[#9D4EDD] text-[#9D4EDD] hover:bg-[#9D4EDD] hover:text-white px-3 py-1 rounded transition"><i class="fas fa-copy mr-1"></i> Copy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 border-r border-white/5">Camisetas T-Shirt</td>
+                                                <td class="p-3 font-mono text-[#9D4EDD] font-bold">短袖T恤</td>
+                                                <td class="p-3 text-right"><button onclick="copyText('短袖T恤')" class="text-xs border border-[#9D4EDD] text-[#9D4EDD] hover:bg-[#9D4EDD] hover:text-white px-3 py-1 rounded transition"><i class="fas fa-copy mr-1"></i> Copy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 border-r border-white/5">Moletom / Hoodie</td>
+                                                <td class="p-3 font-mono text-[#9D4EDD] font-bold">卫衣</td>
+                                                <td class="p-3 text-right"><button onclick="copyText('卫衣')" class="text-xs border border-[#9D4EDD] text-[#9D4EDD] hover:bg-[#9D4EDD] hover:text-white px-3 py-1 rounded transition"><i class="fas fa-copy mr-1"></i> Copy</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-white/5 flex justify-end">
+                                <button onclick="document.getElementById('fase3').scrollIntoView()" class="text-sm font-bold text-[#9D4EDD] hover:text-white transition flex items-center gap-2">
+                                    AVANÇAR PARA FASE 03 <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative" id="fase3">
+                        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                        <div class="glass-panel p-6 sm:p-8 ml-4">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <div>
+                                    <span class="text-[#9D4EDD] font-mono text-xs font-bold tracking-widest uppercase">Fase 03</span>
+                                    <h2 class="text-2xl font-bold text-white mt-1">O Armazém (Controle de Qualidade)</h2>
+                                </div>
+                                <i class="fas fa-boxes text-3xl text-gray-700"></i>
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                Pedido pago (PIX, Cartão ou Cripto). Agora, a logística interna na China assume o controle. Monitore os status abaixo no seu painel.
+                            </p>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex gap-4 items-start p-4 bg-[#050505] rounded-xl border border-white/5">
+                                    <div class="mt-0.5 w-6 h-6 rounded bg-gray-800 flex items-center justify-center text-xs shrink-0 font-mono text-gray-400">1</div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm mb-1">Purchased (Adquirido)</h4>
+                                        <p class="text-xs text-gray-400">O sistema transferiu os fundos para o fabricante chinês.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 items-start p-4 bg-[#050505] rounded-xl border border-white/5">
+                                    <div class="mt-0.5 w-6 h-6 rounded bg-gray-800 flex items-center justify-center text-xs shrink-0 font-mono text-gray-400">2</div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm mb-1">Seller Sent (Vendedor Enviou)</h4>
+                                        <p class="text-xs text-gray-400">A fábrica despachou o lote via frete doméstico para o galpão logístico do Hoobuy (SLA: 2-5 dias).</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 items-start p-4 bg-[#9D4EDD]/10 rounded-xl border border-[#9D4EDD]/30 shadow-[inset_0_0_15px_rgba(157,78,221,0.05)]">
+                                    <div class="mt-0.5 w-6 h-6 rounded bg-[#9D4EDD] text-white flex items-center justify-center text-xs shrink-0 font-mono shadow-[0_0_10px_rgba(157,78,221,0.5)]">3</div>
+                                    <div>
+                                        <h4 class="font-bold text-[#9D4EDD] text-sm mb-1">Stored / Warehouse (Armazenado)</h4>
+                                        <p class="text-xs text-gray-300">O produto foi recebido e indexado. O Hoobuy providencia de 3 a 5 fotos de alta resolução (<strong class="text-white">QC Photos</strong>). Analise costuras, tags e dimensões.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-yellow-500 bg-gradient-to-r from-yellow-500/10 to-transparent p-5 rounded-r-xl">
+                                <h4 class="font-bold text-yellow-500 text-sm flex items-center gap-2 mb-2">
+                                    <i class="fas fa-exclamation-triangle"></i> Protocolo de Rejeição (Refund)
+                                </h4>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Se a inspeção (QC) falhar visualmente, não hesite. Pressione <strong>Return/Refund</strong> instantaneamente. A janela logística de devolução na China é restrita a 5 dias. O estorno será creditado na sua carteira virtual.
+                                </p>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-white/5 flex justify-end">
+                                <button onclick="document.getElementById('fase4').scrollIntoView()" class="text-sm font-bold text-[#9D4EDD] hover:text-white transition flex items-center gap-2">
+                                    AVANÇAR PARA FASE 04 <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative" id="fase4">
+                        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                        <div class="glass-panel p-6 sm:p-8 ml-4 border-[#9D4EDD]/30 shadow-[0_0_30px_rgba(157,78,221,0.05)]">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <div>
+                                    <span class="text-[#9D4EDD] font-mono text-xs font-bold tracking-widest uppercase">Fase 04</span>
+                                    <h2 class="text-2xl font-bold text-white mt-1">O Chefão: Empacotamento e Rotas</h2>
+                                </div>
+                                <i class="fas fa-plane-departure text-3xl text-[#9D4EDD]"></i>
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-8">
+                                Todos os itens estão no armazém (`Warehouse`). Selecione os produtos que irão compor a mesma remessa e execute a ordem de <strong>"Submit Parcel"</strong>. Esta é a fase mais crítica para a viabilidade financeira da operação.
+                            </p>
+
+                            <div class="bg-[#030303] border border-white/10 rounded-2xl p-6 mb-10">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas fa-tasks text-[#9D4EDD] text-xl"></i>
+                                    <h4 class="font-bold text-white text-lg">Checklist de Otimização Volumétrica</h4>
+                                </div>
+                                <p class="text-xs text-gray-500 mb-6">Selecione estas marcações no painel do agente para blindar o pacote e reduzir a taxação por volume em até 30%.</p>
+                                
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <label class="check-item flex items-start gap-4 p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10" onclick="toggleCheck(this)">
+                                        <div class="check-box mt-0.5"><i class="fas fa-check text-black text-xs opacity-0"></i></div>
+                                        <div class="flex-1">
+                                            <h5 class="text-sm font-bold text-white mb-1">Net Weight (Drop Box)</h5>
+                                            <p class="text-[10px] text-gray-400">Descarta a caixa de papelão original do produto. Mandatório para calçados.</p>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="check-item flex items-start gap-4 p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10" onclick="toggleCheck(this)">
+                                        <div class="check-box mt-0.5"><i class="fas fa-check text-black text-xs opacity-0"></i></div>
+                                        <div class="flex-1">
+                                            <h5 class="text-sm font-bold text-white mb-1">Shoe Trees</h5>
+                                            <p class="text-[10px] text-gray-400">Moldes de expansão. Evita o esmagamento estrutural do calçado sem a caixa original.</p>
+                                        </div>
+                                    </label>
+
+                                    <label class="check-item flex items-start gap-4 p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10" onclick="toggleCheck(this)">
+                                        <div class="check-box mt-0.5"><i class="fas fa-check text-black text-xs opacity-0"></i></div>
+                                        <div class="flex-1">
+                                            <h5 class="text-sm font-bold text-white mb-1">Moisture Barrier</h5>
+                                            <p class="text-[10px] text-gray-400">Selagem plástica a vácuo (Filme). Isola o pacote de chuva e umidade na pista de pouso.</p>
+                                        </div>
+                                    </label>
+
+                                    <label class="check-item flex items-start gap-4 p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10" onclick="toggleCheck(this)">
+                                        <div class="check-box mt-0.5"><i class="fas fa-check text-black text-xs opacity-0"></i></div>
+                                        <div class="flex-1">
+                                            <h5 class="text-sm font-bold text-white mb-1">Corner Protection</h5>
+                                            <p class="text-[10px] text-gray-400">Reforço cinético em quinas. Crucial para mitigar impactos em envios de eletrônicos pesados.</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <h3 class="text-xl font-bold mb-6 flex items-center gap-3 text-white border-b border-white/5 pb-2">
+                                    <i class="fas fa-network-wired text-[#9D4EDD]"></i> Inteligência de Rotas (Recomendações)
+                                </h3>
+                                
+                                <div class="grid lg:grid-cols-2 gap-5">
+                                    <div class="bg-[#050505] rounded-xl border border-white/10 p-5 card-hover">
+                                        <div class="flex items-center gap-4 mb-3">
+                                            <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center border border-white/5">
+                                                <i class="fas fa-box text-gray-300"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-white">Pacote Leve (< 1.5kg)</h4>
+                                                <p class="text-[10px] text-gray-500 font-mono">Tênis Unitário, Vestuário</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-xs text-gray-400 leading-relaxed mb-3">
+                                            Execute pelas vias <strong class="text-white">HOO-BR-LINE-NPD</strong> ou <strong class="text-white">HOO-BR-LINHA-D</strong> para máximo custo-benefício. Retenção quase nula.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-[#050505] rounded-xl border border-white/10 p-5 card-hover">
+                                        <div class="flex items-center gap-4 mb-3">
+                                            <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center border border-white/5">
+                                                <i class="fas fa-boxes text-gray-300"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-white">Carga Densa (> 4kg)</h4>
+                                                <p class="text-[10px] text-gray-500 font-mono">Múltiplos Itens, Hauls</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-xs text-gray-400 leading-relaxed mb-3">
+                                            A <strong class="text-white">BR-PADRÃO-F</strong> fragmenta drasticamente o custo por KG em volumes grandes. Considere particionar caixas acima de 6KG para evitar a Malha Fina.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-red-900/5 rounded-xl border border-red-500/20 p-5 card-hover lg:col-span-2">
+                                        <div class="flex items-center gap-4 mb-3">
+                                            <div class="w-10 h-10 bg-red-500/10 rounded-lg flex items-center justify-center border border-red-500/20">
+                                                <i class="fas fa-microchip text-red-500"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-white">Restritos (Eletrônicos & Baterias)</h4>
+                                                <p class="text-[10px] text-red-400 font-mono">GPUs, Smartphones, Fragéis</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-xs text-gray-400 leading-relaxed mb-0">
+                                            Uso mandatório da <strong class="text-white">HOO-ELETRÔNICO-T</strong>. Canais normais irão rejeitar a carga na esteira de Raio-X em Hong Kong. Seguro integral é inegociável nesta operação.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex items-center justify-between border-b border-white/5 pb-2 mb-6">
+                                    <h3 class="text-xl font-bold flex items-center gap-3 text-white">
+                                        <i class="fas fa-table text-[#9D4EDD]"></i> Quadro de Cotação Ativa
+                                    </h3>
+                                    <span class="bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 text-[#9D4EDD] text-[9px] uppercase tracking-widest font-bold px-2 py-1 rounded">Base: 700g / Vol: Baixo</span>
+                                </div>
+                                
+                                <div class="hidden lg:block overflow-x-auto shipping-table bg-[#050505] rounded-xl border border-white/10">
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-white/10 bg-black cyber-table">
+                                                <th class="text-left p-4 font-bold text-gray-300">Designação da Rota</th>
+                                                <th class="text-left p-4 font-bold text-gray-300">SLA Estimado</th>
+                                                <th class="text-left p-4 font-bold text-gray-300">Taxa Câmbio</th>
+                                                <th class="text-left p-4 font-bold text-gray-300">Estabilidade</th>
+                                                <th class="text-left p-4 font-bold text-gray-300">Status Geral</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-gray-400 cyber-table">
+                                            <tr>
+                                                <td class="p-4">
+                                                    <div class="font-bold text-white mb-1">HOO-BR-LINE-NPD</div>
+                                                    <div class="text-[10px] uppercase font-mono text-[#9D4EDD]">Core Route</div>
+                                                </td>
+                                                <td class="p-4 text-gray-300 font-mono text-xs">12 - 27 dias</td>
+                                                <td class="p-4">
+                                                    <span class="text-white font-semibold block text-sm">¥128 - ¥136</span>
+                                                    <span class="text-xs text-green-500 font-mono">~R$ 105,00</span>
+                                                </td>
+                                                <td class="p-4">
+                                                    <div class="flex items-center gap-1 text-[#9D4EDD] text-[10px]">
+                                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                                        <span class="text-gray-500 ml-1 font-mono">96%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="text-[10px] border border-[#9D4EDD]/30 text-[#9D4EDD] px-2 py-1 rounded bg-[#9D4EDD]/10 uppercase font-bold tracking-widest">Recomendada</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="p-4">
+                                                    <div class="font-bold text-white mb-1">HOO-BR-LINHA-D</div>
+                                                    <div class="text-[10px] uppercase font-mono text-gray-500">Premium</div>
+                                                </td>
+                                                <td class="p-4 text-gray-300 font-mono text-xs">12 - 30 dias</td>
+                                                <td class="p-4">
+                                                    <span class="text-white font-semibold block text-sm">¥137 Fixo</span>
+                                                    <span class="text-xs text-green-500 font-mono">~R$ 110,00</span>
+                                                </td>
+                                                <td class="p-4">
+                                                    <div class="flex items-center gap-1 text-[#9D4EDD] text-[10px]">
+                                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                        <span class="text-gray-500 ml-1 font-mono">97.5%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="text-[10px] border border-green-500/30 text-green-400 px-2 py-1 rounded bg-green-500/10 uppercase font-bold tracking-widest">Estável</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="p-4">
+                                                    <div class="font-bold text-white mb-1">BR-PADRÃO-F</div>
+                                                    <div class="text-[10px] uppercase font-mono text-gray-500">Volume</div>
+                                                </td>
+                                                <td class="p-4 text-gray-300 font-mono text-xs">15 - 30 dias</td>
+                                                <td class="p-4">
+                                                    <span class="text-white font-semibold block text-sm">¥124 - ¥132</span>
+                                                    <span class="text-xs text-green-500 font-mono">~R$ 99,00</span>
+                                                </td>
+                                                <td class="p-4">
+                                                    <div class="flex items-center gap-1 text-[#9D4EDD] text-[10px]">
+                                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                                        <span class="text-gray-500 ml-1 font-mono">88%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4">
+                                                    <span class="text-[10px] border border-white/20 text-gray-400 px-2 py-1 rounded bg-white/5 uppercase font-bold tracking-widest">Operante</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="p-4 border-b-0">
+                                                    <div class="font-bold text-red-400 mb-1">HOO-ELETRÔNICO-T</div>
+                                                    <div class="text-[10px] uppercase font-mono text-red-500/70">Restritos</div>
+                                                </td>
+                                                <td class="p-4 text-gray-300 font-mono text-xs border-b-0">12 - 30 dias</td>
+                                                <td class="p-4 border-b-0">
+                                                    <span class="text-white font-semibold block text-sm">¥197 Fixo</span>
+                                                    <span class="text-xs text-yellow-500 font-mono">~R$ 158,00</span>
+                                                </td>
+                                                <td class="p-4 border-b-0">
+                                                    <div class="flex items-center gap-1 text-red-400 text-[10px]">
+                                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                                                        <span class="text-gray-500 ml-1 font-mono">92%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4 border-b-0">
+                                                    <span class="text-[10px] border border-red-500/30 text-red-400 px-2 py-1 rounded bg-red-500/10 uppercase font-bold tracking-widest">Tensão</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="lg:hidden space-y-4">
+                                    <div class="bg-[#050505] rounded-xl border border-[#9D4EDD]/30 p-5 relative overflow-hidden shadow-[0_0_15px_rgba(157,78,221,0.1)]">
+                                        <div class="absolute top-0 right-0 w-24 h-24 bg-[#9D4EDD]/10 rounded-bl-full pointer-events-none"></div>
+                                        <div class="flex justify-between items-start mb-4 relative z-10">
+                                            <div>
+                                                <h3 class="font-bold text-[#9D4EDD] text-base">HOO-BR-LINE-NPD</h3>
+                                                <p class="text-[10px] text-gray-500 uppercase font-mono">Core Route</p>
+                                            </div>
+                                            <span class="text-[9px] uppercase tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 px-2 py-1 rounded font-bold">Recomendada</span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4 text-sm relative z-10 bg-black p-3 rounded-lg border border-white/5">
+                                            <div>
+                                                <p class="text-gray-500 text-[9px] font-mono uppercase mb-1">SLA Estimado</p>
+                                                <p class="text-white font-semibold text-xs">12 - 27 dias</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500 text-[9px] font-mono uppercase mb-1">Taxa Câmbio</p>
+                                                <p class="text-white font-semibold text-xs">¥128 <span class="text-green-500 font-mono ml-1 text-[10px]">~R$105</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-[#050505] rounded-xl border border-white/10 p-5 relative overflow-hidden">
+                                        <div class="flex justify-between items-start mb-4 relative z-10">
+                                            <div>
+                                                <h3 class="font-bold text-white text-base">HOO-BR-LINHA-D</h3>
+                                                <p class="text-[10px] text-gray-500 uppercase font-mono">Premium</p>
+                                            </div>
+                                            <span class="text-[9px] uppercase tracking-widest bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-1 rounded font-bold">Estável</span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4 text-sm relative z-10 bg-black p-3 rounded-lg border border-white/5">
+                                            <div>
+                                                <p class="text-gray-500 text-[9px] font-mono uppercase mb-1">SLA Estimado</p>
+                                                <p class="text-white font-semibold text-xs">12 - 30 dias</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500 text-[9px] font-mono uppercase mb-1">Taxa Câmbio</p>
+                                                <p class="text-white font-semibold text-xs">¥137 <span class="text-green-500 font-mono ml-1 text-[10px]">~R$110</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 text-center">
+                                    <p class="text-[10px] text-gray-500 font-mono">Regra Diamante: Fuja de transportadoras privadas (DHL, FedEx, UPS). Taxação garantida de 100%.</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-12 pt-6 border-t border-white/5 flex justify-end">
+                                <button onclick="document.getElementById('fase5').scrollIntoView()" class="text-sm font-bold text-[#9D4EDD] hover:text-white transition flex items-center gap-2">
+                                    AVANÇAR PARA FASE 05 <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative" id="fase5">
+                        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                        <div class="glass-panel p-6 sm:p-8 ml-4">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <div>
+                                    <span class="text-[#9D4EDD] font-mono text-xs font-bold tracking-widest uppercase">Fase 05</span>
+                                    <h2 class="text-2xl font-bold text-white mt-1">SOS Alfândega (Taxação)</h2>
+                                </div>
+                                <i class="fas fa-building-columns text-3xl text-gray-700"></i>
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                Operações via Agente (Hoobuy) não integram o programa "Remessa Conforme". O imposto aduaneiro não é cobrado no checkout asiático, mas sim na inspeção de entrada em Curitiba (RFB).
+                            </p>
+
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div class="bg-[#050505] border border-white/10 rounded-xl p-5 hover:border-[#9D4EDD]/30 transition">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-[#9D4EDD]/20 text-[#9D4EDD] flex items-center justify-center"><i class="fas fa-id-card"></i></div>
+                                        <h4 class="font-bold text-white">1. Vínculo de CPF</h4>
+                                    </div>
+                                    <p class="text-xs text-gray-400">Assim que o rastreio constar no portal "Minhas Importações" dos Correios, vincule-o ao seu CPF. A omissão desta etapa acarreta em devolução compulsória.</p>
+                                </div>
+
+                                <div class="bg-[#050505] border border-white/10 rounded-xl p-5 hover:border-[#9D4EDD]/30 transition">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-yellow-500/20 text-yellow-500 flex items-center justify-center"><i class="fas fa-file-invoice-dollar"></i></div>
+                                        <h4 class="font-bold text-white">2. Quitação do DIT</h4>
+                                    </div>
+                                    <p class="text-xs text-gray-400">Aguarde o status "Aguardando Pagamento". Emita a guia no sistema dos Correios. A tributação base atual é de 20% II + 17% ICMS sobre o valor fiscal declarado.</p>
+                                </div>
+                            </div>
+
+                            <div class="border border-red-500/30 bg-red-500/5 rounded-xl p-6 relative overflow-hidden">
+                                <div class="absolute right-0 top-0 text-red-500/10 text-8xl -mt-4 -mr-2"><i class="fas fa-radiation"></i></div>
+                                <h4 class="font-bold text-red-400 mb-2 relative z-10 font-mono tracking-wide">ALERTA VERMELHO: Taxação Inexata</h4>
+                                <p class="text-sm text-gray-300 relative z-10 mb-4">
+                                    Se o auditor aduaneiro rejeitar sua valoração declarada, uma "Multa por Declaração Inexata" será arbitrada. Procedimento de contenção:
+                                </p>
+                                <ul class="list-none text-xs text-gray-400 space-y-3 relative z-10">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-chevron-right text-red-400 mt-0.5"></i>
+                                        <span><strong>Protocolo A (Revisão):</strong> Solicite "Revisão de Tributos" via Correios anexando comprovantes de pagamento e invoice real. Processo lento (até 30 dias). Risco de negativa.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-chevron-right text-red-400 mt-0.5"></i>
+                                        <span><strong>Protocolo B (Abortar):</strong> Selecione "Recusar Objeto". A carga será deportada para o armazém do agente na China. Custo logístico perdido, mas preserva o ativo físico para reenvio.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-16 pt-8 border-t border-white/5 text-center pb-8">
+                    <p class="text-gray-500 text-sm mb-5 font-mono">Você completou o treinamento de base. Inicie a operação.</p>
+                    <a href="dashboard.html" class="inline-flex items-center gap-3 bg-[#050505] hover:bg-white/10 text-white border border-[#9D4EDD]/50 hover:border-[#9D4EDD] px-8 py-3.5 rounded-lg font-bold text-xs uppercase tracking-widest transition shadow-[0_0_15px_rgba(157,78,221,0.1)]">
+                        <i class="fas fa-terminal"></i> Retornar ao Terminal
+                    </a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Cópia de Texto
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Comando copiado para clipboard: ${text}`);
+            }).catch(err => {
+                console.error('Erro de I/O: ', err);
+            });
+        }
+
+        // Toggle do Checklist
+        function toggleCheck(element) {
+            element.classList.toggle('completed');
+            const icon = element.querySelector('.fa-check');
+            if (element.classList.contains('completed')) {
+                icon.classList.remove('opacity-0');
+            } else {
+                icon.classList.add('opacity-0');
+            }
+        }
+    </script>
+</body>
+</html>

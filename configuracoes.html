@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: var(--purple-glass-border);
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.05);
+        }
+
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        .status-pulse-purple { animation: pulse-purple 2s infinite; }
+        @keyframes pulse-purple {
+            0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(157, 78, 221, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); }
+        }
+
+        /* Tabs UI */
+        .tab-btn.active {
+            color: var(--neon-purple);
+            border-bottom-color: var(--neon-purple);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Inputs Customizados */
+        .cyber-input {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .cyber-input:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+            background: rgba(157, 78, 221, 0.05);
+        }
+
+        /* Select customizado */
+        select.cyber-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='gray'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20">
+        
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item active flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-white mb-2 shadow-[inset_20px_0_20px_-20px_rgba(157,78,221,0.4)]" style="background: rgba(157,78,221,0.15); border-left-color: #9D4EDD;">
+                <i class="fas fa-cog w-5 text-center text-[#9D4EDD]"></i> Configurações
+            </a>
+            
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10">
+            
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#9D4EDD] rounded-full border border-black status-pulse-purple"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20">
+            
+            <div class="max-w-5xl mx-auto">
+                
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-white mb-2">Configurações do Sistema</h1>
+                    <p class="text-gray-400 text-sm">Gerencie o comportamento do painel e sua assinatura.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    
+                    <div class="flex flex-col gap-6 lg:col-span-1">
+                        <div class="glass-panel p-2 flex flex-col gap-1 sticky top-0">
+                            <button onclick="switchTab('geral')" id="btn-geral" class="tab-btn active w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 transition flex items-center gap-3 text-sm font-bold border-b-0">
+                                <i class="fas fa-sliders-h w-5 text-center"></i> Interface
+                            </button>
+                            <button onclick="switchTab('faturamento')" id="btn-faturamento" class="tab-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 transition flex items-center gap-3 text-sm font-bold text-gray-400 border-b-0">
+                                <i class="fas fa-credit-card w-5 text-center"></i> Faturamento
+                            </button>
+                            <button onclick="switchTab('avancado')" id="btn-avancado" class="tab-btn w-full text-left px-4 py-3 rounded-lg hover:bg-red-500/10 transition flex items-center gap-3 text-sm font-bold text-gray-400 border-b-0 mt-4 border-t border-white/5 pt-4">
+                                <i class="fas fa-exclamation-triangle w-5 text-center text-red-500"></i> Avançado
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 glass-panel p-6 sm:p-8">
+                        
+                        <div id="tab-geral" class="tab-content active">
+                            <div class="mb-6 border-b border-white/5 pb-4">
+                                <h2 class="text-xl font-bold text-white">Interface e Preferências</h2>
+                                <p class="text-xs text-gray-500 mt-1">Ajuste o idioma, fuso horário e apresentação visual do sistema.</p>
+                            </div>
+
+                            <form class="space-y-6">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Idioma Padrão</label>
+                                        <select class="w-full cyber-input px-4 py-3 rounded-lg text-sm">
+                                            <option value="pt-BR">Português (Brasil)</option>
+                                            <option value="en-US">English (United States)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Moeda Principal</label>
+                                        <select class="w-full cyber-input px-4 py-3 rounded-lg text-sm">
+                                            <option value="BRL">Real Brasileiro (BRL)</option>
+                                            <option value="USD">Dólar Americano (USD)</option>
+                                            <option value="CNY">Yuan Chinês (CNY)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="space-y-2 sm:col-span-2">
+                                        <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Tema Visual</label>
+                                        <div class="flex gap-4 mt-2">
+                                            <label class="flex-1 border border-[#9D4EDD] bg-[#9D4EDD]/10 rounded-lg p-4 cursor-pointer flex items-center justify-center gap-3 transition">
+                                                <input type="radio" name="theme" value="dark" checked class="hidden">
+                                                <i class="fas fa-moon text-[#9D4EDD]"></i>
+                                                <span class="text-sm font-bold text-white">Dark Mode (Padrão)</span>
+                                            </label>
+                                            <label class="flex-1 border border-white/5 bg-white/5 opacity-50 rounded-lg p-4 cursor-not-allowed flex items-center justify-center gap-3">
+                                                <input type="radio" name="theme" value="light" disabled class="hidden">
+                                                <i class="fas fa-sun text-gray-400"></i>
+                                                <span class="text-sm font-bold text-gray-400">Light Mode (Em breve)</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-4 pt-6 border-t border-white/5">
+                                    <button type="button" class="bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white px-8 py-2.5 rounded-lg font-bold text-sm transition shadow-[0_0_15px_rgba(157,78,221,0.2)]">
+                                        Salvar Preferências
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="tab-faturamento" class="tab-content">
+                            <div class="mb-6 border-b border-white/5 pb-4">
+                                <h2 class="text-xl font-bold text-white">Assinatura e Uso</h2>
+                                <p class="text-xs text-gray-500 mt-1">Gerencie seu plano atual e limites da conta.</p>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-black to-[#050505] border border-white/10 rounded-xl p-6 mb-6 relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-gray-500/10 blur-3xl"></div>
+                                <div class="flex justify-between items-start relative z-10">
+                                    <div>
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h3 class="text-2xl font-bold text-white">Plano Básico</h3>
+                                            <span class="bg-gray-800 text-gray-300 text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded">Gratuito</span>
+                                        </div>
+                                        <p class="text-sm text-gray-400 mb-6">Acesso limitado às ferramentas padrão e simuladores.</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3 relative z-10 mb-8">
+                                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                                        <i class="fas fa-check text-green-500 w-4"></i> Acesso aos Simuladores Básicos
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                                        <i class="fas fa-check text-green-500 w-4"></i> Status Aduaneiro
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                                        <i class="fas fa-times text-gray-600 w-4"></i> Sem rastreio automatizado
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                                        <i class="fas fa-times text-gray-600 w-4"></i> Catálogo Tier-S Fechado
+                                    </div>
+                                </div>
+
+                                <button class="w-full bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white py-3 rounded-lg font-bold tracking-widest uppercase transition shadow-[0_0_15px_rgba(157,78,221,0.3)]">
+                                    Desbloquear Plano Elite
+                                </button>
+                            </div>
+                            
+                            <div class="border border-white/5 bg-white/5 rounded-lg p-5 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">Histórico de Faturas</h4>
+                                    <p class="text-xs text-gray-400">Nenhum pagamento registrado no sistema.</p>
+                                </div>
+                                <button class="text-xs text-[#9D4EDD] hover:underline mono-text">Ver detalhes</button>
+                            </div>
+                        </div>
+
+                        <div id="tab-avancado" class="tab-content">
+                            <div class="mb-6 border-b border-red-500/20 pb-4">
+                                <h2 class="text-xl font-bold text-red-500">Zona de Perigo</h2>
+                                <p class="text-xs text-gray-500 mt-1">Ações destrutivas relativas à sua conta e dados do sistema.</p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="border border-white/5 bg-white/5 rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-white">Exportar meus dados</h4>
+                                        <p class="text-xs text-gray-400 mt-1">Baixe um arquivo JSON com todo o seu histórico de rastreios e configurações.</p>
+                                    </div>
+                                    <button class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded font-bold text-xs uppercase tracking-widest transition border border-white/10 shrink-0">
+                                        Exportar Data
+                                    </button>
+                                </div>
+
+                                <div class="border border-red-500/30 bg-red-500/5 rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-red-400">Excluir Conta Operacional</h4>
+                                        <p class="text-xs text-gray-400 mt-1">Esta ação é irreversível. Todos os seus dados serão apagados permanentemente do servidor.</p>
+                                    </div>
+                                    <button class="bg-red-500/20 hover:bg-red-500/40 text-red-500 hover:text-white px-4 py-2 rounded font-bold text-xs uppercase tracking-widest transition border border-red-500/30 shrink-0">
+                                        Excluir Conta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Lógica das Abas (Tabs)
+        function switchTab(tabId) {
+            // Remove estados ativos de todas as abas
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-[#9D4EDD]');
+                
+                // Tratamento especial para o botão avançado (vermelho)
+                if(btn.id === 'btn-avancado') {
+                    btn.classList.remove('text-red-500');
+                    btn.classList.add('text-gray-400');
+                } else {
+                    btn.classList.add('text-gray-400');
+                }
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Ativa a aba atual
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            
+            if(tabId === 'avancado') {
+                activeBtn.classList.add('active', 'text-red-500');
+                activeBtn.classList.remove('text-gray-400');
+            } else {
+                activeBtn.classList.add('active', 'text-[#9D4EDD]');
+                activeBtn.classList.remove('text-gray-400');
+            }
+            
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

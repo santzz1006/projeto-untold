@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Preditiva | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações UI */
+        .animate-fade-in { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input Date Customization */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.5;
+            cursor: pointer;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+
+        /* Timeline Styles Customizados para Preditiva */
+        .predictive-timeline {
+            position: relative;
+        }
+        .predictive-timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        .timeline-step {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 2.5rem;
+            z-index: 10;
+        }
+        .timeline-step:last-child { margin-bottom: 0; }
+        
+        .step-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: #0a0a0a;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20 shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center text-[#9D4EDD]"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10 shrink-0">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.location.href='ferramentas1.html'" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-4xl mx-auto pt-4">
+                
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center gap-2 bg-[#9D4EDD]/10 border border-[#9D4EDD]/20 px-4 py-2 rounded-full mb-4 shadow-[0_0_15px_rgba(157,78,221,0.15)]">
+                        <i class="fas fa-calendar-check text-[#9D4EDD]"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#9D4EDD] mono-text">SLA e Prazos</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-white">
+                        Timeline <span class="text-[#9D4EDD]">Preditiva</span>
+                    </h2>
+                    <p class="text-gray-400 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                        Controle sua ansiedade. Insira a data em que você fez a compra no Agente e o sistema calculará, baseado em métricas reais, as prováveis datas das próximas 11 fases logísticas até a sua porta.
+                    </p>
+                </div>
+
+                <div class="bg-[#080808] rounded-3xl border border-white/5 p-6 lg:p-8 mb-10 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -top-32 -right-32 w-64 h-64 bg-[#9D4EDD]/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+                    <form id="timelineForm" onsubmit="event.preventDefault(); gerarTimelinePreditiva();" class="relative z-10">
+                        <div class="flex flex-col md:flex-row gap-6 items-end">
+                            
+                            <div class="w-full md:w-2/3">
+                                <label class="flex items-center gap-2 text-xs font-bold mb-3 text-gray-400 uppercase tracking-widest">
+                                    <i class="fas fa-play-circle text-[#9D4EDD]"></i>
+                                    Data de Submissão / Compra no Agente
+                                </label>
+                                <input type="date" id="dataInicial" class="w-full px-5 py-4 bg-[#111] border border-white/10 rounded-xl text-white font-bold focus:border-[#9D4EDD] focus:bg-black outline-none transition font-mono uppercase" required>
+                                <p class="text-[10px] text-gray-500 mt-2 font-mono">Não inclua finais de semana se a loja não operar nesses dias.</p>
+                            </div>
+
+                            <button type="submit" class="w-full md:w-1/3 bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white font-black uppercase tracking-wider py-4 rounded-xl transition shadow-[0_0_20px_rgba(157,78,221,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2 text-sm h-[58px]">
+                                <i class="fas fa-radar"></i> Projetar Futuro
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="resultadoTimeline" class="hidden animate-fade-in space-y-8 mb-12">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-[#050505] border border-white/10 rounded-2xl p-5 text-center">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Previsão Chegada (BR)</p>
+                            <p class="text-xl md:text-2xl font-black text-white mono-text" id="resPrevisaoChegada">--/--/----</p>
+                        </div>
+                        <div class="bg-[#050505] border-2 border-[#9D4EDD]/30 rounded-2xl p-5 text-center shadow-[0_0_15px_rgba(157,78,221,0.1)]">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Entrega Final Prevista</p>
+                            <p class="text-xl md:text-2xl font-black text-[#9D4EDD] mono-text" id="resEntregaFinal">--/--/----</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050505] border border-white/10 rounded-3xl p-6 lg:p-10 relative overflow-hidden">
+                        <div class="predictive-timeline" id="timelineList">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 mb-10 pt-10 border-t border-white/10">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 px-4 py-2 rounded-full mb-4">
+                            <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-yellow-500">Doutrina Operacional</span>
+                        </div>
+                        <h2 class="text-2xl font-black mb-3 text-white uppercase tracking-tight">O Fator "Ansiedade" na Importação</h2>
+                        <p class="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed">
+                            O maior erro do iniciante é atualizar o rastreio 5 vezes por dia. Entenda os buracos negros logísticos onde seu pacote pode parecer "perdido", mas está apenas seguindo o protocolo.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        
+                        <div class="bg-[#111] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition">
+                            <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10 text-gray-400">
+                                <i class="fas fa-plane-slash"></i>
+                            </div>
+                            <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-2">1. O Buraco Negro Aéreo (Flight Departure)</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Status como <em>"Flight has departed"</em> (Voo partiu) não significa que o avião saiu da China direto pro Brasil. Geralmente há baldeações no Catar, Turquia ou Holanda. O status ficará congelado por <strong class="text-gray-300">10 a 15 dias</strong> até o avião final pousar e os Correios biparem o saco em Guarulhos/Curitiba.</p>
+                        </div>
+
+                        <div class="bg-[#111] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition">
+                            <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10 text-gray-400">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-2">2. A "Falsa Falta de Estoque" (Purchased)</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Você comprou e em 5 dias o status ainda é "Purchased" (Comprado). Isso ocorre porque fábricas na China usam modelo <em>Pre-Sale</em> ou demoram a enviar números específicos para o armazém. Pressione o agente via botão "Urge Seller". Se passar de 10 dias, peça reembolso.</p>
+                        </div>
+
+                        <div class="bg-[#111] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition">
+                            <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10 text-gray-400">
+                                <i class="fas fa-building-shield"></i>
+                            </div>
+                            <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-2">3. O Gargalo de Curitiba (Customs)</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">O pacote chegou no Brasil, mas não atualiza? Durante datas festivas (Black Friday, Natal) ou operações padrão da Receita, um pacote pode passar semanas no status "Recebido no Brasil" antes de ir para a esteira de fiscalização. Mantenha a calma.</p>
+                        </div>
+
+                        <div class="bg-[#111] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition">
+                            <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10 text-gray-400">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-2">4. Devolução de Segurança (Returned in China)</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Muitas vezes a caixa é devolvida do aeroporto chinês para o agente antes de embarcar. Isso é normal se a etiqueta rasgou, ou se o lote do avião tinha itens perigosos barrados no Raio-X. O Agente <strong>reenviará automaticamente de graça</strong> em poucos dias.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 1. RELÓGIO DO SISTEMA E SET DEFAULT DATE
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        window.onload = function() {
+            document.getElementById('dataInicial').valueAsDate = new Date();
+        }
+
+        // 2. LÓGICA DE GERAÇÃO DA TIMELINE (Baseada na média de 2026 das linhas Packet)
+        function gerarTimelinePreditiva() {
+            const dataInput = document.getElementById('dataInicial').value;
+            if (!dataInput) return;
+
+            let currentDate = new Date(dataInput);
+
+            // Função para formatar data (DD/MM/YYYY)
+            function fmt(dateObj) {
+                return dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            }
+
+            // Função para somar dias ignorando domingos se necessário (Opcional. Aqui faremos corrido para simplificar logística real)
+            function addDays(dateObj, days) {
+                let newDate = new Date(dateObj);
+                newDate.setDate(newDate.getDate() + days);
+                return newDate;
+            }
+
+            // Tabela de Etapas (Padrão Ouro para Linhas Packet)
+            const etapas = [
+                {
+                    nome: "1. Pagamento & Processamento",
+                    desc: "O agente confirmou seu pagamento e disparou a compra automatizada na loja do chinês.",
+                    icon: "fa-shopping-cart", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 0
+                },
+                {
+                    nome: "2. Comprado (Purchased)",
+                    desc: "O vendedor chinês leu o pedido e está embalando ou buscando no estoque de fábrica.",
+                    icon: "fa-store", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 2
+                },
+                {
+                    nome: "3. Enviado à Warehouse (Seller Sent)",
+                    desc: "Caixa na transportadora local chinesa (YTO, ZTO). Caminhando para o galpão do seu Agente.",
+                    icon: "fa-truck", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 5
+                },
+                {
+                    nome: "4. Estocado & Inspeção (QC)",
+                    desc: "Chegou! O fiscal tira as fotos de qualidade (QC). Você tem até 5 dias úteis para pedir devolução.",
+                    icon: "fa-camera", color: "text-[#9D4EDD]", border: "border-[#9D4EDD]",
+                    diasPassados: 8
+                },
+                {
+                    nome: "5. Pagamento do Frete Internacional",
+                    desc: "Você aprova as fotos (GL), consolida (Submit Parcel) e paga a transportadora (Ex: Correios Packet).",
+                    icon: "fa-box-open", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 9
+                },
+                {
+                    nome: "6. Despacho e Tracking Gerado",
+                    desc: "Pacote embalado, fita passada e enviado ao centro de distribuição em Guangzhou/Shenzhen.",
+                    icon: "fa-barcode", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 12
+                },
+                {
+                    nome: "7. O Buraco Negro Aéreo (Flight Departure)",
+                    desc: "Decolou da Ásia. Vai passar por trânsito em países europeus. Aqui seu rastreio congela por quase duas semanas.",
+                    icon: "fa-plane-departure", color: "text-blue-500", border: "border-blue-500",
+                    diasPassados: 16
+                },
+                {
+                    nome: "8. Recebido no Brasil (GRU/CWB)",
+                    desc: "Aterrissou. Pacote passa pela leitura preliminar da Receita e aguarda fiscalização formal.",
+                    icon: "fa-map-marker-alt", color: "text-yellow-500", border: "border-yellow-500",
+                    diasPassados: 27
+                },
+                {
+                    nome: "9. Fiscalização Alfandegária Finalizada",
+                    desc: "Se a linha for DDP (Imposto Pago na Compra), passa direto. Se não, você recebe a notificação para pagar a taxa no portal Minhas Importações.",
+                    icon: "fa-building-shield", color: "text-orange-500", border: "border-orange-500",
+                    diasPassados: 31
+                },
+                {
+                    nome: "10. Despacho Nacional (Correios)",
+                    desc: "Transferência do hub de Curitiba/Valinhos para as capitais e centro de distribuição da sua cidade.",
+                    icon: "fa-truck-fast", color: "text-gray-400", border: "border-gray-600",
+                    diasPassados: 34
+                },
+                {
+                    nome: "11. Entrega ao Destinatário",
+                    desc: "Carteiro saiu para entrega. Fim da jornada.",
+                    icon: "fa-house-circle-check", color: "text-green-500", border: "border-green-500",
+                    diasPassados: 37
+                }
+            ];
+
+            // Renderizando HTML
+            const container = document.getElementById('timelineList');
+            container.innerHTML = '';
+
+            etapas.forEach((etapa) => {
+                let prevDate = addDays(currentDate, etapa.diasPassados);
+                let dateStr = fmt(prevDate);
+                
+                // Preenche cards de resumo de topo
+                if (etapa.nome.includes("Recebido no Brasil")) document.getElementById('resPrevisaoChegada').innerText = dateStr;
+                if (etapa.nome.includes("Entrega ao Destinatário")) document.getElementById('resEntregaFinal').innerText = dateStr;
+
+                container.innerHTML += `
+                    <div class="timeline-step">
+                        <div class="step-icon ${etapa.color} ${etapa.border}">
+                            <i class="fas ${etapa.icon}"></i>
+                        </div>
+                        <div class="bg-[#111] border border-white/5 rounded-2xl p-5 hover:border-white/20 transition hover:-translate-y-1 transform duration-300 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                <h4 class="font-bold text-white text-sm uppercase tracking-wide">${etapa.nome}</h4>
+                                <span class="text-[10px] text-gray-500 font-mono bg-black px-3 py-1 rounded border border-white/5 w-fit">Prev: ${dateStr}</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed">${etapa.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Mostrar Resultados
+            document.getElementById('resultadoTimeline').classList.remove('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('main-scroll').scrollTo({
+                    top: document.getElementById('resultadoTimeline').offsetTop - 30,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>

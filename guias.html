@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guias & Manuais | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Accordion Animations */
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .accordion-content.open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .accordion-inner {
+            overflow: hidden;
+        }
+        .accordion-btn i.fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+        .accordion-btn.open i.fa-chevron-down {
+            transform: rotate(180deg);
+            color: var(--neon-purple);
+        }
+        .accordion-btn.open {
+            color: var(--neon-purple);
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+
+        /* Filtros Ativos */
+        .filter-btn.active {
+            background: rgba(157, 78, 221, 0.2);
+            color: #fff;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.2);
+        }
+        
+        /* Dicionário Hover */
+        .dict-card {
+            transition: all 0.3s ease;
+        }
+        .dict-card:hover {
+            border-color: rgba(157, 78, 221, 0.3);
+            background-color: rgba(157, 78, 221, 0.03);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20 shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center text-[#9D4EDD]"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10 shrink-0">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold mono-text hidden sm:block"><span class="text-[#9D4EDD] animate-pulse"></span></h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth">
+            
+            <div class="max-w-4xl mx-auto">
+                
+                <div class="mb-10 text-center pt-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 mb-4 shadow-[0_0_20px_rgba(157,78,221,0.2)]">
+                        <i class="fas fa-book-open text-2xl text-[#9D4EDD]"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tight">Manuais <span class="text-[#9D4EDD]">Operacionais</span></h1>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                        A base de conhecimento definitiva. De iniciante a importador Elite. Digite sua dúvida ou selecione uma categoria abaixo.
+                    </p>
+                </div>
+
+                <div class="relative mb-8 max-w-2xl mx-auto">
+                    <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-[#9D4EDD]"></i>
+                    </div>
+                    <input type="text" id="searchDocs" placeholder="Buscar: Ex: 'O que é agente', 'Como declarar', 'Taxas'..." 
+                           class="w-full bg-[#080808] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-[#9D4EDD]/50 focus:border-[#9D4EDD]/50 transition-all shadow-lg"
+                           onkeyup="filterDocs()">
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+                    <button onclick="setFilter('all', this)" class="filter-btn active px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition">Todos</button>
+                    <button onclick="setFilter('basico', this)" class="filter-btn px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition"><i class="fas fa-seedling mr-1"></i> Básico</button>
+                    <button onclick="setFilter('pagamento', this)" class="filter-btn px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition"><i class="fas fa-credit-card mr-1"></i> Financeiro</button>
+                    <button onclick="setFilter('armazem', this)" class="filter-btn px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition"><i class="fas fa-box mr-1"></i> Logística CN</button>
+                    <button onclick="setFilter('frete', this)" class="filter-btn px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition"><i class="fas fa-plane mr-1"></i> Frete BR</button>
+                    <button onclick="setFilter('alfandega', this)" class="filter-btn px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition"><i class="fas fa-building-columns mr-1"></i> Receita Federal</button>
+                </div>
+
+                <div class="mb-4 flex justify-between items-center text-gray-500 text-xs font-mono border-b border-white/5 pb-2">
+                    <span>Exibindo manuais operacionais</span>
+                    <span id="resultCount">50 Manuais</span>
+                </div>
+
+                <div class="space-y-3" id="docsContainer">
+                    
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-question-circle text-[#9D4EDD] w-5"></i> 1.01 O que é um "Agente" e por que não compro direto?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Os maiores mercados do mundo (Taobao, Weidian, 1688) foram construídos para o mercado interno chinês. Eles não aceitam CPF, a maioria não envia internacionalmente e os vendedores só falam mandarim.</p>
+                                <p><strong>O Agente (como Hoobuy, CNFans, Mulebuy) é o seu representante na China.</strong> Ele resolve esse bloqueio em 5 passos:</p>
+                                <ul class="list-decimal list-inside space-y-2 ml-2">
+                                    <li>Você copia o link do Taobao e cola no site do Agente.</li>
+                                    <li>Você paga ao Agente. Ele pega seu dinheiro e compra o item.</li>
+                                    <li>A fábrica chinesa envia para o Galpão do Agente na China.</li>
+                                    <li>O Agente tira fotos em alta resolução (QC) para você aprovar.</li>
+                                    <li>Você paga o frete final e o Agente despacha pro Brasil.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-store text-[#9D4EDD] w-5"></i> 1.02 Diferença entre Taobao, Weidian, 1688 e Xianyu?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Compreender o ecossistema é o primeiro passo para não cair em golpes:</p>
+                                <ul class="space-y-3">
+                                    <li><strong class="text-orange-500">Taobao / Tmall:</strong> É a "Amazon Chinesa". Seguro, gigante, focado no consumidor final (varejo). Melhor para roupas casuais, eletrônicos e itens não-grife.</li>
+                                    <li><strong class="text-red-500">Weidian:</strong> Funciona como o Shopify. As lojas são independentes. É aqui que os maiores fabricantes de <strong>tênis (sneakers) e grifes de alto luxo</strong> se escondem (Tier-S).</li>
+                                    <li><strong class="text-blue-500">1688:</strong> Focado em B2B (Atacado). Preços incrivelmente baixos de chão de fábrica, mas a maioria exige compra mínima de 2 ou 3 unidades iguais.</li>
+                                    <li><strong class="text-yellow-500">Goofish (Xianyu):</strong> A OLX da China. Mercado de itens usados C2C. Excelente para garimpar raridades, mas exige extremo cuidado e fotos detalhadas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-gavel text-[#9D4EDD] w-5"></i> 1.03 É crime importar réplicas? Entenda os riscos</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Para o consumidor final, importar uma ou duas peças para uso pessoal raramente gera complicações criminais, mas existe o risco administrativo (aduaneiro).</p>
+                                <p><strong>Se a Receita Federal interceptar o pacote:</strong></p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>O pacote pode ser apreendido para "perdimento" (destruição) por violação de propriedade intelectual.</li>
+                                    <li>Nesse caso, você não é preso, mas perde o dinheiro que pagou pelo produto e frete.</li>
+                                </ul>
+                                <p>Importar dezenas de itens idênticos configura "comércio" e pirataria, o que aumenta exponencialmente o risco legal. Foque sempre em <strong>uso pessoal</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-layer-group text-[#9D4EDD] w-5"></i> 1.04 O que é "Batch" (Lote) e por que os preços variam?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Nas fábricas asiáticas, o mesmo produto (ex: um tênis específico) é fabricado por dezenas de galpões diferentes. Cada fábrica produz o seu "Batch" (Lote).</p>
+                                <p>O preço não varia à toa. Ele reflete a qualidade da matéria-prima:</p>
+                                <ul class="space-y-2">
+                                    <li><strong>High-Tier Batches (ex: LJR, PK, M):</strong> Custam caro ($50 a $90). Usam couro real, moldes exatos e tecnologia de absorção idêntica ao varejo oficial (1:1).</li>
+                                    <li><strong>Mid-Tier Batches (ex: KX, VT):</strong> Focam em custo-benefício ($30 a $40). O visual é idêntico no pé, mas o couro pode ser sintético ou a costura interna menos acabada.</li>
+                                    <li><strong>Budget Batches:</strong> Abaixo de $15. Tênis de plástico, cola visível e sola dura. Fuja para não passar vergonha.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-camera text-[#9D4EDD] w-5"></i> 1.05 Como usar a Busca por Imagem nos Marketplaces?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A busca reversa por imagem é a arma secreta para encontrar roupas sem saber o nome em chinês.</p>
+                                <ol class="list-decimal list-inside space-y-2">
+                                    <li>Instale o aplicativo do <strong>Taobao</strong> ou <strong>1688</strong> no seu celular (eles são mais fluidos que no PC).</li>
+                                    <li>No Brasil, salve a foto do produto que você quer comprar no seu rolo da câmera (ex: do Instagram).</li>
+                                    <li>Abra o app do Taobao, clique no <strong>ícone de câmera</strong> dentro da barra de pesquisa e selecione a foto.</li>
+                                    <li>A IA chinesa vai te dar centenas de opções de fábricas vendendo aquele exato modelo. Copie o link e jogue no Agente.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-ruler text-[#9D4EDD] w-5"></i> 1.06 Lendo Tabelas de Medidas Chinesas (Size Charts)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>As roupas asiáticas são notoriamente 2 a 3 tamanhos menores que os padrões ocidentais. Um XL chinês pode ser um M brasileiro. <strong>Nunca compre sem medir.</strong></p>
+                                <p>Tradução do ideograma na tabela de medidas:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>尺码 (Tamanho)</strong> - Ex: S, M, L, XL</li>
+                                    <li><strong>衣长 (Comprimento)</strong> - Da gola até a barra da camisa.</li>
+                                    <li><strong>胸围 (Peito)</strong> - Largura de axila a axila (multiplique por 2 para o perímetro).</li>
+                                    <li><strong>肩宽 (Ombro)</strong> - Largura de ombro a ombro.</li>
+                                    <li><strong>袖长 (Manga)</strong> - Comprimento do ombro ao punho.</li>
+                                </ul>
+                                <p>Use uma fita métrica em uma camisa sua que caiba bem e compare com os números na tabela da loja.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-user-check text-[#9D4EDD] w-5"></i> 1.07 Como criar conta no Agente corretamente?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Criar a conta exige atenção em um detalhe vital: <strong>O Endereço e CPF.</strong></p>
+                                <ol class="list-decimal list-inside space-y-2">
+                                    <li>Use sempre um link de afiliado para ganhar os cupons de boas-vindas (pode te dar mais de R$ 500 em cupons de frete).</li>
+                                    <li>Acesse seu perfil > Settings > Addresses.</li>
+                                    <li>Preencha seu nome real sem acentos (Ex: Joao em vez de João).</li>
+                                    <li>Coloque seu CPF na linha de "Tax ID" ou "CPF/CNPJ". <strong>Se omitir o CPF, o pacote será barrado na alfândega do Brasil e você não conseguirá gerar o boleto.</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-language text-[#9D4EDD] w-5"></i> 1.08 Traduzindo as páginas em Mandarim</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Você nunca deve tentar navegar no Taobao ou Weidian no idioma original.</p>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>No PC (Chrome/Edge):</strong> Clique com o botão direito do mouse em qualquer lugar vazio da página da loja chinesa e selecione "Traduzir para o Português".</li>
+                                    <li><strong>Imagens com texto:</strong> Se o vendedor colocar a tabela de tamanhos dentro de uma imagem (JPEG), use o aplicativo <strong>Google Tradutor</strong> no celular, ative a Câmera e aponte para a tela do computador. Ele traduz a imagem ao vivo.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="basico">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-table text-[#9D4EDD] w-5"></i> 1.09 Planilhas (Spreadsheets) de links explicadas</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A comunidade de importação organiza as melhores lojas em "Planilhas" do Excel/Google Docs.</p>
+                                <p>Nessas tabelas, os usuários listam a Categoria (Ex: Air Force 1), o Lote (Batch), a Foto real (QC), o Preço e o Link da loja.</p>
+                                <p>A UNTOLD IMPORTS faz isso por você de forma profissional no nosso módulo <strong>Catálogo Tier-S</strong>, eliminando a necessidade de caçar planilhas desatualizadas pela internet com links mortos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-wallet text-[#9D4EDD] w-5"></i> 2.01 O que é "Top-Up" e como pagar?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Top-Up é o ato de recarregar a sua carteira digital no site do Agente. É o método mais seguro de operação.</p>
+                                <p>Você vai na área "Wallet" ou "Balance", clica em Top-Up, insere o valor e paga. O dinheiro cai na hora (se for PIX ou Cartão). Quando for pagar o produto na loja, ou pagar o frete internacional, você escolhe abater desse "Balance" da sua conta, em vez de passar o cartão toda vez.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-money-bill-wave text-[#9D4EDD] w-5"></i> 2.02 Qual método mais barato: PIX, Cartão ou Cripto?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="space-y-3">
+                                    <li><strong>Cartão de Crédito (via Stripe/Paypal):</strong> É o mais caro. Além do spread de câmbio ruim, você paga taxa de IOF (4,38%) do governo brasileiro e taxa de transação do PayPal.</li>
+                                    <li><strong class="text-green-500">PIX (via EBANX ou DLocal):</strong> Melhor opção para o usuário comum. O IOF é menor (0,38%), não tem taxa abusiva de cartão, cai em 5 minutos e o spread é aceitável.</li>
+                                    <li><strong class="text-yellow-500">Criptomoedas (USDT / USDC):</strong> Se você entende de Binance, é disparado o método mais barato e rápido. Você não paga IOF e a taxa de conversão é quase 1:1, sem spread de cartão.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-chart-line text-[#9D4EDD] w-5"></i> 2.03 Spread Cambial: Como os agentes ganham dinheiro</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Os agentes fazem o serviço de comprar, tirar foto e embalar "de graça". A mágica do lucro deles se chama <strong>Spread Cambial</strong>.</p>
+                                <p>Se o Yuan Comercial está valendo R$ 0,78 no Banco Central, o Agente vai te vender cada Yuan a R$ 0,84 na hora da recarga. Essa diferença (de 5% a 8%) é a comissão invisível dele.</p>
+                                <p>Use o módulo <strong>"Raio-X Cambial"</strong> na aba Radar Anti-Scan para verificar qual agente está metendo a faca no dia e qual está cobrando a conversão mais justa.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-undo text-[#9D4EDD] w-5"></i> 2.04 Estornos: Para onde vai meu reembolso?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Se você pediu reembolso de uma peça de roupa (Refund), o dinheiro <strong>NÃO</strong> volta automaticamente para o seu PIX ou Cartão de Crédito.</p>
+                                <p>Ele retorna para a sua <strong>Wallet (Balance)</strong> dentro do Agente. Com esse saldo em Yuan (CNY), você pode usá-lo para abater no valor do seu frete internacional ou comprar um produto em outra loja.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-bank text-[#9D4EDD] w-5"></i> 2.05 Posso sacar dinheiro da carteira pro meu Banco?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p><strong>Sim, você pode. Isso se chama Withdraw (Saque).</strong></p>
+                                <p>A maioria dos agentes permite sacar seu saldo (Balance) devolvendo exatamente pelo método que você depositou. Se você botou via Stripe, eles fazem um estorno na fatura do cartão. Se foi EBANX, devolvem no PIX. O prazo de processamento é longo, geralmente de 7 a 15 dias úteis, e você perde o valor das taxas de câmbio da transação inicial.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-truck text-[#9D4EDD] w-5"></i> 2.06 Frete Doméstico na China: Por que o preço subiu?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Muitas vezes você vê um tênis por 200 CNY no Weidian. Ao colocar no carrinho do agente, ele sobe para 215 CNY. Por quê?</p>
+                                <p>Isso ocorre devido ao <strong>Frete Doméstico</strong>. A loja cobra do agente para enviar de Shenzhen para o armazém em Guangdong, por exemplo. Esse frete chinês interno gira em torno de 10 a 20 Yuan por pedido.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-ticket-alt text-[#9D4EDD] w-5"></i> 2.07 Cupons de Desconto: Como aplicar</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Cupons <strong>não</strong> são usados para comprar roupas. Cupons só funcionam para pagar o <strong>Frete Internacional (Submit Parcel)</strong>.</p>
+                                <p>Ao criar a conta por um link afiliado (como o da UNTOLD), você ganha um "Coupon Bundle". Na hora de fechar o envio do pacote, haverá um botão "Apply Coupon". O sistema vai checar o peso/valor da sua caixa e aplicar o maior cupom que estiver apto para as regras (ex: Desconto de 100 CNY para envios acima de 500 CNY).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-ban text-[#9D4EDD] w-5"></i> 2.08 Risco de Fraude: Por que meu cartão não passou?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Plataformas de pagamento (Stripe/PayPal) possuem um sistema anti-fraude rigoroso para compras na Ásia.</p>
+                                <p>Se o nome e o endereço de faturamento do cartão não baterem exatamente com o nome e endereço da sua conta no Agente, a transação é marcada como "High Risk" e o saldo é devolvido. Para evitar isso, use PIX ou garanta que os dados do cartão sejam 100% idênticos ao do cadastro.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-eye-slash text-[#9D4EDD] w-5"></i> 2.09 As "Taxas Ocultas" na Recarga</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Quando você digita "100 USD" no Top-Up, o sistema adiciona uma "Processing Fee" que você deve estar atento. O PayPal cobra fixa + %. O Stripe cobra %. EBANX PIX cobra ~1,5% a 2%.</p>
+                                <p>Sempre recarregue com uma margem de folga (ex: Se a compra dá ¥500, recarregue ¥550) para cobrir pequenas variações no frete doméstico e não precisar fazer duas transações pagando taxa do PIX nas duas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="pagamento">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-comment-dollar text-[#9D4EDD] w-5"></i> 2.10 Vendedor pediu pra "pagar diferença de frete"</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Seu produto está como "Purchased" e de repente o status muda para <strong>"Action Required"</strong>. O agente manda uma mensagem dizendo que o vendedor chinês pediu mais 10 ou 20 CNY por causa de variação de frete local ou porque você comprou um tamanho Plus Size.</p>
+                                <p>Isso é comum em lojas atacadistas (1688). Basta ter saldo e aceitar pagar a taxa no chat. Se você se sentir lesado, pode cancelar a compra na mesma tela.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-warehouse text-[#9D4EDD] w-5"></i> 3.01 Tempo de Armazenagem Grátis</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Você comprou um tênis, ele chegou no agente, mas você não tem dinheiro para o frete agora. Tem problema?</p>
+                                <p>A esmagadora maioria dos agentes oferece <strong>90 dias (3 meses) de armazenagem 100% gratuita.</strong></p>
+                                <p>Você tem tempo de sobra para ir comprando itens aos poucos, deixar tudo estocado nas prateleiras deles e enviar tudo numa caixa só no final do mês. Passados 90 dias sem ação, os itens são destruídos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-images text-[#9D4EDD] w-5"></i> 3.02 Como pedir QC (Fotos Extras) e Medições?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Os agentes fornecem de 3 a 5 fotos gratuitas, mas elas são em ângulos padrão.</p>
+                                <p>Se você comprou um tênis caro e quer ver uma foto macro das costuras, ou ver uma régua encostada na palmilha para confirmar o tamanho exato, clique em <strong>"Extra Photo"</strong> na aba Warehouse.</p>
+                                <p>Isso custará cerca de 2 CNY ($0.30 cents) e o fiscal tira a foto exata que você pedir nas instruções.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-mask text-[#9D4EDD] w-5"></i> 3.03 O que é QC, GL e RL?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="space-y-3">
+                                    <li><strong>QC (Quality Control):</strong> Fotos tiradas pelo agente do seu produto.</li>
+                                    <li><strong class="text-green-500">GL (Green Light):</strong> Luz verde. Você avaliou as fotos, o produto está perfeito e você autoriza enviar pro Brasil.</li>
+                                    <li><strong class="text-red-500">RL (Red Light):</strong> Luz vermelha. O produto veio manchado, tamanho errado ou a qualidade é muito ruim. Você clica em "Return/Refund" no agente para devolver.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-tshirt text-[#9D4EDD] w-5"></i> 3.04 Produto com mancha ou defeito nas fotos</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>O fiscal do agente já faz uma varredura inicial. Se ele notar que tem mancha de óleo ou zíper quebrado, ele marcará seu status como <strong>"QC Issue"</strong> (Problema de Qualidade).</p>
+                                <p>Ele vai te dar fotos em close do defeito e te dar 72 horas para decidir: você quer ficar assim mesmo (Accept) ou devolver para o chinês (Return).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-exchange-alt text-[#9D4EDD] w-5"></i> 3.05 Processo de Devolução e Frete Reverso</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Se você pedir devolução (Return) no armazém por um erro que <strong>NÃO</strong> foi culpa do vendedor (ex: você não gostou da cor), o agente cobrará o frete reverso interno na China de você (cerca de 10 a 15 CNY).</p>
+                                <p>Se o erro foi do vendedor (mandou modelo errado), o próprio vendedor cobre a taxa de envio.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-hourglass-half text-[#9D4EDD] w-5"></i> 3.06 Status "Purchased" não muda há dias</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Isso acontece frequentemente quando a fábrica chinesa está operando em "Pré-Venda" ou por falta de estoque.</p>
+                                <p>O Agente te dá um botão "Remind Seller" (Lembrar Vendedor) para pressioná-los. Se passar de 7 dias sem virar "Seller Sent", cancele o pedido com reembolso imediato e compre em outra loja.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-map-marked-alt text-[#9D4EDD] w-5"></i> 3.07 Como rastrear pacotes dentro da China (Seller Sent)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Quando o status vira "Seller Sent", o vendedor asiático enviou a caixa pela YTO Express, ZTO, ou STO.</p>
+                                <p>No seu painel, aparecerá um código. Você não precisa sair do site do agente para ver isso, clicando em "Tracking" o agente puxa a logística local chinesa mostrando o caminho até o Warehouse.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-weight text-[#9D4EDD] w-5"></i> 3.08 Estimated Weight vs Real Weight</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A foto de QC mostra o tênis pesando "1000g" (Real Weight). Porém, no painel, ele diz "Estimated Weight 1500g".</p>
+                                <p>O agente joga sempre para o alto, estimando o peso da caixa de papelão externa. <strong>Não se desespere.</strong> Na hora do envio final, o agente vai pesar a caixa fechada e vai te dar "Refund" da diferença no seu Balance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-box-open text-[#9D4EDD] w-5"></i> 3.09 Caixa do Tênis Amassada no Armazém</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>O frete doméstico chinês é brutal, caixas amassam antes de chegarem ao agente.</p>
+                                <p>Se o tênis estiver intacto e a caixa amassada, o vendedor NÃO aceitará devolução com base nisso. Caso precise da caixa perfeita para revenda (o que não recomendamos), negocie com o chinês antes via chat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="armazem">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-truck-loading text-[#9D4EDD] w-5"></i> 3.10 Como consolidar itens (Fazer um Haul)?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Consolidar é o segredo do sucesso. Você comprou 5 blusas em 5 lojas diferentes.</p>
+                                <p>Vá até a aba Warehouse, selecione as 5 blusas e clique num único botão "Submit Parcel". O agente vai destruir as 5 sacolas plásticas das lojas e jogar as 5 blusas puras dentro de uma única caixa final, dividindo o frete internacional.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-box text-[#9D4EDD] w-5"></i> 4.01 Serviços Extras valem a pena?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="space-y-3">
+                                    <li><strong>Vacuum Packaging (Vácuo):</strong> Ótimo para casacos e pelúcias. Tira o ar e derruba o peso volumétrico. Nunca use em bonés ou sapatos.</li>
+                                    <li><strong>Shoe Trees (Moldes):</strong> Obrigatório se enviar tênis sem caixa. Protege de amassar no voo.</li>
+                                    <li><strong>Moisture Barrier (Selo de Filme):</strong> Obrigatório. Impede água no aeroporto e esconde a logomarca da sua caixa das transportadoras.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-shoe-prints text-[#9D4EDD] w-5"></i> 4.02 Envio "Sem Caixa" (Drop Box) - É perigoso?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>É a estratégia de economia número 1. Tirar as caixas diminui cerca de 300g a 400g do pacote, além de reduzir a dimensão da encomenda.</p>
+                                <p><strong>Não é perigoso</strong> se você ativar as opções "Shoe Trees" (molde) e "Bubble Wrap" (Plástico Bolha).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-shield-alt text-[#9D4EDD] w-5"></i> 4.03 Seguro de Frete (Insurance): Quando usar?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Sempre compre o Seguro (Parcel Insurance). O valor é insignificante, cerca de 3% a 5% sobre o total.</p>
+                                <p>Se o avião cair, a alfândega destruir, ou sumir no Brasil... o Agente estornará 100% do seu dinheiro de frete e produtos diretamente no Balance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-weight-hanging text-[#9D4EDD] w-5"></i> 4.04 Limite Seguro: Quantos KGs em um pacote?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Até 4KG: Altamente discreto. Maior índice de aprovação.</li>
+                                    <li>4KG a 8KG: Moderado. Começa a chamar atenção.</li>
+                                    <li>Acima de 8KG: Sinalização manual da RFB. Altíssima probabilidade de inspeção. Se você tem 10KG, fracione em 2 caixas de 5KG.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-box-tissue text-[#9D4EDD] w-5"></i> 4.05 O que é "Rehearsal Packaging"?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>É a Pré-Embalagem (Ensaio). Se o frete estimado estiver irrealmente alto, você paga 20 CNY pelo Rehearsal.</p>
+                                <p>O armazém embala tudo fisicamente, pesa na balança real e atualiza no sistema o <strong>Volume Exato</strong> e o <strong>Peso Exato</strong>. Assim você paga um frete 100% preciso.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-plug text-[#9D4EDD] w-5"></i> 4.06 Posso enviar eletrônicos junto com roupas?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p><strong>NÃO É RECOMENDADO.</strong></p>
+                                <p>Se houver qualquer item com bateria no seu "Haul", o pacote inteiro ficará amarrado às regras restritas de eletrônicos. Você só poderá usar linhas especiais, que são muito mais caras. O correto é dividir: roupas na linha econômica e eletrônicos sozinhos na linha segura.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-plane-arrival text-[#9D4EDD] w-5"></i> 4.07 Qual transportadora/linha eu escolho?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="space-y-3">
+                                    <li><i class="fas fa-check-circle text-green-500"></i> <strong>Sempre use linhas "Packet" ou "BR-Line"</strong>. Elas têm parceria com os Correios do Brasil e sofrem fiscalização padrão.</li>
+                                    <li><i class="fas fa-times-circle text-red-500"></i> <strong>NUNCA use Correios Expresso (DHL, FedEx):</strong> Eles declaram seus produtos automaticamente. Você <strong>SERÁ TAXADO EM 100% DAS VEZES</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-calendar-check text-[#9D4EDD] w-5"></i> 4.08 Qual o prazo médio das linhas Packet pro Brasil?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A comunidade alimenta prazos irreais de "7 dias". Estatisticamente, você deve se preparar mentalmente para: <strong>14 a 28 dias corridos</strong> entre a coleta no agente e a entrega na sua casa.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-plane text-[#9D4EDD] w-5"></i> 4.09 Status congelado em "Flight Departure" há 15 dias</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>O pacote saiu da China. Mas o voo não foi direto pro Brasil. Ele posou no Catar ou Holanda (baldeação). A transportadora chinesa perdeu o sinal. Apenas quando o avião pousar em São Paulo, o Correio Brasileiro atualizará com "Objeto Recebido". Não crie pânico.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="frete">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-ban text-[#9D4EDD] w-5"></i> 4.10 "Returned by Security/Customs" na China</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A caixa saiu do seu agente, foi para o Raio-X do avião chinês e mandada de volta ("Returned").</p>
+                                <p>Motivo? Ou a etiqueta molhou/rasgou, ou havia algum item suspeito no lote do avião inteiro. <strong>O Agente reenviará o pacote de graça automaticamente por outra linha aérea.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-building-columns text-[#9D4EDD] w-5"></i> 5.01 A Regra Atualizada (Taxa de 20% + ICMS)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>Declarados ATÉ 50 Dólares:</strong> 20% de Imposto de Importação sobre o valor declarado + Frete. Por cima, o Estado cobra 17% ou 20% de ICMS.</li>
+                                    <li><strong>Declarados ACIMA de 50 Dólares:</strong> Alíquota de 60% de Imposto de Importação + ICMS. Na prática, você paga quase 92% de taxas. Mantenha a declaração total segura abaixo de $50 se possível e coerente.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-file-invoice text-[#9D4EDD] w-5"></i> 5.02 Como "Declarar" o pacote no Agente?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>A Declaração é preenchida dentro do site do Agente antes de pagar o frete internacional.</p>
+                                <ul class="list-decimal list-inside space-y-3">
+                                    <li><strong>O Idioma:</strong> Declare em inglês genérico. Ex: "Men's Casual Shoes" em vez de "Nike Jordan".</li>
+                                    <li><strong>O Valor Justo:</strong> Não pode ser absurdo. Se enviar 5kg de roupas e declarar $10, a Receita te multa por Declaração Inexata. Use nossa calculadora.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-id-card text-[#9D4EDD] w-5"></i> 5.03 "Minhas Importações" (Vinculando CPF)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <ol class="list-decimal list-inside space-y-2">
+                                    <li>Acesse o portal idCorreios e vá na aba "Minhas Importações".</li>
+                                    <li>Insira seu código de Rastreio (ex: NLxxxBR).</li>
+                                    <li>Clique em "Vincular CPF". <strong>Sem esse vínculo, o boleto não gera e a encomenda volta pra China.</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-radiation text-[#9D4EDD] w-5"></i> 5.04 Recebi "Multa de Declaração Inexata". O que fazer?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>O Auditor da Receita Federal achou que seu pacote vale mais do que você declarou. Ele te dá uma taxa maior + uma multa (100% sobre a diferença).</p>
+                                <p>Você tem duas saídas:</p>
+                                <ul class="space-y-4 mt-2">
+                                    <li class="bg-white/5 p-4 rounded-lg">
+                                        <strong class="text-yellow-500">A: Pedir Revisão de Tributos.</strong> Envie prints mostrando quanto pagou. <em>(Não faça isso se for réplica, eles podem destruir o produto).</em>
+                                    </li>
+                                    <li class="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
+                                        <strong class="text-red-400">B: Recusar Objeto.</strong> O pacote é devolvido para a China. Você não paga a multa, perde o frete inicial, mas o item volta pro seu agente e você reenvia.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-dollar-sign text-[#9D4EDD] w-5"></i> 5.05 Paguei a taxa e não atualiza (DIT Emitido)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Você pagou a taxa. A confirmação "Pagamento Confirmado - Objeto sendo liberado" processa rápido, mas a liberação física leva de <strong>2 a 6 dias úteis</strong> para a caixa voltar para a esteira e despachar pra sua cidade.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-skull-crossbones text-[#9D4EDD] w-5"></i> 5.06 "Apreendido / Destruído" - Perdi tudo?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Apreensões totais ocorrem quando:</p>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>Fiscalização de Propriedade Intelectual barrou o tênis de grife (Lote retido na Maré Vermelha).</li>
+                                    <li>O usuário mandou 40 relógios iguais para revenda (Perdimento).</li>
+                                </ul>
+                                <p>Quando acontece, o status atualizará para "Destinado à Apreensão" ou "Autoridade Competente". O valor não é devolvido pelo Agente.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-hand-holding-usd text-[#9D4EDD] w-5"></i> 5.07 Courier e Taxa Administrativa (DHL/FedEx)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Se você usar Courier (FedEx, DHL, UPS), eles cobram o ICMS + Imposto 100% das vezes de forma antecipada e ainda adicionam uma "Taxa de Despacho Aduaneiro Particular" de mais de R$ 100,00 só pelo serviço deles. Não use Courier.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-balance-scale-right text-[#9D4EDD] w-5"></i> 5.08 O que é "Fiscalização Não Concluída"?</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Acontece quando os Correios/Receita precisam de mais documentos (RG, Comprovante de endereço, Extrato). Você recebe uma notificação em "Minhas Importações" para anexar um PDF com o que eles pedem num prazo de 30 dias.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-file-signature text-[#9D4EDD] w-5"></i> 5.09 Fatura Comercial Externa (Invoice)</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Você pode pedir para o Agente colar um "Commercial Invoice" (Papel Fiscal) externo na caixa. É uma blindagem a mais para a fiscalização em Curitiba bater as contas. Hoje a RFB age cruzando Dirf, o Invoice ajuda, mas não salva declarações irreais.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-item bg-[#050505] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition" data-category="alfandega">
+                        <button class="accordion-btn w-full px-6 py-4 text-left flex justify-between items-center font-bold text-white focus:outline-none transition border-b border-transparent" onclick="toggleAccordion(this)">
+                            <span class="flex items-center gap-3"><i class="fas fa-globe-americas text-[#9D4EDD] w-5"></i> 5.10 "Remessa Conforme" x Agentes Asiáticos</span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                        <div class="accordion-content px-6 bg-[#0a0a0a]">
+                            <div class="accordion-inner text-gray-400 text-sm leading-relaxed space-y-4">
+                                <p>Shopee, AliExpress e Shein estão no "Remessa Conforme": o imposto é cobrado no carrinho, na hora da compra.</p>
+                                <p><strong>Agentes como Hoobuy, CNFans e Mulebuy NÃO estão no Remessa Conforme.</strong> Eles operam como envio de "Pessoa Física (O Agente) para Pessoa Física (Você)". O imposto nunca é cobrado no site deles, ele sempre será gerado via boleto apenas quando a caixa chegar no Brasil.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-20 border-t border-white/10 pt-16 pb-10">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-black text-white uppercase tracking-widest mb-4 mono-text flex items-center justify-center gap-4">
+                            <div class="bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 w-12 h-12 rounded-lg flex items-center justify-center text-[#9D4EDD] shadow-[0_0_15px_rgba(157,78,221,0.2)]">AB</div>
+                            DICIONÁRIO DO OPERADOR
+                        </h2>
+                        <p class="text-gray-400 text-sm mono-text">Termos técnicos utilizados nas comunidades de importação (Discord/Reddit).</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">Agent (Agente)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Empresa na China (Hoobuy, CNFans) que compra, armazena e envia os produtos para você.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">QC (Quality Check)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Fotos de alta resolução tiradas pelo agente quando o produto chega no armazém.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-green-500 font-bold text-lg mb-2 mono-text tracking-wide">GL (Green Light)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Luz Verde. Aprovar as fotos do QC. Produto está bom, pode enviar.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-red-500 font-bold text-lg mb-2 mono-text tracking-wide">RL (Red Light)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Luz Vermelha. Reprovar as fotos do QC por defeito e solicitar troca/reembolso.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">Haul</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Um pacote grande. Uma caixa com vários itens juntos enviados para baratear o frete.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">Batch (Lote)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">O lote de fabricação. Ex: "Batch LJR" ou "Batch PK". Define a qualidade e a fábrica do produto.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">W2C (Where to Cop)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">"Onde comprar?". Pedido de link. Alguém posta foto de um produto e a galera pergunta W2C.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">Drop Box (Net Weight)</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Opção no envio para jogar fora a caixa de papelão (geralmente de tênis) para baratear frete.</p>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-white/10 p-6 rounded-xl dict-card cursor-default">
+                            <h4 class="text-[#9D4EDD] font-bold text-lg mb-2 mono-text tracking-wide">Bait and Switch</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Golpe. Vendedor mostra foto de produto Tier-S no anúncio, mas envia produto lixo pro Agente.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Lógica dos Manuais e Abas
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isOpen = btn.classList.contains('open');
+
+            if (isOpen) {
+                btn.classList.remove('open');
+                content.classList.remove('open');
+            } else {
+                btn.classList.add('open');
+                content.classList.add('open');
+            }
+        }
+
+        // Engine de Filtro (Botões)
+        function setFilter(category, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            btnElement.classList.add('active');
+            document.getElementById('searchDocs').value = '';
+
+            const items = document.querySelectorAll('.doc-item');
+            let count = 0;
+            
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 30);
+                    count++;
+                } else {
+                    item.style.display = 'none';
+                    item.querySelector('.accordion-btn').classList.remove('open');
+                    item.querySelector('.accordion-content').classList.remove('open');
+                }
+            });
+            
+            document.getElementById('resultCount').innerText = `${count} Manuais Encontrados`;
+        }
+
+        // Engine de Pesquisa Real-time (Neural Search)
+        function filterDocs() {
+            const query = document.getElementById('searchDocs').value.toLowerCase();
+            const items = document.querySelectorAll('.doc-item');
+
+            if (query.length > 0) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            } else {
+                document.querySelector('.filter-btn[onclick*="all"]').classList.add('active');
+            }
+
+            let count = 0;
+            items.forEach(item => {
+                const titleText = item.querySelector('.accordion-btn span').textContent.toLowerCase();
+                const contentText = item.querySelector('.accordion-inner').textContent.toLowerCase();
+
+                if (titleText.includes(query) || contentText.includes(query)) {
+                    item.style.display = 'block';
+                    count++;
+                    
+                    if (query.length > 3 && !item.querySelector('.accordion-btn').classList.contains('open')) {
+                        toggleAccordion(item.querySelector('.accordion-btn'));
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('resultCount').innerText = `${count} Resultados Encontrados`;
+        }
+
+        // Inicializa estado com todos visiveis e checa a quantidade
+        window.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.doc-item');
+            document.getElementById('resultCount').innerText = `${items.length} Manuais Operacionais`;
+        });
+    </script>
+</body>
+</html>

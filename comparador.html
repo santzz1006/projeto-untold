@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Custos | UNTOLD IMPORTS</title>
+
+    <link rel="icon" type="image/png" href="./logo_transparente.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.4);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple-glass-border: rgba(157, 78, 221, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow: hidden; 
+        }
+
+        h1, h2, h3, h4, h5, .mono-text { font-family: 'Space Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Efeitos Glass e Hover */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* Sidebar Item */
+        .nav-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+        }
+        .nav-item.active {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-left-color: var(--neon-purple);
+            box-shadow: inset 20px 0 20px -20px var(--neon-purple-glow);
+        }
+
+        /* Animações UI */
+        .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scanning-ring {
+            border: 2px solid rgba(157, 78, 221, 0.1);
+            border-top: 2px solid var(--neon-purple);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Inputs Customizados */
+        .cyber-input {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .cyber-input:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+            background: rgba(157, 78, 221, 0.05);
+        }
+
+        /* Ranking Cards */
+        .rank-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .rank-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
+        .rank-1 {
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.15);
+            background: linear-gradient(145deg, rgba(157,78,221,0.1) 0%, rgba(0,0,0,0.8) 100%);
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-full antialiased selection:bg-[#9D4EDD] selection:text-white">
+
+    <aside class="w-64 bg-[#050505] border-r border-white/5 flex-col justify-between hidden lg:flex relative z-20">
+        <div class="h-20 flex items-center px-6 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition group w-full">
+                <img src="./logo_transparente.png" alt="UNTOLD IMPORTS" class="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(157,78,221,0.5)]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold tracking-widest mono-text leading-tight text-white">UNTOLD</span>
+                    <span class="text-[10px] tracking-widest mono-text leading-tight text-gray-500">IMPORTS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-3">
+            <div class="px-3 mb-2">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Principal</span>
+            </div>
+            <a href="dashboard.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-border-all w-5 text-center"></i> Dashboard
+            </a>
+            <a href="ferramentas1.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-wrench w-5 text-center"></i> Ferramentas Pro
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Operação</span>
+            </div>
+            <a href="fornecedores.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-store w-5 text-center"></i> Catálogo Tier-S
+            </a>
+            <a href="fretes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-route w-5 text-center"></i> A Trilha (Passos)
+            </a>
+            <a href="guias.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-book w-5 text-center"></i> Guias & Manuais
+            </a>
+
+            <div class="px-3 mb-2 mt-6">
+                <span class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mono-text">Segurança</span>
+            </div>
+            <a href="anti-golpe.html" class="nav-item active flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-shield-virus w-5 text-center text-[#9D4EDD]"></i> Radar Anti-Scan
+            </a>
+            <a href="atualizacoes.html" class="nav-item flex items-center gap-3 px-3 py-3 rounded-r-lg text-sm font-medium text-gray-400">
+                <i class="fas fa-satellite-dish w-5 text-center"></i> Status Alfândega
+            </a>
+        </div>
+
+        <div class="border-t border-white/5 p-4">
+            <a href="configuracoes.html" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 mb-2">
+                <i class="fas fa-cog w-5 text-center"></i> Configurações
+            </a>
+            <a href="perfil.html" class="flex items-center gap-3 mt-2 p-2 rounded-lg hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#9D4EDD] to-black p-[2px]">
+                    <div class="w-full h-full bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mono-text overflow-hidden">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white text-[#9D4EDD]">Usuario #8294</span>
+                    <span class="text-[10px] text-gray-500 mono-text">Plano Gratuito</span>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[rgba(157,78,221,0.05)] via-transparent to-transparent">
+        
+        <header class="h-20 px-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-[#030303]/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-400 hover:text-[#9D4EDD] transition mono-text text-sm">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </button>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:block text-right">
+                    <div id="sys-time" class="text-sm font-bold text-white mono-text">00:00:00</div>
+                    <div id="sys-date" class="text-[10px] text-gray-500 mono-text uppercase">CARREGANDO...</div>
+                </div>
+                <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+                <button class="relative text-gray-400 hover:text-white transition">
+                    <i class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 lg:p-10 pb-20 relative z-10 scroll-smooth" id="main-scroll">
+            
+            <div class="max-w-5xl mx-auto">
+                
+                <div class="mb-10 text-center pt-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#9D4EDD]/10 border border-[#9D4EDD]/30 mb-4 shadow-[0_0_20px_rgba(157,78,221,0.2)]">
+                        <i class="fas fa-balance-scale text-2xl text-[#9D4EDD]"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tight">Monitor de <span class="text-[#9D4EDD]">Custos</span></h1>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                        Guerra de preços ao vivo. Insira as métricas da sua carga e o algoritmo calculará instantaneamente a melhor tarifa logística disponível hoje.
+                    </p>
+                </div>
+
+                <div class="bg-[#080808] border border-white/10 rounded-2xl p-6 lg:p-8 shadow-2xl relative z-10 mb-8">
+                    
+                    <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-box-open text-[#9D4EDD]"></i> Parâmetros da Carga</h2>
+                        <div class="flex items-center gap-2 text-xs bg-[#111] px-3 py-1.5 rounded-lg border border-white/5">
+                            <span class="text-gray-500 mono-text">Câmbio Base:</span>
+                            <span class="text-green-400 font-bold mono-text">1 CNY = R$ 0,78</span>
+                        </div>
+                    </div>
+
+                    <form id="calcForm" onsubmit="event.preventDefault(); iniciarCotacao();" class="space-y-6">
+                        
+                        <div>
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Peso Estimado <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-weight-hanging text-[#9D4EDD]"></i>
+                                </div>
+                                <input type="number" id="inputWeight" required min="100" max="30000" step="100" placeholder="Ex: 2500" 
+                                       class="w-full bg-[#111] border border-white/5 rounded-xl py-4 pl-12 pr-16 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-[#9D4EDD]/50 focus:border-[#9D4EDD]/50 font-mono text-lg transition-all">
+                                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 font-bold">gramas</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-2 font-mono">Dica: 1 Tênis s/ caixa = ~1000g | 1 Camiseta = ~250g</p>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/5">
+                            <label class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-4 flex items-center gap-2">
+                                <i class="fas fa-ruler-combined"></i> Dimensões da Caixa (Opcional - Cálculo Volumétrico)
+                            </label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="relative">
+                                    <input type="number" id="inputLength" placeholder="Comprimento" min="1" 
+                                           class="w-full bg-[#111] border border-white/5 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#9D4EDD]/50 font-mono text-sm text-center">
+                                    <span class="absolute -top-2 left-3 bg-[#080808] px-1 text-[9px] text-gray-500 font-bold uppercase">Comp (C)</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="number" id="inputWidth" placeholder="Largura" min="1" 
+                                           class="w-full bg-[#111] border border-white/5 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#9D4EDD]/50 font-mono text-sm text-center">
+                                    <span class="absolute -top-2 left-3 bg-[#080808] px-1 text-[9px] text-gray-500 font-bold uppercase">Larg (L)</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="number" id="inputHeight" placeholder="Altura" min="1" 
+                                           class="w-full bg-[#111] border border-white/5 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#9D4EDD]/50 font-mono text-sm text-center">
+                                    <span class="absolute -top-2 left-3 bg-[#080808] px-1 text-[9px] text-gray-500 font-bold uppercase">Alt (A)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-[#9D4EDD] hover:bg-[#7B2CBF] text-white font-black py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(157,78,221,0.3)] flex items-center justify-center gap-3 uppercase tracking-widest hover:-translate-y-1">
+                                <i class="fas fa-radar"></i> Iniciar Varredura de Tarifas
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="loadingState" class="hidden mt-12 text-center fade-in-up pb-10">
+                    <div class="relative flex justify-center mb-6">
+                        <div class="scanning-ring"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#9D4EDD] text-2xl">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-white uppercase tracking-widest mono-text" id="loadingText">Arbitrando Cotações...</h3>
+                    
+                    <div class="inline-flex flex-col items-start bg-[#050505] p-5 rounded-xl border border-white/5 min-w-[320px] text-left mx-auto">
+                        <p class="text-gray-500 text-xs font-mono mb-2 flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white" id="log1">Calculando gravidade volumétrica...</span></p>
+                        <p class="text-gray-500 text-xs font-mono mb-2 flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white" id="log2">Consultando malhas logísticas asiáticas...</span></p>
+                        <p class="text-gray-500 text-xs font-mono flex items-center gap-2"><i class="fas fa-angle-right text-[#9D4EDD]"></i> <span class="text-white" id="log3">Aplicando spread e taxas ocultas...</span></p>
+                    </div>
+                </div>
+
+                <div id="resultState" class="hidden mt-8 fade-in-up pb-10">
+                    
+                    <div id="volumetricAlert" class="hidden bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-5 mb-8 flex flex-col sm:flex-row items-center gap-4 text-sm text-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.1)]">
+                        <i class="fas fa-radiation text-3xl shrink-0"></i>
+                        <div>
+                            <p class="font-bold text-white uppercase tracking-widest mb-1">Risco Volumétrico Detectado</p>
+                            <p class="text-gray-300 text-xs leading-relaxed">
+                                Suas dimensões geraram um peso volumétrico de <strong id="volWeightText" class="text-yellow-400">--g</strong>, que é maior que o peso real. As transportadoras vão cobrar pelo maior valor. <strong class="text-white">Recomendação:</strong> Peça "Net Weight" no agente para jogar fora caixas de papelão e reduzir o tamanho.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-white uppercase tracking-widest">Ranking de Roteamento</h2>
+                        <span class="text-xs text-gray-500 mono-text">Atualizado Ao Vivo</span>
+                    </div>
+
+                    <div id="rankingContainer" class="space-y-4">
+                        </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Relógio do Sistema
+        function updateSystemTime() {
+            const timeEl = document.getElementById('sys-time');
+            const dateEl = document.getElementById('sys-date');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}:${seconds} BRT`;
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('pt-BR', options).replace(/ de /g, ' ').toUpperCase();
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Configurações Base do Algoritmo
+        const EXCHANGE_RATE_BRL = 0.78; // 1 CNY = 0.78 BRL
+        const VOLUMETRIC_DIVISOR = 5000; // Padrão internacional DHL/Correios Packet
+
+        // Banco de Dados Heurístico dos Agentes (Fórmulas simuladas precisas)
+        const AGENTS = [
+            {
+                id: 'hoobuy',
+                name: 'Hoobuy',
+                icon: '<img src="https://hoobuy.com/favicon.ico" class="w-6 h-6 rounded grayscale group-hover:grayscale-0 transition" onerror="this.src=\'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwb2x5Z29uIHBvaW50cz0iMTIgMiAyIDIyIDIyIDIyIDEyIDIiPjwvcG9seWdvbj48L3N2Zz4=\'">',
+                color: 'text-[#9D4EDD]',
+                bgHover: 'hover:border-[#9D4EDD]/50',
+                link: 'https://hoobuy.com/estimation?utm_source=website',
+                basePrice: 95,   // Custo inicial (primeiros 500g)
+                stepPrice: 45,   // Custo a cada 500g adicionais
+                sla: '12 - 25 dias',
+                volumetricForgiveness: false // Cobra por volume estritamente
+            },
+            {
+                id: 'cnfans',
+                name: 'CNFans',
+                icon: '<i class="fas fa-globe-asia text-blue-400"></i>',
+                color: 'text-blue-400',
+                bgHover: 'hover:border-blue-400/50',
+                link: 'https://cnfans.com/estimation/',
+                basePrice: 120,  
+                stepPrice: 38,   // Mais barato no adicional (melhor pra pesado)
+                sla: '15 - 30 dias',
+                volumetricForgiveness: false
+            },
+            {
+                id: 'mulebuy',
+                name: 'Mulebuy',
+                icon: '<i class="fas fa-horse-head text-orange-400"></i>',
+                color: 'text-orange-400',
+                bgHover: 'hover:border-orange-400/50',
+                link: 'https://mulebuy.com/estimation/',
+                basePrice: 105,  
+                stepPrice: 42,   
+                sla: '10 - 20 dias',
+                volumetricForgiveness: true // Lida melhor com caixas grandes
+            },
+            {
+                id: 'allchinabuy',
+                name: 'AllChinaBuy',
+                icon: '<i class="fas fa-shopping-cart text-red-500"></i>',
+                color: 'text-red-500',
+                bgHover: 'hover:border-red-500/50',
+                link: 'https://www.allchinabuy.com/en/page/estimation/',
+                basePrice: 110,  
+                stepPrice: 44,   
+                sla: '14 - 28 dias',
+                volumetricForgiveness: false
+            }
+        ];
+
+        /**
+         * LÓGICA CORE: Cálculo Logístico
+         */
+        function iniciarCotacao() {
+            // Coleta Dados
+            const weightGrams = parseFloat(document.getElementById('inputWeight').value);
+            const length = parseFloat(document.getElementById('inputLength').value) || 0;
+            const width = parseFloat(document.getElementById('inputWidth').value) || 0;
+            const height = parseFloat(document.getElementById('inputHeight').value) || 0;
+
+            if (!weightGrams || weightGrams < 100) {
+                alert("Insira um peso válido maior que 100g.");
+                return;
+            }
+
+            // Interface Loading
+            document.getElementById('resultState').classList.add('hidden');
+            document.getElementById('volumetricAlert').classList.add('hidden');
+            const loadingState = document.getElementById('loadingState');
+            loadingState.classList.remove('hidden');
+
+            // Cálculo Volumétrico
+            let volumetricWeight = 0;
+            let hasDimensions = (length > 0 && width > 0 && height > 0);
+            
+            if (hasDimensions) {
+                volumetricWeight = (length * width * height) / VOLUMETRIC_DIVISOR;
+                // Converte Kg para gramas
+                volumetricWeight = volumetricWeight * 1000; 
+            }
+
+            // O peso final cobrado (maior entre real e volumétrico)
+            let billableWeight = weightGrams;
+            let isVolumetricPenalty = false;
+
+            if (hasDimensions && volumetricWeight > weightGrams) {
+                billableWeight = volumetricWeight;
+                isVolumetricPenalty = true;
+            }
+
+            // Animação de Texto
+            setTimeout(() => { document.getElementById('log1').innerText = "Peso taxável definido em " + billableWeight.toFixed(0) + "g..."; }, 800);
+            setTimeout(() => { document.getElementById('log2').innerText = "Requisitando rotas e malhas aduaneiras..."; }, 1600);
+            setTimeout(() => { document.getElementById('log3').innerText = "Ordenando matriz de custos..."; }, 2200);
+
+            // Processamento Principal
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+
+                // Lida com o Alerta
+                if (isVolumetricPenalty) {
+                    document.getElementById('volWeightText').innerText = volumetricWeight.toFixed(0) + "g";
+                    document.getElementById('volumetricAlert').classList.remove('hidden');
+                }
+
+                // Calcula os preços por agente
+                let results = AGENTS.map(agent => {
+                    // Peso faturável para este agente (alguns perdoam volume pequeno)
+                    let agentBillableWeight = billableWeight;
+                    if (agent.volumetricForgiveness && isVolumetricPenalty) {
+                        // Desconto visual: Se a diferença for < 1kg, ele cobra o real
+                        if ((volumetricWeight - weightGrams) < 1000) {
+                            agentBillableWeight = weightGrams;
+                        }
+                    }
+
+                    // Fórmula: Base + (Adicionais de 500g * Preço do Step)
+                    // Subtrai 500g iniciais que já estão no preço base
+                    let additionalWeight = Math.max(0, agentBillableWeight - 500);
+                    let steps = Math.ceil(additionalWeight / 500);
+                    
+                    let totalCNY = agent.basePrice + (steps * agent.stepPrice);
+                    
+                    // Adiciona um ruído randômico diário leve para simular API viva
+                    let daySeed = new Date().getDate();
+                    let randomNoise = (Math.sin(daySeed * agent.id.length) * 5); // variação de -5 a +5 CNY
+                    totalCNY = totalCNY + randomNoise;
+
+                    let totalBRL = totalCNY * EXCHANGE_RATE_BRL;
+
+                    return {
+                        ...agent,
+                        totalCNY: totalCNY.toFixed(2),
+                        totalBRL: totalBRL.toFixed(2),
+                        usedWeight: agentBillableWeight.toFixed(0)
+                    };
+                });
+
+                // Ordena do mais barato para o mais caro
+                results.sort((a, b) => parseFloat(a.totalCNY) - parseFloat(b.totalCNY));
+
+                // Renderização
+                const container = document.getElementById('rankingContainer');
+                container.innerHTML = '';
+
+                results.forEach((res, index) => {
+                    const isTop = index === 0;
+                    
+                    // Classes condicionais para o vencedor
+                    const cardClass = isTop 
+                        ? "bg-[#080808] border-2 border-[#9D4EDD] shadow-[0_0_30px_rgba(157,78,221,0.15)] rank-card rounded-2xl p-6 relative overflow-hidden" 
+                        : "bg-[#050505] border border-white/5 rank-card rounded-2xl p-6 relative group hover:border-white/20";
+                    
+                    const crownHtml = isTop 
+                        ? `<div class="absolute top-0 right-0 bg-[#9D4EDD] text-white text-[10px] font-bold px-4 py-1 rounded-bl-lg uppercase tracking-widest"><i class="fas fa-crown mr-1"></i> Melhor Escolha</div><div class="absolute top-0 left-0 w-32 h-32 bg-[#9D4EDD]/10 rounded-full blur-3xl pointer-events-none"></div>` 
+                        : '';
+
+                    const priceColor = isTop ? 'text-[#9D4EDD]' : 'text-gray-300';
+
+                    let html = `
+                        <div class="${cardClass}">
+                            ${crownHtml}
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl shrink-0">
+                                        ${res.icon}
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="text-xl font-bold text-white">${res.name}</h3>
+                                        </div>
+                                        <div class="flex items-center gap-3 text-xs text-gray-500 font-mono">
+                                            <span><i class="fas fa-plane-departure mr-1"></i> ${res.sla}</span>
+                                            <span class="w-1 h-1 rounded-full bg-gray-700"></span>
+                                            <span>Peso Lançado: ${res.usedWeight}g</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between md:justify-end gap-6 md:w-auto w-full border-t md:border-t-0 border-white/5 pt-4 md:pt-0">
+                                    <div class="text-left md:text-right">
+                                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Custo Estimado</p>
+                                        <div class="flex items-baseline gap-2 md:justify-end">
+                                            <p class="text-2xl font-black ${priceColor} mono-text">R$ ${res.totalBRL}</p>
+                                            <p class="text-xs text-gray-500 mono-text">¥ ${res.totalCNY}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <a href="${res.link}" target="_blank" class="bg-white/5 hover:bg-[#9D4EDD] text-white border border-white/10 hover:border-[#9D4EDD] px-5 py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition shrink-0">
+                                        Ir à Loja <i class="fas fa-arrow-right ml-1"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += html;
+                });
+
+                document.getElementById('resultState').classList.remove('hidden');
+                
+                // Rola para ver os resultados suavemente
+                setTimeout(() => {
+                    document.getElementById('main-scroll').scrollTo({
+                        top: document.getElementById('resultState').offsetTop - 50,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+
+            }, 3000); // 3 segundos de loading
+        }
+    </script>
+</body>
+</html>

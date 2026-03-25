@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNTOLD IMPORTS - A Lógica Inquebrável da Importação</title>
+
+    <link rel="icon" type="image/jpg" href="./image/logo-alphacore.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBXCC4HBXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-FBXCC4HBXX');
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        :root {
+            --neon-purple: #9D4EDD;
+            --neon-purple-glow: rgba(157, 78, 221, 0.5);
+            --dark-bg: #030303;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(157, 78, 221, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            background-image: radial-gradient(circle at 50% 0%, rgba(157, 78, 221, 0.05) 0%, transparent 60%);
+            overflow-x: hidden;
+            color: #ffffff;
+        }
+
+        h1, h2, h3, .mono-text {
+            font-family: 'Space Mono', monospace;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px var(--neon-purple-glow);
+            background: rgba(157, 78, 221, 0.05);
+        }
+
+        .glow-button {
+            background: transparent;
+            border: 1px solid var(--neon-purple);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.2) inset, 0 0 15px rgba(157, 78, 221, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glow-button:hover {
+            background: var(--neon-purple);
+            box-shadow: 0 0 25px var(--neon-purple-glow);
+            text-shadow: 0 0 5px #fff;
+        }
+
+        /* Menu Mobile e Modais */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: rgba(3, 3, 3, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--glass-border);
+            transition: right 0.3s ease;
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 9998;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .social-link {
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: var(--neon-purple) !important;
+            color: #ffffff !important;
+            border-color: var(--neon-purple) !important;
+            box-shadow: 0 0 15px var(--neon-purple-glow);
+        }
+        
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Accordion Custom CSS */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+            opacity: 0;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+            opacity: 1;
+            padding-bottom: 1.5rem;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-icon.rotate {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <div id="discordModalOverlay" class="fixed inset-0 bg-black/80 z-[10000] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center px-4" onclick="if(event.target === this) closeDiscordModal()">
+        <div id="discordModal" class="bg-[#050505] border border-[#9D4EDD]/40 rounded-2xl p-8 max-w-md w-full transform scale-95 transition-transform duration-300 relative shadow-[0_0_40px_rgba(157,78,221,0.3)] text-center">
+            
+            <button onclick="closeDiscordModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <div class="w-16 h-16 bg-[#9D4EDD]/10 rounded-full flex items-center justify-center mx-auto mb-5 border border-[#9D4EDD]/50 shadow-[0_0_15px_rgba(157,78,221,0.4)]">
+                <i class="fas fa-user-lock text-2xl text-[#9D4EDD]"></i>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-white mb-3 mono-text">Sistema Fechado</h3>
+            <p class="text-gray-400 mb-8 text-sm leading-relaxed">
+                As inscrições para a área de membros da UNTOLD IMPORTS e o acesso à nossa rede central no Discord estão temporariamente suspensos para atualização da base de dados.
+            </p>
+            
+            <button onclick="closeDiscordModal()" class="w-full bg-[#9D4EDD] text-white py-3 rounded-lg font-bold hover:bg-[#7B2CBF] transition shadow-[0_0_15px_rgba(157,78,221,0.5)]">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-xl font-bold mono-text text-[#9D4EDD]">MENU //</h2>
+                <button onclick="closeMobileMenu()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white hover:text-black transition border border-white/10">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 flex flex-col mb-6">
+                <a href="index.html" class="text-sm font-bold uppercase tracking-widest text-white border-l-2 border-[#9D4EDD] pl-3">Dashboard</a>
+                <a href="fornecedores.html" class="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition pl-3">Catálogo Tier-S</a>
+                <a href="ferramentas1.html" class="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition pl-3">Ferramentas Pro</a>
+                <a href="fretes.html" class="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition pl-3">A Trilha</a>
+                <a href="atualizacoes.html" class="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition pl-3">Status Alfândega</a>
+            </div>
+
+            <div class="border-t border-white/10 pt-6">
+                <h3 class="text-xs font-bold mb-4 text-gray-500 tracking-widest">TRANSMISSÃO</h3>
+                <div class="grid grid-cols-5 gap-3">
+                   <a href="#" onclick="openDiscordModal(event)" class="social-link w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 transition border border-white/10">
+                        <i class="fab fa-discord text-white"></i>
+                   </a>
+                    <a href="https://www.instagram.com/" target="_blank" class="social-link w-full aspect-square flex items-center justify-center rounded-lg bg-white/5 transition border border-white/10">
+                        <i class="fab fa-instagram text-xl text-white"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/" target="_blank" class="social-link w-full aspect-square flex items-center justify-center rounded-lg bg-white/5 transition border border-white/10">
+                        <i class="fab fa-tiktok text-xl text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/70 border-b border-white/5">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+
+                <a href="index.html" class="flex items-center gap-3 flex-shrink-0 hover:opacity-80 transition group">
+                    <div class="w-8 h-8 rounded bg-[#9D4EDD] flex items-center justify-center shadow-[0_0_10px_rgba(157,78,221,0.6)]">
+                        <i class="fas fa-layer-group text-white text-sm"></i>
+                    </div>
+                    <span class="text-lg font-bold tracking-widest mono-text">UNTOLD <span class="text-gray-400">IMPORTS</span></span>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-8">
+                    <nav class="flex gap-6 items-center">
+                        <a href="index.html" class="text-[11px] font-bold uppercase tracking-widest text-[#9D4EDD] transition">Dashboard</a>
+                        <a href="fornecedores.html" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition">Catálogo</a>
+                        <a href="ferramentas1.html" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition">Ferramentas</a>
+                        <a href="fretes.html" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:text-white transition">A Trilha</a>
+                    </nav>
+                    
+                    <div class="h-4 w-px bg-white/10"></div>
+                    
+                    <button onclick="openDiscordModal(event)" class="text-[11px] px-5 py-2.5 border border-[#9D4EDD]/50 text-[#9D4EDD] font-bold tracking-widest uppercase rounded hover:bg-[#9D4EDD] hover:text-white transition shadow-[0_0_10px_rgba(157,78,221,0.2)]">
+                        CADASTRE-SE
+                    </button>
+                </div>
+
+                <button onclick="openMobileMenu()" class="lg:hidden p-2 rounded bg-transparent text-[#9D4EDD] hover:text-white transition border border-[#9D4EDD]/30">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-28 lg:pt-36">
+        
+        <section class="py-16 px-4 relative">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#9D4EDD] rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+
+            <div class="container mx-auto max-w-5xl text-center relative z-10">
+                
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+                    A Lógica Inquebrável <br>da <span class="gradient-text">Importação.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+                    O ecossistema definitivo desenhado para anular os riscos da alfândega e expor os fornecedores ocultos da China. Calculadoras precisas, automação de declarações e o caminho mais curto para a sua lucratividade na importação.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="ferramentas1.html" class="w-full sm:w-auto glow-button px-8 py-4 rounded font-bold text-sm tracking-widest uppercase">
+                        Acessar Ferramentas
+                    </a>
+                    <a href="fornecedores.html" class="w-full sm:w-auto px-8 py-4 rounded font-bold text-sm tracking-widest uppercase bg-white/5 border border-white/10 hover:bg-white/10 transition">
+                        Explorar Catálogo Tier-S
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 border-t border-white/5 relative">
+            <div class="container mx-auto max-w-6xl">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-6">
+                            <span class="text-[#9D4EDD]">//</span> O Fim da Calamidade
+                        </h2>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            A maioria das pessoas trata a importação como um jogo de sorte. Elas chutam valores nas declarações aduaneiras do Remessa Conforme, escolhem fretes aleatórios (sem saber sobre peso volumétrico) e caem no "Golpe da Foto" de vendedores amadores no AliExpress. O resultado? Taxas abusivas e mercadorias perdidas.
+                        </p>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            A <strong class="text-white">UNTOLD IMPORTS</strong> nasceu de um conceito: <strong>Calamidade Zero</strong>. Nós transformamos o caos das compras internacionais diretas da China (Taobao, Weidian, 1688) em um sistema de lógica pura. Se você domina a matemática dos tributos e usa o termo exato na declaração, seu pacote passa ileso.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="border-l-2 border-[#9D4EDD] pl-4">
+                                <div class="text-2xl font-bold text-white mb-1">100%</div>
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Foco na Lógica</div>
+                            </div>
+                            <div class="border-l-2 border-[#9D4EDD] pl-4">
+                                <div class="text-2xl font-bold text-white mb-1">0%</div>
+                                <div class="text-xs text-gray-500 uppercase tracking-wider">Amadorismo</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-[#9D4EDD]/20 blur-3xl"></div>
+                        <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                            <span class="text-xs font-mono text-[#9D4EDD]">STATUS.TERMINAL_ADUANEIRO</span>
+                            <i class="fas fa-shield-check text-green-400"></i>
+                        </div>
+                        <div class="space-y-4 font-mono text-sm text-gray-400">
+                            <p>> Analisando pacote no Agente: <span class="text-white">3.2kg (Volumétrico)</span></p>
+                            <p>> Conteúdo real: <span class="text-white">2x Tênis, 3x Camisetas</span></p>
+                            <p>> Otimizando descrição (Inglês): <span class="text-[#9D4EDD]">"2x Men's Casual Shoes, 3x Cotton T-Shirts"</span></p>
+                            <p>> Cálculo Fracionado Seguro: <span class="text-green-400">$45.06</span></p>
+                            <p>> Risco de retenção RFB: <span class="text-green-400">MINIMIZADO</span></p>
+                            <div class="mt-6 pt-4 border-t border-white/10">
+                                <span class="inline-block px-2 py-1 bg-green-400/10 text-green-400 text-xs rounded">PROBABILIDADE DE SUCESSO: 98.9%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-[#050505] border-t border-white/5">
+            <div class="container mx-auto max-w-6xl">
+                <div class="glass-card p-8 md:p-12 shadow-lg relative overflow-hidden">
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#9D4EDD]/10 blur-[100px] pointer-events-none"></div>
+
+                    <h2 class="text-3xl font-bold mb-8 text-center text-white flex items-center justify-center">
+                        <i class="fas fa-info-circle text-[#9D4EDD] mr-4"></i> O QUE É A UNTOLD IMPORTS?
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-10 mb-12">
+                        <div>
+                            <p class="text-gray-300 mb-4 leading-relaxed">
+                                A <span class="text-[#9D4EDD] font-bold">UNTOLD IMPORTS</span> é o ecossistema definitivo para quem deseja dominar o mercado de importação e maximizar seus lucros. Entregamos o caminho exato para você acessar os fornecedores ocultos da China (<span class="text-[#9D4EDD] font-semibold">Taobao</span>, <span class="text-[#9D4EDD] font-semibold">1688</span>, <span class="text-[#9D4EDD] font-semibold">Weidian</span>, <span class="text-[#9D4EDD] font-semibold">Yupoo</span>) com segurança absurda.
+                            </p>
+                            <p class="text-gray-300 leading-relaxed">
+                                Deixamos o amadorismo de lado. Aqui você tem acesso a estratégias validadas de ponta a ponta: desde a operação com os melhores agentes (como <span class="text-[#9D4EDD] font-semibold">Hoobuy</span>, <span class="text-[#9D4EDD] font-semibold">CNFans</span>), até táticas avançadas de blindagem alfandegária, cálculo de fretes e curadoria de *Batches* premium.
+                            </p>
+                        </div>
+
+                        <div class="bg-black/40 p-6 rounded-xl border border-white/5">
+                            <h3 class="text-xl font-bold mb-4 text-white flex items-center">
+                                <i class="fas fa-bullseye mr-3 text-[#9D4EDD]"></i> Nosso Objetivo Master:
+                            </h3>
+                            <p class="text-gray-400 leading-relaxed">
+                                Transformar você em um importador de elite. Fornecemos a inteligência de mercado, as ferramentas exatas e os atalhos definitivos para você comprar direto da fonte com os menores preços, permitindo construir um negócio altamente lucrativo, previsível e à prova de crises na fiscalização.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 relative z-10">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:border-[#9D4EDD]/50 hover:bg-white/10 transition-all cursor-pointer">
+                            <div class="text-4xl text-[#9D4EDD] mb-4 drop-shadow-[0_0_12px_rgba(157,78,221,0.5)]">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-white tracking-wide">Atualizações</h4>
+                            <p class="text-sm text-gray-400">Mudanças na Alfândega, novos cupons e rotas de frete seguras.</p>
+                        </div>
+
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:border-[#9D4EDD]/50 hover:bg-white/10 transition-all cursor-pointer">
+                            <div class="text-4xl text-[#9D4EDD] mb-4 drop-shadow-[0_0_12px_rgba(157,78,221,0.5)]">
+                                <i class="fas fa-shield-virus"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-white tracking-wide">Segurança</h4>
+                            <p class="text-sm text-gray-400">Guias anti-golpe, análise de QC e *Blacklist* de vendedores.</p>
+                        </div>
+
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center hover:border-[#9D4EDD]/50 hover:bg-white/10 transition-all cursor-pointer" onclick="openDiscordModal(event)">
+                            <div class="text-4xl text-[#9D4EDD] mb-4 drop-shadow-[0_0_12px_rgba(157,78,221,0.5)]">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-white tracking-wide">Comunidade</h4>
+                            <p class="text-sm text-gray-400">Rede Discord ativa para suporte, dúvidas e achados (Finds).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-[#030303] border-t border-white/5">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4">O Nosso Arsenal</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">Ferramentas de nível SaaS desenvolvidas para automatizar decisões difíceis da importação. Não dependa da intuição, use a matemática a seu favor.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-file-invoice text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Gerador de Declaração</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">Acabe com o pânico de ser taxado abusivamente. Diga o que você comprou e o sistema gera o texto em inglês e os valores fracionados exatos para colar no agente.</p>
+                        <span class="text-xs font-bold text-[#9D4EDD] uppercase tracking-widest">Nova Ferramenta</span>
+                    </div>
+
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-calculator text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Simulador de Tributos</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">Saiba o custo real do seu "Haul". O sistema converte moedas, estima fretes e embute os 20%/60% + ICMS do seu estado automaticamente na tela.</p>
+                        <span class="text-xs font-bold text-green-400 uppercase tracking-widest">Ativo</span>
+                    </div>
+
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-box-open text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Peso Real vs Volumétrico</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">O frete assustou? Descubra instantaneamente a diferença brutal de preço entre enviar seu pacote com a caixa de papelão original ou apenas a mercadoria limpa.</p>
+                        <span class="text-xs font-bold text-[#9D4EDD] uppercase tracking-widest">Em Desenvolvimento</span>
+                    </div>
+
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-ruler-combined text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Conversor de Tamanhos</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">Nunca mais perca dinheiro com roupas que não cabem. Tradução universal de calçados e vestuário (BR para Asian/EU/US) em apenas um clique.</p>
+                        <span class="text-xs font-bold text-green-400 uppercase tracking-widest">Ativo</span>
+                    </div>
+
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-link text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Decodificador de Links</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">Cole links sujos e confusos de vendedores do Taobao/Weidian e deixe a UNTOLD limpá-los e prepará-los para colar direto no sistema do Hoobuy.</p>
+                        <span class="text-xs font-bold text-[#9D4EDD] uppercase tracking-widest">Nova Ferramenta</span>
+                    </div>
+
+                    <div class="glass-card p-8 group">
+                        <div class="w-12 h-12 bg-[#9D4EDD]/10 rounded border border-[#9D4EDD]/30 flex items-center justify-center mb-6 group-hover:bg-[#9D4EDD] transition-colors">
+                            <i class="fas fa-clipboard-check text-[#9D4EDD] group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Checklist QC</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-4">Seu inspetor de qualidade digital. Um checklist interativo para validar as fotos tiradas no armazém da China antes de autorizar o voo para o Brasil.</p>
+                        <span class="text-xs font-bold text-green-400 uppercase tracking-widest">Ativo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-[#050505] border-t border-white/5">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-3xl font-bold mb-12 text-center text-white flex items-center justify-center">
+                    <i class="fas fa-shopping-cart text-[#9D4EDD] mr-4"></i> ONDE OS AGENTES COMPRAM?
+                </h2>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="glass-card p-6 flex flex-col h-full border-white/10 hover:border-[#9D4EDD]/50">
+                        <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-5 p-2 shadow-md">
+                            <i class="fas fa-store text-red-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-white">Weidian (微店)</h3>
+                        <p class="text-sm text-gray-400 mb-5 font-mono">Tipo "Mercado Livre chinês"</p>
+                        
+                        <ul class="text-sm text-gray-300 space-y-2 mt-auto">
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Preços médios</li>
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Muitos vendedores pequenos</li>
+                            <li class="flex items-center gap-2 text-yellow-400 font-semibold mt-2"><div class="w-1.5 h-1.5 rounded-full bg-yellow-400"></div> Risco médio</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card p-6 flex flex-col h-full border-white/10 hover:border-[#9D4EDD]/50">
+                        <div class="w-14 h-14 bg-[#FF5000] rounded-xl flex items-center justify-center mb-5 p-2 shadow-md">
+                            <span class="text-white font-bold text-xl">淘</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-white">Taobao (淘宝)</h3>
+                        <p class="text-sm text-gray-400 mb-5 font-mono">Tipo "Amazon chinesa"</p>
+                        
+                        <ul class="text-sm text-gray-300 space-y-2 mt-auto">
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Produtos variados</li>
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Vendedores médios</li>
+                            <li class="flex items-center gap-2 text-green-400 font-semibold mt-2"><div class="w-1.5 h-1.5 rounded-full bg-green-400"></div> Risco baixo</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card p-6 flex flex-col h-full border-white/10 hover:border-[#9D4EDD]/50">
+                        <div class="w-14 h-14 bg-[#FF6A00] rounded-xl flex items-center justify-center mb-5 p-2 shadow-md">
+                            <span class="text-white font-bold text-xl italic">1688</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-white">1688 (Alibaba)</h3>
+                        <p class="text-sm text-green-400 font-bold mb-5 font-mono">Preços de FÁBRICA</p>
+                        
+                        <ul class="text-sm text-gray-300 space-y-2 mt-auto">
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Compra mínima (2+ und)</li>
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Qualidade varia MUITO</li>
+                            <li class="flex items-center gap-2 text-orange-400 font-semibold mt-2"><div class="w-1.5 h-1.5 rounded-full bg-orange-400"></div> Risco médio-alto</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card p-6 flex flex-col h-full border-white/10 hover:border-[#9D4EDD]/50">
+                        <div class="w-14 h-14 bg-[#FFDA00] rounded-xl flex items-center justify-center mb-5 p-2 shadow-md">
+                            <span class="text-black font-bold text-lg">闲鱼</span>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-white">Xianyu (闲鱼)</h3>
+                        <p class="text-sm text-gray-400 mb-5 font-mono">"OLX chinês" (usados)</p>
+                        
+                        <ul class="text-sm text-gray-300 space-y-2 mt-auto">
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-gray-500"></div> Roupas, eletrônicos</li>
+                            <li class="flex items-center gap-2 text-green-400 font-semibold"><div class="w-1.5 h-1.5 rounded-full bg-green-400"></div> Preços muito baixos</li>
+                            <li class="flex items-center gap-2 text-red-500 font-semibold mt-2"><div class="w-1.5 h-1.5 rounded-full bg-red-500"></div> Risco alto <span class="text-gray-500 font-normal text-xs">(sem garantia)</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-[#030303] border-t border-white/5">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-3xl font-bold mb-10 text-center text-white flex items-center justify-center">
+                    <i class="fas fa-ship text-[#9D4EDD] mr-4"></i> Agentes de Importação: Compre Direto
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="glass-card overflow-hidden">
+                        <button onclick="toggleAccordion('acc1')" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-white/5 transition focus:outline-none">
+                            <h3 class="font-bold text-lg text-white">O que são agentes?</h3>
+                            <i class="fas fa-chevron-down text-[#9D4EDD] accordion-icon" id="icon-acc1"></i>
+                        </button>
+                        <div id="acc1" class="accordion-content bg-black/40">
+                            <div class="px-6 pt-2 text-gray-300 leading-relaxed">
+                                <p>Empresas (como Hoobuy, CNFans, Sugargoo) que compram produtos de sites atacadistas chineses (<span class="text-[#9D4EDD] font-semibold">Weidian</span>, <span class="text-[#9D4EDD] font-semibold">Taobao</span>, <span class="text-[#9D4EDD] font-semibold">1688</span>) no seu lugar, inspecionam tirando fotos (QC), armazenam nos galpões deles e enviam para o Brasil quando você autoriza.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card overflow-hidden">
+                        <button onclick="toggleAccordion('acc2')" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-white/5 transition focus:outline-none">
+                            <h3 class="font-bold text-lg text-white">Por que usar em vez do AliExpress?</h3>
+                            <i class="fas fa-chevron-down text-[#9D4EDD] accordion-icon" id="icon-acc2"></i>
+                        </button>
+                        <div id="acc2" class="accordion-content bg-black/40">
+                            <div class="px-6 pt-2 text-gray-300 space-y-3">
+                                <p class="flex items-start gap-3"><i class="fas fa-check text-green-400 mt-1"></i> <span>Acesso a <strong class="text-green-400">MILHÕES</strong> de produtos exclusivos de fabricantes que não vendem no AliExpress.</span></p>
+                                <p class="flex items-start gap-3"><i class="fas fa-check text-green-400 mt-1"></i> <span>Preços de <strong class="text-green-400">30% a 70% mais baratos</strong> (você elimina o lucro do revendedor).</span></p>
+                                <p class="flex items-start gap-3"><i class="fas fa-check text-[#9D4EDD] mt-1"></i> <span><strong>Inspeção de qualidade (QC Photos):</strong> Você vê fotos reais do produto no armazém e pode devolver antes de vir pro Brasil.</span></p>
+                                <p class="flex items-start gap-3"><i class="fas fa-check text-[#9D4EDD] mt-1"></i> <span><strong class="text-[#9D4EDD]">Consolidação:</strong> Compre de 10 fornecedores diferentes e envie tudo dentro de 1 única caixa pro Brasil, economizando muito frete.</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card overflow-hidden">
+                        <button onclick="toggleAccordion('acc3')" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-white/5 transition focus:outline-none">
+                            <h3 class="font-bold text-lg text-white">Pra quem é indicado?</h3>
+                            <i class="fas fa-chevron-down text-[#9D4EDD] accordion-icon" id="icon-acc3"></i>
+                        </button>
+                        <div id="acc3" class="accordion-content bg-black/40">
+                            <div class="px-6 pt-2 text-gray-300 space-y-3">
+                                <p class="flex items-start gap-3"><i class="fas fa-user-tag text-[#9D4EDD] mt-1"></i> <span>Quem quer grande variedade de itens diretos de fabricantes e maximizar margens de lucro.</span></p>
+                                <p class="flex items-start gap-3"><i class="fas fa-clock text-yellow-400 mt-1"></i> <span>Quem aceita esperar um prazo logístico de <strong class="text-yellow-400">20 a 45 dias</strong> para a chegada.</span></p>
+                                <p class="flex items-start gap-3"><i class="fas fa-file-signature text-[#9D4EDD] mt-1"></i> <span>Quem prefere preencher a própria declaração alfandegária e ter controle total sobre o pacote para minimizar taxas.</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 border-t border-white/5 relative overflow-hidden bg-[#050505]">
+            <div class="absolute right-0 bottom-0 w-[500px] h-[500px] bg-[#9D4EDD] rounded-full blur-[200px] opacity-5 pointer-events-none"></div>
+            
+            <div class="container mx-auto max-w-6xl">
+                <div class="flex flex-col lg:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-xl">
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-4">Importação para Todos os Níveis</h2>
+                        <p class="text-gray-400 leading-relaxed">A UNTOLD não é apenas um guia estático, é o seu Painel de Controle de operações diário. Nós adaptamos a complexidade para o seu exato nível de experiência no mercado.</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="border border-white/10 rounded-xl p-8 bg-black hover:border-white/30 transition-colors">
+                        <h4 class="text-[#9D4EDD] font-mono text-xs font-bold mb-3 tracking-widest">FASE 01</h4>
+                        <h3 class="text-2xl font-bold mb-4 text-white font-mono">O Iniciante</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Você só usava AliExpress? Aqui você aprenderá o <strong>Passo a Passo (A Trilha)</strong> exato para criar sua conta nos agentes chineses, usar a busca por imagem (Reverse Image Search) e perder de vez o medo de calcular fretes internacionais.</p>
+                    </div>
+                    
+                    <div class="border border-[#9D4EDD]/30 rounded-xl p-8 bg-black relative shadow-[0_0_20px_rgba(157,78,221,0.05)] transform md:-translate-y-4">
+                        <div class="absolute inset-0 border border-[#9D4EDD]/50 rounded-xl pointer-events-none shadow-[0_0_15px_rgba(157,78,221,0.1)inset]"></div>
+                        <h4 class="text-[#9D4EDD] font-mono text-xs font-bold mb-3 tracking-widest">FASE 02</h4>
+                        <h3 class="text-2xl font-bold mb-4 text-white font-mono">O Frequente</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Você já usa agentes, mas sofre com a matemática arriscada da alfândega e as taxas dos Correios. Nossas calculadoras avançadas e o Catálogo de Fornecedores com <strong>Selos Tier-S</strong> economizarão horas de pesquisa e mitigarão suas perdas.</p>
+                    </div>
+                    
+                    <div class="border border-white/10 rounded-xl p-8 bg-black hover:border-white/30 transition-colors">
+                        <h4 class="text-[#9D4EDD] font-mono text-xs font-bold mb-3 tracking-widest">FASE 03</h4>
+                        <h3 class="text-2xl font-bold mb-4 text-white font-mono">O Elite</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Para revendedores. Acesso profundo a lotes específicos de fábrica (Batches famosos: LJR, M, PK, GX) diretamente pelo 1688 e links ocultos do Weidian. Maximize suas margens de lucro de forma brutal fugindo dos atravessadores locais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black border-t border-white/10 pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-lg font-bold mb-6 text-white mono-text">UNTOLD IMPORTS</h3>
+                    <p class="text-sm text-gray-500 mb-6 pr-4 leading-relaxed">O ecossistema definitivo que une a lógica implacável com as melhores estratégias de importação direta da Ásia para o Brasil.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold mb-6 text-white tracking-widest uppercase">Sistema</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="ferramentas1.html" class="hover:text-[#9D4EDD] transition">Ferramentas Pro (Calcs)</a></li>
+                        <li><a href="fornecedores.html" class="hover:text-[#9D4EDD] transition">Catálogo de Fornecedores</a></li>
+                        <li><a href="fretes.html" class="hover:text-[#9D4EDD] transition">A Trilha (Guia Prático)</a></li>
+                        <li><a href="atualizacoes.html" class="hover:text-[#9D4EDD] transition">Radar da Alfândega</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold mb-6 text-white tracking-widest uppercase">Rede</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" onclick="openDiscordModal(event)" class="hover:text-[#9D4EDD] transition">Discord (Comunidade VIP)</a></li>
+                        <li><a href="https://www.instagram.com/" target="_blank" class="hover:text-[#9D4EDD] transition">Instagram Oficial</a></li>
+                        <li><a href="https://www.tiktok.com/" target="_blank" class="hover:text-[#9D4EDD] transition">TikTok Conteúdos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold mb-6 text-white tracking-widest uppercase">Protocolos</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="anti-golpe.html" class="hover:text-white transition">Guia Anti-Golpe</a></li>
+                        <li><a href="aviso-legal.html" class="hover:text-white transition">Aviso Legal e Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-600">
+                <p>© 2026 UNTOLD IMPORTS. Todos os direitos reservados. Não somos agente de logística.</p>
+                <p class="mt-2 md:mt-0 font-mono tracking-widest">CALAMITY_ZERO_PROTOCOL_ACTV</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Mobile Toggle
+        function openMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('active');
+            document.getElementById('mobileOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('mobileOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Accordion Logic (FAQ Agentes)
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            // Fechar todos antes de abrir o novo (Opcional, mas deixa limpo)
+            const allContents = document.querySelectorAll('.accordion-content');
+            const allIcons = document.querySelectorAll('.accordion-icon');
+            
+            let isOpening = !content.classList.contains('active');
+
+            allContents.forEach(c => c.classList.remove('active'));
+            allIcons.forEach(i => i.classList.remove('rotate'));
+
+            if (isOpening) {
+                content.classList.add('active');
+                icon.classList.add('rotate');
+            }
+        }
+
+        // Modais (Discord/Alertas)
+        function openDiscordModal(e) {
+            if(e) e.preventDefault();
+            const overlay = document.getElementById('discordModalOverlay');
+            const modal = document.getElementById('discordModal');
+            
+            overlay.classList.remove('hidden');
+            void overlay.offsetWidth; // Force reflow para animação funcionar
+            
+            overlay.classList.remove('opacity-0');
+            modal.classList.remove('scale-95');
+            modal.classList.add('scale-100');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDiscordModal() {
+            const overlay = document.getElementById('discordModalOverlay');
+            const modal = document.getElementById('discordModal');
+            
+            overlay.classList.add('opacity-0');
+            modal.classList.remove('scale-100');
+            modal.classList.add('scale-95');
+            
+            document.body.style.overflow = '';
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        // Scripts Analytics
+        window.va = window.va || function() {
+            (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    
+</body>
+</html>
